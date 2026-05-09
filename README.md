@@ -1,6 +1,6 @@
 # Anchor Point
 
-**An AI Documentation Architect for solo developers running multiple projects.**
+**A Documentation Architect for solo developers running multiple projects.**
 
 Drop this folder into a Claude project. Claude becomes a doc-system specialist who knows where every file goes, what every file is for, and how to keep your project's docs from drifting.
 
