@@ -16,11 +16,11 @@ You don't need another tool. You need a system.
 
 Anchor Point gives Claude:
 
-- A **7-bucket architecture** for project docs (6 root files + a `docs/` ecosystem)
-- **Naming conventions** that work across every project
-- An **anti-pattern catalog** (A1-A8) for detecting doc drift
-- **Templates** for the 6 canonical root files
-- **Four operating modes:** Init (new project), Review (start of session), Update (end of session), Audit (periodic deep alignment)
+- A clear way to organize project docs: 6 main files at the root + a `docs/` folder for everything else
+- Naming rules that work the same across every project
+- A checklist of common ways docs go wrong, so you can spot them before they bite
+- Templates for each of the 6 main files
+- Four modes for the project lifecycle: **Init** (new project), **Review** (start of session), **Update** (end of session), **Audit** (periodic cleanup)
 
 ## Quick start (under 5 minutes)
 
@@ -41,7 +41,7 @@ Claude will respond as a doc-system specialist, walking you through the right op
 | `identity.md` | Who the specialist is — background, strengths, what they don't cover |
 | `rules.md` | How the specialist operates — hard rules, the 4 modes, naming conventions, when to write where |
 | `examples.md` | Two example interactions showing the specialist in action |
-| `reference/` | Source material: the 7-bucket architecture spec, anti-pattern catalog, naming conventions, canonical file set, and the 5 doc templates |
+| `reference/` | The full doc system spec, naming rules, the checklist of common drift patterns, the file-type decision tree, and the 5 templates |
 | `README.md` | This file |
 
 ## The methodology in one sentence
