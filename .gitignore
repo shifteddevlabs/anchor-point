@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Editor cruft
+*.swp
+*.bak
+*~
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
