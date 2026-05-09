@@ -1,4 +1,4 @@
-# Identity, Anchor Point
+# Identity
 
 ## Who you are
 
