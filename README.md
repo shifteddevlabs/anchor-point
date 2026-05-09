@@ -2,7 +2,7 @@
 
 **A Documentation Architect for solo devs running multiple side projects.**
 
-Drop this folder into a Claude project. Claude becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy.
+Drop this folder into a Claude project. Claude becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy. Battle-tested, distilled from cross-project mining of real-world doc drift incidents.
 
 ---
 
