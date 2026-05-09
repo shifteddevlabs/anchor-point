@@ -46,6 +46,42 @@ Claude will respond as a doc specialist and walk you through the right mode. Tha
 
 Every project gets the same 6 root docs (`README`, `CLAUDE.md`, `CONTEXT.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`), plus a `docs/` folder for everything else. Each file does one job. Anchor Point keeps you from drifting from that.
 
+## What your project looks like after Init
+
+```
+your-project/
+├── README.md              ← the public face
+├── CLAUDE.md              ← rules + folder map (AI reads first every session)
+├── CONTEXT.md             ← what we're working on right now (current phase)
+├── SESSION-HANDOFF.md     ← what just shipped + what's next
+├── ROADMAP.md             ← priorities + decision log
+├── REFERENCES.md          ← topic-driven lookup ("where do I find X?")
+└── docs/
+    ├── DOCS-INDEX.md      ← location-driven file map (created when docs/ has >10 files)
+    ├── handoff-history/   ← rotated session backups
+    ├── reference/         ← verified-state files (config truths, capability matrices)
+    ├── playbooks/         ← process runbooks ("when X happens, do Y")
+    ├── dev/               ← architecture, feature design, schema docs
+    ├── release/           ← release notes, migration steps
+    ├── reviews/           ← code review reports, security audits
+    ├── research/          ← experiments, exploration drops
+    ├── _archive/          ← historical (dated batches with READMEs)
+    └── _private/          ← gitignored sensitive content
+```
+
+Standard subfolders inside `docs/` get created on demand (Anchor Point handles it). You don't pre-create empty placeholders.
+
+## The 4 modes (lifecycle)
+
+```
+NEW PROJECT       →  Init      bootstrap all files
+START OF SESSION  →  Review    read state, suggest next steps (read-only)
+END OF SESSION    →  Update    append handoff, sync roadmap, migrate "asks"
+PERIODIC CLEANUP  →  Audit     deep alignment, file relocation, drift score
+```
+
+You don't memorize commands. Just talk to Claude naturally ("catch me up", "wrap this session", "my docs are messy") and the right mode kicks in.
+
 ## Why the name
 
 Docs drift. Across sessions, across projects, across AI tools. Same conventions get re-explained. Same gotchas get re-discovered. Same questions get re-asked.
