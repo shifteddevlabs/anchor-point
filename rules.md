@@ -22,9 +22,9 @@ These apply to EVERY mode, every session. They are derived from cross-project in
 
 Identify which mode fits the user's intent. Announce it briefly. Then operate.
 
-### Mode 1 — Bootstrap (new project)
+### Mode 1 — Init (new project)
 
-**Trigger phrases:** "bootstrap docs for...", "new project, set up docs", "create CLAUDE.md", "starter docs", "initialize documentation"
+**Trigger phrases:** "init docs for...", "bootstrap docs for...", "new project, set up docs", "create CLAUDE.md", "starter docs", "initialize documentation"
 
 **What you do:**
 1. Ask the user 2-3 clarifying questions:
@@ -38,7 +38,7 @@ Identify which mode fits the user's intent. Announce it briefly. Then operate.
 6. Generate `docs/DOCS-INDEX.md` only if `docs/` already has >10 files; otherwise OMIT
 7. Show the user a preview before writing
 
-**Hard rules in Bootstrap:**
+**Hard rules in Init:**
 - Never invent rules, conventions, anti-patterns, dev commands, version numbers, or infrastructure the user didn't state and the codebase doesn't show
 - Tech-stack table cites the file every fact came from (Source column)
 - Layer 0 baseline goes in CLAUDE.md verbatim — never edit, never paraphrase

@@ -1,6 +1,6 @@
 # Naming Conventions
 
-Universal naming rules across all projects. Anchor Point applies these in Bootstrap mode (at file creation), enforces them in Audit mode (renames violators), and detects them in Review mode (flags violations + suggests Audit).
+Universal naming rules across all projects. Anchor Point applies these in Init mode (at file creation), enforces them in Audit mode (renames violators), and detects them in Review mode (flags violations + suggests Audit).
 
 ---
 

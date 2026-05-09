@@ -20,7 +20,7 @@ Anchor Point gives Claude:
 - **Naming conventions** that work across every project
 - An **anti-pattern catalog** (A1-A8) for detecting doc drift
 - **Templates** for the 6 canonical root files
-- **Four operating modes:** Bootstrap (new project), Review (start of session), Update (end of session), Audit (periodic deep alignment)
+- **Four operating modes:** Init (new project), Review (start of session), Update (end of session), Audit (periodic deep alignment)
 
 ## Quick start (under 5 minutes)
 

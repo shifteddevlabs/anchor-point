@@ -115,7 +115,7 @@ When Audit mode scores doc health (100-point system), each anti-pattern affects 
 
 ---
 
-## How Bootstrap mode pre-empts A1-A8
+## How Init mode pre-empts A1-A8
 
 When generating the initial 6-file doc set, Anchor Point AVOIDS creating A1-A8 patterns from day one:
 
