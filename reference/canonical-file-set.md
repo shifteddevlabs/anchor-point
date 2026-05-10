@@ -11,7 +11,7 @@ Every project should have these. They map 1-to-1 to the 7-bucket architecture (b
 | File | Purpose | Length budget |
 |---|---|---|
 | `README.md` | Public face — what is this, quick start, tech stack | 50-100 lines |
-| `CLAUDE.md` | AI bootstrap — identity, rules, folder map, dev commands, gotchas | 100-200 lines max |
+| `AGENTS.md` | AI bootstrap — identity, rules, folder map, dev commands, gotchas | 100-200 lines max |
 | `CONTEXT.md` | Current phase — what we're building, success criteria, out-of-bounds | 30-50 lines |
 | `SESSION-HANDOFF.md` | Latest delta — what shipped, next plan, blockers, gotchas | 50-200 lines (rotate older content out) |
 | `ROADMAP.md` | Priorities — current red/yellow/green, vNext, completed, decision log | 50-150 lines |
@@ -24,7 +24,7 @@ Every project should have these. They map 1-to-1 to the 7-bucket architecture (b
 | Path | Purpose | When to create |
 |---|---|---|
 | `docs/DOCS-INDEX.md` | Location-driven navigation aid | Project has >10 docs in `docs/` (OMIT for greenfield) |
-| `docs/handoff-history/` + `README.md` | Rotated session backups | First rotation (typically session 2-3) |
+| `docs/history/` + `README.md` | Completed work, old handoffs, retired roadmap detail | First real history item to preserve |
 | `docs/reference/` | Verified-state SOT files | First incident where summary went stale |
 | `docs/playbooks/` | Process runbooks | First documented process worth reusing |
 | `docs/dev/` | Architecture / feature design | Internal architecture worth documenting |
@@ -49,11 +49,12 @@ When a new file needs to be created, walk this table top-to-bottom. First match 
 | Migration runbook / rollback procedure | `docs/playbooks/` | `migration-playbook.md`, `migration-rollback.md` | Add row to REFERENCES.md Playbooks index |
 | Migration notes tied to a release | `docs/release/` | `vX.Y-migration-notes.md` | None |
 | Code review report / security audit | `docs/reviews/` | lowercase-kebab.md | None |
+| Completed work / old handoff detail / retired roadmap detail | `docs/history/` | `YYYY-MM-DD-<topic-or-session>.md` | Update `docs/history/README.md` |
 | Verified-state config (OAuth IDs, env vars, exact values) | `docs/reference/` (or `docs/reference/<tech>/` if 3+) | lowercase-kebab.md | Add row to REFERENCES.md SOT registry |
 | Process runbook ("when X happens, do Y") | `docs/playbooks/` (or `docs/playbooks/<tech>/` if 3+) | lowercase-kebab.md | Add row to REFERENCES.md Playbooks index |
 | Research / experiment / exploration | `docs/research/` | lowercase-kebab.md | None |
 | Sensitive (secrets, internal numbers, business docs) | `docs/_private/` | lowercase-kebab.md | None |
-| Don't know where it goes | Drop in `docs/research/` and let Audit mode relocate later, or ask before creating | lowercase-kebab.md | Flag for Audit |
+| Don't know where it goes | Drop in `docs/research/` and let Audit relocate later, or ask before creating | lowercase-kebab.md | Flag for Audit |
 
 ---
 
@@ -67,15 +68,15 @@ When a topic accumulates 3+ files, group them into a topic-named subfolder under
 
 When fewer than 3 exist, leave them flat (e.g., `docs/dev/auth-flow.md` is fine if it's the only auth doc).
 
-Audit mode enforces this — when 3+ files share a topic prefix or repeated keyword, it proposes creating a subfolder and moving them together.
+Audit enforces this — when 3+ files share a topic prefix or repeated keyword, it proposes creating a subfolder and moving them together.
 
 ---
 
 ## What gets auto-updated when files move
 
-Audit mode never just moves files in isolation. After every approved structural change, it auto-syncs:
+Audit never just moves files in isolation. After every approved structural change, it auto-syncs:
 
-1. **CLAUDE.md "Folder Structure" section** — reflects the new layout
+1. **AGENTS.md "Folder Structure" section** — reflects the new layout
 2. **`docs/DOCS-INDEX.md`** — regenerated with the new file map
 3. **All cross-references** — scans every doc for pointers to old paths and updates them (link rot prevention)
 4. **REFERENCES.md "Project documentation"** section — refreshed if structure changed
@@ -86,12 +87,14 @@ This is what makes Audit safe — moves are atomic AND fully reconciled across t
 
 ## Why this organization works
 
-**Predictability:** an agent or human can find any file by walking the tree. Architecture docs? `docs/dev/`. Verified config? `docs/reference/`. Old session? `docs/handoff-history/`. No guessing.
+**Predictability:** an agent or human can find any file by walking the tree. Architecture docs? `docs/dev/`. Verified config? `docs/reference/`. Completed work history? `docs/history/`. No guessing.
 
 **Compounds over time:** as the project grows, the structure scales. Three migrations? `docs/dev/migrations/`. Three Stripe docs? `docs/dev/stripe/`. Audit handles the consolidation when thresholds are crossed.
 
-**Easy to audit:** `/doc-audit` knows exactly what's expected at each location. Anything unexpected is an orphan that needs relocating.
+**Easy to audit:** the Audit workflow knows exactly what's expected at each location. Anything unexpected is an orphan that needs relocating.
 
 **Survives team handoffs:** a contractor or new developer can clone the repo and navigate it without onboarding. The conventions are written into the file tree itself.
 
 **Tool-agnostic:** the architecture works whether you use Claude, ChatGPT, Cursor, Cowork, or no AI tool at all. The structure is what matters.
+
+**Adapter-friendly:** tool-specific commands, installed skills, and scheduled jobs should point back to this capability instead of becoming separate sources of truth.

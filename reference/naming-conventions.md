@@ -1,13 +1,13 @@
 # Naming Conventions
 
-Universal naming rules across all projects. Anchor Point applies these in Init mode (at file creation), enforces them in Audit mode (renames violators), and detects them in Review mode (flags violations + suggests Audit).
+Universal naming rules across all projects. Anchor Point applies these in Init workflow (at file creation), enforces them in Audit workflow (renames violators), and detects them in Review workflow (flags violations + suggests Audit).
 
 ---
 
 ## The rules
 
 **Root-level files (the 6 canonical):** `ALL-CAPS-KEBAB.md`
-- `README.md`, `CLAUDE.md`, `CONTEXT.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`
+- `README.md`, `AGENTS.md`, `CONTEXT.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`
 - Hyphens between words (no spaces, no underscores, no camelCase)
 - Always `.md` extension
 
@@ -16,13 +16,13 @@ Universal naming rules across all projects. Anchor Point applies these in Init m
 - Hyphens between words
 - Always `.md` extension
 - **Exception:** `docs/DOCS-INDEX.md` follows root convention (ALL-CAPS-KEBAB) because it functions as a top-level navigation file within `docs/`
-- **Exception:** subfolder `README.md` files (e.g., `docs/handoff-history/README.md`, `docs/_archive/<batch>/ARCHIVE-README.md`) follow GitHub-standard ALL-CAPS naming
+- **Exception:** subfolder `README.md` files (e.g., `docs/history/README.md`, `docs/_archive/<batch>/ARCHIVE-README.md`) follow GitHub-standard ALL-CAPS naming
 
 **Folders:** `lowercase-kebab/`
-- `handoff-history/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`
+- `history/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`
 - Hyphens between words
 - **Exception:** sort-to-bottom folders use leading underscore: `_archive/`, `_private/`
-- **Legacy:** old `zzz-archive/` and `zzz-private/` get migrated by Audit mode → `docs/_archive/` and `docs/_private/`
+- **Legacy:** old `zzz-archive/` and `zzz-private/` get migrated by the Audit workflow → `docs/_archive/` and `docs/_private/`
 
 **Date format in filenames:** `YYYY-MM-DD` (ISO-8601, sortable)
 - Session files: `YYYY-MM-DD-session-NN.md` (e.g., `2026-04-19-session-25.md`)
@@ -49,7 +49,7 @@ When violated, agents waste cycles guessing the canonical filename. ("Is it `aut
 
 ---
 
-## Detection signatures (used by Audit mode)
+## Detection signatures (used by Audit workflow)
 
 | Signature | Indicates | Fix |
 |---|---|---|
@@ -68,14 +68,14 @@ When violated, agents waste cycles guessing the canonical filename. ("Is it `aut
 ```
 my-project/
 ├── README.md
-├── CLAUDE.md
+├── AGENTS.md
 ├── CONTEXT.md
 ├── SESSION-HANDOFF.md
 ├── ROADMAP.md
 ├── REFERENCES.md
 └── docs/
     ├── DOCS-INDEX.md
-    ├── handoff-history/
+    ├── history/
     │   ├── README.md
     │   └── 2026-04-19-session-25.md
     ├── reference/
@@ -95,7 +95,7 @@ my-project/
 ```
 my-project/
 ├── README.md                           ✓ correct
-├── claude.md                           ✗ should be CLAUDE.md
+├── agents.md                           ✗ should be AGENTS.md
 ├── My Notes.md                         ✗ space + camelCase + at root
 ├── session_handoff.md                  ✗ underscore + lowercase
 ├── 2026.04.19-release-plan.md          ✗ dots in date format

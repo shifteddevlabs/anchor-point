@@ -2,7 +2,7 @@
 
 Canonical specification for how AI-friendly project docs are organized.
 
-This is the source of truth that the Anchor Point specialist reads from. It defines what files exist, what each contains, and how the four operating modes interact with them.
+This is the source of truth that the Anchor Point specialist reads from. It defines what files exist, what each contains, and how the six workflows interact with them.
 
 ---
 
@@ -13,18 +13,20 @@ Every project has 7 buckets of doc content. Each bucket lives in exactly ONE fil
 | # | Bucket (plain English) | Lives in |
 |---|------------------------|----------|
 | 1 | "What is this?" (public face) | `README.md` |
-| 2 | "Who am I, what are the rules?" (AI bootstrap) | `CLAUDE.md` |
+| 2 | "Who am I, what are the rules?" (AI bootstrap) | `AGENTS.md` |
 | 3 | "What we ARE doing" (current phase) | `CONTEXT.md` |
 | 4 | "What we just did + what's next" (latest delta) | `SESSION-HANDOFF.md` |
 | 5 | "What we NEED to do" (priorities) | `ROADMAP.md` |
 | 6 | "Everything else doc-related" (the docs ecosystem) | `docs/` (with `DOCS-INDEX.md` as navigation aid) |
 | 7 | "Where do I look stuff up?" (topic-driven lookup index) | `REFERENCES.md` |
 
-**6 root files** (README, CLAUDE, CONTEXT, SESSION-HANDOFF, ROADMAP, REFERENCES). Five are AI-facing; README is for humans.
+**6 root files** (README, AGENTS, CONTEXT, SESSION-HANDOFF, ROADMAP, REFERENCES). Five are AI-facing; README is for humans.
 
-**Everything else lives under `docs/`** — handoff-history, reference (verified-state SOT files), playbooks (process runbooks), dev (architecture docs), release (release notes), reviews (code reviews), research (experiments / exploration), `_archive/` (historical), `_private/` (gitignored sensitive). `docs/DOCS-INDEX.md` is the navigation aid that maps the folder.
+**Everything else lives under `docs/`** — history (completed work, old handoffs, retired roadmap detail), reference (verified-state SOT files), playbooks (process runbooks), dev (architecture docs), release (release notes), reviews (code reviews), research (experiments / exploration), `_archive/` (historical), `_private/` (gitignored sensitive). `docs/DOCS-INDEX.md` is the navigation aid that maps the folder.
 
 **REFERENCES.md vs DOCS-INDEX.md** are complementary, not duplicates: REFERENCES.md (root) is organized by TOPIC; DOCS-INDEX.md (in `docs/`) is organized by LOCATION. Small projects (≤10 docs in `docs/`) can OMIT DOCS-INDEX.md; large projects require it.
+
+**Tool-specific adapters** are wrappers, not sources of truth. If a platform expects `CLAUDE.md`, a slash command, a scheduler entry, or a skill manifest, the adapter points back to `AGENTS.md` and the Anchor Point capability.
 
 ---
 
@@ -38,7 +40,7 @@ Every project has 7 buckets of doc content. Each bucket lives in exactly ONE fil
 **Contains:** project tagline, badges, quick start (3-5 steps), features (high level), pricing (if applicable), tech stack (high level, no version pins), doc index pointer, license.
 **Does NOT contain:** internal gotchas, session-specific state, roadmap details, AI-agent-specific instructions.
 
-### 2. `CLAUDE.md` — "Who am I, what are the rules?"
+### 2. `AGENTS.md` — "Who am I, what are the rules?"
 
 **Audience:** AI tools (every session start).
 **Updates:** Architecture changes (rare). New gotchas added immediately.
@@ -75,7 +77,7 @@ Every project has 7 buckets of doc content. Each bucket lives in exactly ONE fil
 ### 4. `SESSION-HANDOFF.md` — "What we just did + what's next"
 
 **Audience:** AI tools (context recovery after compaction or session restart).
-**Updates:** Every session end (Update mode).
+**Updates:** Every session end (Update workflow).
 **Length:** 50-200 lines. If exceeds 200, rotate older content out.
 **Contains:**
 - Current State (TL;DR) — 2-4 sentences
@@ -84,9 +86,9 @@ Every project has 7 buckets of doc content. Each bucket lives in exactly ONE fil
 - Active Blockers (waiting on external action)
 - Active Gotchas (session-specific hazards, NOT persistent ones)
 - Debugging Playbook (if X breaks again) — proven recipes from prior debugging
-- Asks the docs could have answered — questions the agent had to ask the user that should have been findable in CLAUDE.md / REFERENCES.md / a SOT file (drives doc improvement over time)
+- Asks the docs could have answered — questions the agent had to ask the user that should have been findable in AGENTS.md / REFERENCES.md / a SOT file (drives doc improvement over time)
 
-**Rotation rule:** when next session starts, prior "Last Session" + completed "Next Session" content rotates to `docs/handoff-history/<YYYY-MM-DD>-session-<NN>.md`.
+**Rotation rule:** when SESSION-HANDOFF exceeds 200 lines or old completed detail stops helping the next session, move completed work to `docs/history/<YYYY-MM-DD>-session-<NN>.md` and update `docs/history/README.md`.
 
 ### 5. `ROADMAP.md` — "What we NEED to do"
 
@@ -108,7 +110,7 @@ Every project has 7 buckets of doc content. Each bucket lives in exactly ONE fil
 ```
 docs/
 ├── DOCS-INDEX.md                     # navigation aid (REQUIRED for >10 docs)
-├── handoff-history/                  # rotated session backups
+├── history/                  # completed work, old handoffs, retired roadmap detail
 │   ├── README.md                     # session log index
 │   └── YYYY-MM-DD-session-NN.md
 ├── reference/                        # verified-state SOT files
@@ -125,7 +127,7 @@ docs/
 
 | Subfolder | Holds | Created when |
 |---|---|---|
-| `handoff-history/` | Rotated SESSION-HANDOFF entries | First rotation |
+| `history/` | Completed work, old handoffs, retired roadmap detail | First real history item to preserve |
 | `reference/` | Verified-state SOT files (config truths, capability matrices) | First incident where summary went stale |
 | `playbooks/` | Process runbooks ("when X happens, do Y") | First reusable process |
 | `dev/` | Architecture docs, schema docs, feature design | Internal architecture worth documenting |
@@ -144,18 +146,18 @@ docs/
 - REFERENCES.md (root) — TOPIC-driven ("where do I look up SSO config?")
 - DOCS-INDEX.md (in docs/) — LOCATION-driven ("what files exist in `docs/dev/`?")
 
-#### `docs/handoff-history/` — chronological session backup
+#### `docs/history/` — completed-work history
 
 **Filename:** `YYYY-MM-DD-session-NN.md`
 **Length:** 50-150 lines per file
-**Contains:** date + session number, one-line summary, what was done (5-15 items), what was committed (commit hashes if available), what was deferred, key gotchas surfaced.
-**File integrity rule:** files don't get edited post-write (except the index README). Snapshots, not working docs.
+**Contains:** date + session number or topic, one-line summary, what was completed, what was committed (commit hashes if available), what was deferred, key gotchas surfaced, and links back to current docs if relevant.
+**File integrity rule:** files don't get edited post-write except for link repair or sensitive-data redaction. Record those exceptions in the index README.
 
 #### `docs/_archive/` and `docs/_private/`
 
 - Archive batches use dated folders: `_archive/YYYY-MM-DD-<description>/` with an `ARCHIVE-README.md`
 - Private folder is for gitignored business docs, internal lists, sensitive notes
-- Both live INSIDE `docs/` (legacy `zzz-archive/` and `zzz-private/` at root get migrated by Audit mode)
+- Both live INSIDE `docs/` (legacy `zzz-archive/` and `zzz-private/` at root get migrated by Audit)
 
 ### 7. `REFERENCES.md` — "Where do I look stuff up?"
 
@@ -170,9 +172,9 @@ docs/
 - External docs (URLs for SDK/framework docs)
 - External infrastructure (IDs only, never secrets)
 - Naming conventions
-- Skill ecosystem (if applicable)
+- Capability ecosystem and tool-specific adapters (if applicable)
 
-**Does NOT contain:** persistent rules (those go in CLAUDE.md), current state (CONTEXT.md), anything that duplicates CLAUDE.md.
+**Does NOT contain:** persistent rules (those go in AGENTS.md), current state (CONTEXT.md), anything that duplicates AGENTS.md.
 
 ---
 
@@ -181,13 +183,13 @@ docs/
 ```
 README.md  ─────────────►  Visitors arrive here, then flow inward
 
-CLAUDE.md  ─────────────►  AI session bootstrap (Hard Rules + folder map + routing)
+AGENTS.md  ─────────────►  AI session bootstrap (Hard Rules + folder map + routing)
    │
    ├──►  CONTEXT.md            "What we ARE doing" (current phase)
    │       │
    │       ├──►  SESSION-HANDOFF.md   "What we just did + next"
    │       │        │
-   │       │        └──►  docs/handoff-history/    "What we did" (chronological backup)
+   │       │        └──►  docs/history/    "What we completed" (old detail)
    │       │
    │       └──►  ROADMAP.md            "What we NEED to do" (priorities + Decision Log)
    │               │
@@ -211,12 +213,22 @@ docs/DOCS-INDEX.md  ────►  Navigation aid: "what files exist in docs/?
 2. **Concise top, details below.** Top-level files SUMMARIZE and POINT. Implementation details live in `docs/release/`, `docs/dev/`, `docs/reviews/`, etc.
 
 3. **Time-scale discipline.** Every line answers "will this still be true in 3 sessions?"
-   - Yes (persistent) → CLAUDE.md, REFERENCES.md, CONTEXT.md (phase-stable)
+   - Yes (persistent) → AGENTS.md, REFERENCES.md, CONTEXT.md (phase-stable)
    - No (volatile) → SESSION-HANDOFF.md
 
-4. **History is preserved, not deleted.** Old sessions rotate to `docs/handoff-history/`. Old project phases stay referenced in ROADMAP.md "Completed". Files don't get truncated mid-session.
+4. **History is preserved, not deleted.** Completed work, old handoffs, and retired roadmap detail move to `docs/history/`. ROADMAP.md keeps concise current priorities plus dated completed summaries. Files don't get truncated mid-session.
 
-5. **No file points "inward" past one layer.** CLAUDE.md points to CONTEXT.md, but not to a specific `docs/release/` file. The tree stays shallow and predictable.
+5. **No file points "inward" past one layer.** AGENTS.md points to CONTEXT.md, but not to a specific `docs/release/` file. The tree stays shallow and predictable.
+
+## Hardened Lessons From Ratchet Runs
+
+These rules came from duplicate-only cleanup tests across different project shapes:
+
+- **Private paths are not context sources for public docs.** Current docs may name where private material lives, but they should not depend on private files to be understandable.
+- **Product/content Markdown is not automatically operating-doc clutter.** Marketing copy, email sequences, blog drafts, and embedded app content should be scored separately unless the project defines them as operating docs.
+- **Archive moves must preserve links.** If a snapshot moves into `_archive/`, repair relative links inside the snapshot or record why they are intentionally stale.
+- **Scoped duplicate tests need source-aware link checks.** Missing links to intentionally omitted non-private code files are fixture gaps. Links to protected/private files are still failures.
+- **History is a compression tool, not a dumping ground.** Current docs should point to history only when a future agent would reasonably need the completed detail.
 
 ---
 
@@ -224,13 +236,13 @@ docs/DOCS-INDEX.md  ────►  Navigation aid: "what files exist in docs/?
 
 When an AI agent picks up a repo cold, it reads in this order:
 
-1. **CLAUDE.md** — identity + rules + folder map (always)
+1. **AGENTS.md** — identity + rules + folder map (always)
 2. **CONTEXT.md** — current phase (every session)
 3. **SESSION-HANDOFF.md** — what just happened (every session)
 4. **ROADMAP.md** — if picking up a planned task, find it here
 5. **REFERENCES.md** — when looking something up by topic
 6. **`docs/DOCS-INDEX.md`** — when looking up by file location
-7. **`docs/handoff-history/`** — only when investigating "when did X change?"
+7. **`docs/history/`** — only when investigating "when did X change?" or "what happened to that completed detail?"
 
 Six files cover 95% of agent needs. README is for humans visiting the repo.
 
@@ -240,17 +252,17 @@ Six files cover 95% of agent needs. README is for humans visiting the repo.
 
 | Content | File |
 |---------|------|
-| "We use library X v2.3" | CLAUDE.md (tech stack) + README.md (public version) |
+| "We use library X v2.3" | AGENTS.md (tech stack) + README.md (public version) |
 | "Current focus: ship v2.0 to production" | CONTEXT.md |
 | "Last session: doc cleanup. Next: ship feature X." | SESSION-HANDOFF.md |
 | "Feature X + Feature Y + bugfix Z" (priority list) | ROADMAP.md |
-| "Bundle ID header required in 7 places or 403s" | CLAUDE.md (gotchas) |
+| "Bundle ID header required in 7 places or 403s" | AGENTS.md (gotchas) |
 | "Library X official docs URL" | REFERENCES.md |
-| "Session 30 fixed F1+F2 in DataLoader" | docs/handoff-history/2026-05-01-session-30.md |
+| "Session 30 fixed F1+F2 in DataLoader" | docs/history/2026-05-01-session-30.md |
 | "Detailed v2.0 deep code review handoff" | docs/reviews/v2.0-deep-code-review.md |
 | "API key for service Y is in vault path Z" | REFERENCES.md (path/location only, never values) |
 | "What's the v2.1 metrics plan?" | ROADMAP.md → links to docs/dev/v2.1-metrics-plan.md |
-| "Why we picked thinkingBudget=1024" | docs/dev/thinking-budget-decision.md (detail), pointed to from CLAUDE.md gotchas + REFERENCES.md |
+| "Why we picked thinkingBudget=1024" | docs/dev/thinking-budget-decision.md (detail), pointed to from AGENTS.md gotchas + REFERENCES.md |
 | "Naming convention for HealthKit metric IDs" | REFERENCES.md |
 
 Every piece of content has exactly ONE home.
@@ -260,6 +272,9 @@ Every piece of content has exactly ONE home.
 ## See also
 
 - `naming-conventions.md` — full naming spec + detection signatures
-- `anti-patterns.md` — A1-A8 drift catalog
+- `anti-patterns.md` — A1-A12 drift catalog
 - `canonical-file-set.md` — the 9 canonical surfaces + decision tree for new files
+- `doc-ratchet.md` — duplicate-only improvement loop
+- `workflow-autoresearch.md` — workflow hardening loop
+- `workflow-score.md` — scoring rubric for the reusable workflow itself
 - `templates/` — drop-in templates for the 6 root files

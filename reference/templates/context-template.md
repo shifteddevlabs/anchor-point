@@ -35,7 +35,7 @@ State / capabilities / settings that should be verified (read code, run CLI, che
 
 ## What to avoid
 
-Patterns we've seen go wrong on this project (phase-specific; persistent rules go in CLAUDE.md):
+Patterns we've seen go wrong on this project (phase-specific; persistent rules go in AGENTS.md):
 - [Anti-pattern 1, e.g., "Don't add new dependencies without checking bundle size impact"]
 - [Anti-pattern 2, e.g., "Don't bypass auth middleware in dev — keep behavior identical to prod"]
 

@@ -1,18 +1,18 @@
-# Anti-Patterns — Doc Architecture Drift Catalog (A1-A8)
+# Anti-Patterns — Doc Architecture Drift Catalog (A1-A12)
 
-Eight drift signatures that indicate the doc architecture has slipped. Each has a detection rule and a fix. Anchor Point uses this catalog in Review mode (detection) and Audit mode (scoring + fixing).
+Twelve drift signatures that indicate the doc architecture has slipped. Each has a detection rule and a fix. Anchor Point uses this catalog in Review workflow (detection) and Audit workflow (scoring + fixing).
 
 ---
 
 ## A1. Duplicate "rules" sections
 
-**Signature:** A section labeled "Important behavioral reminders," "Hard rules," or "Don't do this" appears in TWO root files (e.g., both CLAUDE.md and REFERENCES.md).
+**Signature:** A section labeled "Important behavioral reminders," "Hard rules," or "Don't do this" appears in TWO root files (e.g., both AGENTS.md and REFERENCES.md).
 
-**Most common version:** CLAUDE.md "Important Notes" + REFERENCES.md "Important behavioral reminders" — REFERENCES.md sometimes self-admits the duplicate.
+**Most common version:** AGENTS.md "Important Notes" + REFERENCES.md "Important behavioral reminders" — REFERENCES.md sometimes self-admits the duplicate.
 
 **Detection:** grep root files for `^## (Important|Behavioral|Rules|Don't|Hard rules)` headings; if 2+ files match, flag.
 
-**Fix:** Keep in CLAUDE.md only. Delete the duplicate. Don't even leave a "For rules, see CLAUDE.md" pointer — that's also a form of duplication that creates the impression of two homes for rules.
+**Fix:** Keep in AGENTS.md only. Delete the duplicate. Don't even leave a "For rules, see AGENTS.md" pointer — that's also a form of duplication that creates the impression of two homes for rules.
 
 ---
 
@@ -46,7 +46,7 @@ Eight drift signatures that indicate the doc architecture has slipped. Each has 
 
 **Detection:** Line count of `SESSION-HANDOFF.md` exceeds 200.
 
-**Fix:** Rotate sessions older than 2 weeks → `docs/handoff-history/<YYYY-MM-DD>-session-<NN>.md`. Update the handoff-history index README.
+**Fix:** Rotate sessions older than 2 weeks → `docs/history/<YYYY-MM-DD>-session-<NN>.md`. Update the history index README.
 
 **Soft warning:** at >150 lines, suggest rotation. **Hard fix:** at >200 lines, rotate.
 
@@ -54,7 +54,7 @@ Eight drift signatures that indicate the doc architecture has slipped. Each has 
 
 ## A5. Stale tech-stack claims
 
-**Signature:** README.md or CLAUDE.md tech-stack table lists a version number that doesn't match what's actually in code.
+**Signature:** README.md or AGENTS.md tech-stack table lists a version number that doesn't match what's actually in code.
 
 **Detection:** grep code for the actual version (e.g. `"next": "16.1.5"` in `package.json`) and compare against the claimed value in docs.
 
@@ -66,7 +66,7 @@ Eight drift signatures that indicate the doc architecture has slipped. Each has 
 
 **Signature:** A root file is 100% pointers to other docs with zero original content of its own.
 
-**Likely culprits:** CLAUDE.md missing rules, CONTEXT.md missing the current phase, ROADMAP.md missing actual priorities.
+**Likely culprits:** AGENTS.md missing rules, CONTEXT.md missing the current phase, ROADMAP.md missing actual priorities.
 
 **Detection:** File is <30 lines AND >70% of non-blank lines start with bullet/link patterns.
 
@@ -98,9 +98,57 @@ Eight drift signatures that indicate the doc architecture has slipped. Each has 
 
 ---
 
+## A9. Current docs depend on private paths
+
+**Signature:** README.md, AGENTS.md, CONTEXT.md, ROADMAP.md, SESSION-HANDOFF.md, or REFERENCES.md links to `docs/_private/`, `zzz-private/`, credential folders, private business docs, or personal exports as required reading.
+
+**Why it matters:** Public/current docs become impossible to use in a repoed or shared context, and agents may try to read sensitive material unnecessarily.
+
+**Detection:** scan current docs for `docs/_private`, `zzz-private`, `+api-settings`, credential filenames, or links into ignored/private folders.
+
+**Fix:** Keep only a plain location note if needed ("private source lives at X"). Move the usable, non-sensitive summary into `docs/reference/` or REFERENCES.md.
+
+---
+
+## A10. Product/content Markdown scored as operating-doc clutter
+
+**Signature:** Marketing copy, email sequences, blog drafts, app content, prompts, transcripts, or user-facing copy are counted as broken docs because they do not follow operating-doc structure.
+
+**Why it matters:** The audit starts "fixing" product assets instead of the documentation system.
+
+**Detection:** Markdown files contain campaign copy, subject lines, article body text, product page sections, sequence steps, or content calendars, especially under product/content folders.
+
+**Fix:** Separate scoring categories. Keep product/content files where the project expects them, index them if useful, and exclude them from operating-doc health unless they are supposed to guide agents.
+
+---
+
+## A11. Archive or history moves break relative links
+
+**Signature:** A file moved into `docs/_archive/` or `docs/history/` still contains relative links that worked from the old location but now point nowhere.
+
+**Why it matters:** The archive is preserved but no longer recoverable. Future agents distrust the history.
+
+**Detection:** after every move, run a Markdown link check from the new file location. Flag relative links that no longer resolve.
+
+**Fix:** Repair relative links, convert to stable root-relative paths if the project supports them, or record the intentionally stale link in the archive/history README.
+
+---
+
+## A12. ROADMAP.md becomes a completed-work archive
+
+**Signature:** ROADMAP.md keeps long completed-item narratives, detailed implementation history, old session notes, or retired plans inline.
+
+**Why it matters:** ROADMAP.md should help pick the next priority. Completed detail belongs in history so the roadmap stays decision-focused.
+
+**Detection:** completed section exceeds the active roadmap by >2x, completed bullets exceed ~50 words, or ROADMAP.md exceeds 150 lines mostly because of completed work.
+
+**Fix:** Keep dated one-line completed summaries in ROADMAP.md. Move the long detail to `docs/history/<YYYY-MM-DD>-<topic>.md` and update the history index.
+
+---
+
 ## Severity + scoring
 
-When Audit mode scores doc health (100-point system), each anti-pattern affects different rubric dimensions:
+When Audit scores doc health (100-point system), each anti-pattern affects different rubric dimensions:
 
 | Anti-pattern | Primary impact |
 |---|---|
@@ -112,14 +160,18 @@ When Audit mode scores doc health (100-point system), each anti-pattern affects 
 | A6 (pointer-only file) | AI-actionability (-), Specificity (-) |
 | A7 (detail in top-level) | Scope discipline (-), Concision (-) |
 | A8 (hypothesis as fact) | Anti-fabrication (-), Trustworthiness (-) |
+| A9 (private path dependency) | Security/Privacy (-), Findability (-) |
+| A10 (product content mis-scored) | Context preservation (-), Scoring integrity (-) |
+| A11 (archive links broken) | Findability (-), Context preservation (-) |
+| A12 (roadmap as archive) | Concision (-), Scope discipline (-) |
 
 ---
 
-## How Init mode pre-empts A1-A8
+## How Init pre-empts A1-A12
 
-When generating the initial 6-file doc set, Anchor Point AVOIDS creating A1-A8 patterns from day one:
+When generating the initial 6-file doc set, Anchor Point AVOIDS creating A1-A12 patterns from day one:
 
-- **A1:** put all hard rules in CLAUDE.md only; never duplicate in REFERENCES.md
+- **A1:** put all hard rules in AGENTS.md only; never duplicate in REFERENCES.md
 - **A2:** SESSION-HANDOFF.md skeleton has only Current State + Last Session + Next Session sections
 - **A3:** CONTEXT.md mentions only phase-level state, not session-specific events
 - **A4:** Generated SESSION-HANDOFF.md is short (~30-50 lines) by design
@@ -127,3 +179,7 @@ When generating the initial 6-file doc set, Anchor Point AVOIDS creating A1-A8 p
 - **A6:** Each file has summary content, not just pointers
 - **A7:** Generated ROADMAP.md items are concise summaries
 - **A8:** Generated content cites sources for any cause-effect claim
+- **A9:** Current docs name private locations only as optional location notes, never required reading
+- **A10:** Product/content folders are documented separately from operating docs
+- **A11:** Any generated archive/history index uses links that resolve from its actual folder
+- **A12:** ROADMAP.md completed entries stay concise; long detail routes to `docs/history/`

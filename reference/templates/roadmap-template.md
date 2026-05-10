@@ -110,4 +110,4 @@ This pattern is incident-driven: most "irreversible mistake" stories trace back 
 
 ---
 
-*Each item has: priority emoji (red/yellow/green), task name, status, notes pointer (to a detail doc if applicable). Item bodies stay short — implementation details go to `docs/release/<item>.md` or `docs/dev/<item>.md`.*
+*Each item has: priority band (red/yellow/green), task name, status, notes pointer (to a detail doc if applicable). Item bodies stay short — implementation details go to `docs/release/<item>.md` or `docs/dev/<item>.md`.*

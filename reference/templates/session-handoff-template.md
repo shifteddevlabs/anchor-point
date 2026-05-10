@@ -46,7 +46,7 @@ Waiting on external action (user, third-party, async process). Each blocker name
 
 ## Active Gotchas
 
-Session-specific hazards. Persistent rules go in CLAUDE.md, not here.
+Session-specific hazards. Persistent rules go in AGENTS.md, not here.
 
 (or: "None yet" if none)
 
@@ -69,7 +69,7 @@ Proven recipes for failures we've already debugged once. Each entry is a short r
 
 ## Asks the docs could have answered
 
-Questions the agent had to ask the user this session that *should have been* in CLAUDE.md / CONTEXT.md / REFERENCES.md / a SOT file. This list drives doc improvement, NOT user-blame.
+Questions the agent had to ask the user this session that *should have been* in AGENTS.md / CONTEXT.md / REFERENCES.md / a SOT file. This list drives doc improvement, NOT user-blame.
 
 When the audit/update workflow runs at session end, it migrates each entry into the correct file and clears it from this list.
 
@@ -79,4 +79,4 @@ When the audit/update workflow runs at session end, it migrates each entry into 
 
 ---
 
-**Rotation rule:** when the next session starts and the audit/update workflow runs, the prior "Last Session" + completed "Next Session" content rotates to `docs/handoff-history/<YYYY-MM-DD>-session-<NN>.md`. This file stays under 200 lines.
+**Rotation rule:** when this file exceeds 200 lines or old completed detail stops helping the next session, move completed work to `docs/history/<YYYY-MM-DD>-session-<NN>.md` and update `docs/history/README.md`. This file stays under 200 lines.

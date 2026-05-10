@@ -1,6 +1,6 @@
 # References
 
-Lookup index. AI tools should consult these for context but should not act on them directly. For project rules, see `CLAUDE.md`. For current phase, see `CONTEXT.md`.
+Lookup index. AI tools should consult these for context but should not act on them directly. For project rules, see `AGENTS.md`. For current phase, see `CONTEXT.md`.
 
 ## Source-of-truth files (SOT)
 
@@ -68,4 +68,4 @@ IDs and account numbers only. Never secrets.
 
 ---
 
-*For rules, see `CLAUDE.md`. For current phase, see `CONTEXT.md`. For latest deltas, see `SESSION-HANDOFF.md`.*
+*For rules, see `AGENTS.md`. For current phase, see `CONTEXT.md`. For latest deltas, see `SESSION-HANDOFF.md`.*

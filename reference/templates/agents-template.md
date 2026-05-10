@@ -43,7 +43,7 @@ Use **Burned:** [incident] format for incident-driven rules so future agents can
 ```
 [project-name]/
 ├── README.md
-├── CLAUDE.md                       (this file)
+├── AGENTS.md                       (this file)
 ├── CONTEXT.md
 ├── SESSION-HANDOFF.md
 ├── ROADMAP.md
@@ -51,7 +51,7 @@ Use **Burned:** [incident] format for incident-driven rules so future agents can
 ├── [src/ or app/ or lib/]          (main code)
 ├── docs/
 │   ├── DOCS-INDEX.md               (navigation aid; required >10 docs)
-│   ├── handoff-history/            (rotated session backups)
+│   ├── history/            (completed work, old handoffs, retired roadmap detail)
 │   ├── reference/                  (verified-state SOT files)
 │   ├── playbooks/                  (process runbooks)
 │   ├── dev/                        (architecture / feature design)
@@ -76,7 +76,7 @@ When creating any new doc during a session, follow this cheat sheet. For full de
 | Process runbook | `docs/playbooks/` | lowercase-kebab.md → also add Playbooks row in REFERENCES.md |
 | Research / experiment | `docs/research/` | lowercase-kebab.md |
 | Sensitive (secrets, internal numbers) | `docs/_private/` | lowercase-kebab.md |
-| Don't know | Drop in `docs/research/` and let `/doc-audit` relocate later, or ask before creating |
+| Don't know | Drop in `docs/research/` and let Audit relocate later, or ask before creating |
 
 **Rules at the moment of creation:**
 - NEVER create a `.md` file at project root unless it's one of the 6 canonical
