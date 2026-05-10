@@ -10,3 +10,7 @@
 
 # OS files
 Thumbs.db
+
+# Local brand/art source files, kept outside the portable doc set
+anchor-point-logo.jpg
+anchor-point-logo.png
