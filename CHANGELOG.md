@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.2.0 — 2026-05-10
+## v1.1.0 — 2026-05-10
 
 This release hardens Anchor Point from a Claude-centered documentation specialist into a repoed, model-agnostic documentation capability.
 
@@ -19,7 +19,7 @@ This release hardens Anchor Point from a Claude-centered documentation specialis
 
 ### Versioning Notes
 
-- `v0.1.x`: original Anchor Point package, centered on the 4-mode doc lifecycle.
-- `v0.2.0`: hardened capability architecture, model-agnostic bootstrap, ratchet/autoresearch workflows.
+- `v1.0.x`: original Anchor Point package, centered on the 4-mode doc lifecycle.
+- `v1.1.0`: hardened capability architecture, model-agnostic bootstrap, ratchet/autoresearch workflows.
 - Future minor versions should add new reusable workflows or scoring criteria.
 - Future patch versions should fix wording, templates, examples, or link issues without changing workflow shape.
