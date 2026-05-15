@@ -1,0 +1,61 @@
+---
+type: reference
+status: active
+owner: knowledge-ops
+last_reviewed: 2026-05-15
+applies_to: anchor-point Audit + Review modes
+description: Deterministic drift-check detection table. Each row pairs an anti-pattern code with a grep/scan signature and the routed fix. Loaded by Audit (Mode 4) and Review (Mode 2). Mode 6 Ratchet uses the same table for baseline scoring.
+---
+
+# Drift Checks
+
+The detection table for the anti-patterns catalogued in `anti-patterns.md`.
+
+Use these as quick checks in Review and deeper checks in Audit. The **Detection** column provides a deterministic grep/scan that any LLM (or script) can run to verify the pattern, eliminating judgment-driven false positives.
+
+## Detection table
+
+| Code | Pattern | Meaning | Detection | Fix Direction |
+|---|---|---|---|---|
+| A1 | Duplicate rules in multiple root docs | No single authority | Same rule string present in ≥2 of {AGENTS.md, CLAUDE.md, REFERENCES.md/LOOKUP.md}; OR rule paragraph appears verbatim in 2 root docs | Keep durable rules in AGENTS.md; replace duplicates with `## See: AGENTS.md "Project Rules"` pointer |
+| MG4 | Split authority between AGENTS.md and CLAUDE.md | Models may follow different rules | Both files exist AND both contain a "Rules" or "Hard Rules" heading AND CLAUDE.md is > 5 lines (not a stub) | Declare AGENTS.md sole authority; reduce CLAUDE.md to 1-line stub |
+| A2 | Architecture hiding in STATUS/SESSION-HANDOFF | Stable content in volatile doc | **File scope:** STATUS.md AND SESSION-HANDOFF.md (whichever exist). **Detection:** `grep -E '^## (Architecture\|Schema\|Data Model\|API Design\|System Design\|ER Diagram\|Schema Reference)' <file>` returns hits OR an inline fenced code block > 20 lines OR an ASCII/markdown diagram | Move to `docs/dev/<topic>.md`; replace STATUS section with one-line pointer |
+| A3 | Session-volatile content in CONTEXT.md | Legacy phase doc still present | `CONTEXT.md` file exists at project root | Migrate to AGENTS.md "Current Phase" section; delete CONTEXT.md |
+| A11 | Layer 0 Hard Rules pasted into project AGENTS.md | Duplication; should be inherited | `grep -c "Inherits from" AGENTS.md` returns 0 AND `grep -c "Hard Rules\|inviolable rules\|universal rules" AGENTS.md` returns ≥1 | Replace with `## Inherits from\n\n<Layer 0 home>` pointer (e.g., `+vantage-point/AGENTS.md` if using vantage-point pattern) |
+| A12 | Asks accumulated without routing tags | Decisions deferred to handoff time | **File scope:** SESSION-HANDOFF.md AND STATUS.md (whichever exist) AND ROADMAP.md "Open Questions" section if present. **Detection:** any of: a section with header `Asks`, `Open Questions`, `Decisions Needed`, `Questions for User`, `Pending Decisions`, `Need Input` exists AND `grep -cE '\[(AGENTS\|STATUS\|ROADMAP\|LOOKUP\|CLAUDE\|REFERENCES)\.md:' <file>` returns 0 inside that section | Add `[DEST.md: notes]` pre-route convention to template; migrate existing Asks to tagged form before next handoff |
+| A13 | doc-handoff output drifts when re-run on same inputs | Skill is not idempotent | Run Mode 3 (or 6) twice; `diff -u <(grep -v '^run-date:' run-A) <(grep -v '^run-date:' run-B)` non-empty | Apply Mode 6 deterministic-output rule (sort, integer-scores, frontmatter-only timestamps) |
+| A4 | STATUS.md over 200 lines | Live handoff is too long | `wc -l STATUS.md` returns ≥ 200 | Rotate completed detail to `docs/status-history/<YYYY-MM-DD>-NN.md` |
+| A5 | Stale stack claims | Docs are downstream of code | Tech Stack version in AGENTS.md differs from `package.json` (or equivalent manifest) version for the same dependency | Update AGENTS.md Tech Stack; add Source column citing manifest |
+| A6 | Pointer-only root docs | Missing summary layer | **File scope:** All root .md files (README, AGENTS, CLAUDE, STATUS, SESSION-HANDOFF, ROADMAP, LOOKUP, REFERENCES, CONTEXT). **Detection:** file is < 30 lines AND `wc -l` minus the count of lines matching `^.*\[.*\]\(.*\)` is < 10 (i.e., > 2/3 of content is bare markdown links with no original prose) AND no `## Summary` or similar prose section. | Add concise original summary (≥ 100 words) before pointer block |
+| A7 | Detail-heavy items in top-level docs | Stable detail content in volatile / overview docs | **File scope:** ALL root .md files (README, AGENTS, CLAUDE, STATUS, SESSION-HANDOFF, ROADMAP, LOOKUP, REFERENCES, CONTEXT) AND `docs/playbooks/*` AND `docs/dev/*`. **Detection:** any single section in scope contains > 50 lines OR a fenced code block (\`\`\`) OR an ASCII/markdown architecture diagram OR a file-tree listing | Extract to `docs/dev/<topic>.md` (architecture, schema, file trees) or `docs/release/<vX.Y>.md` (version-specific implementation detail). Replace inline detail with one-line pointer. |
+| A8 | Hypothesis stated as fact | Overconfident documentation | **File scope:** ALL root .md files AND `docs/reference/*`. **Detection:** Claim uses present-tense assertive verb (`is`, `uses`, `supports`, `has`, `manages`, `runs`, `handles`, `ships`, `provides`) about runtime state, counts, or system behavior AND the row/paragraph lacks BOTH a Source column citation AND a `Hypothesis:` / `Verified by:` annotation | Wrap claim in `**Hypothesis:**` prefix; add `Verify by: <command/check>` line citing the manifest, dashboard, or test that confirms the claim |
+| A9 | Parallel priority / next-action lists | Forward-looking section duplicates ROADMAP across multiple docs | **File scope:** ALL root .md files (STATUS, SESSION-HANDOFF, AGENTS, README). **Detection:** ≥ 2 of these docs have a section with a priority-like header (`Priorities`, `Top N`, `Next Steps`, `Active Work`, `In Progress`, `Upcoming`, `Backlog`, `Next Session`) AND those sections enumerate forward-looking items rather than just pointing to ROADMAP | Keep one section pointing to ROADMAP top 3; reduce other instances to a 1-line pointer |
+| A10 | Project documentation duplicates DOCS-INDEX | LOOKUP and DOCS-INDEX confused | **File scope:** LOOKUP.md AND REFERENCES.md. **Detection:** file has a section header containing `Inventory`, `File Map`, `Documentation Index`, `docs/ tree` (case-insensitive) OR contains a table with ≥ 3 rows where one column is a file path under `docs/` OR contains ≥ 5 bullet-list items pointing to `docs/*.md` paths | LOOKUP owns topic lookup; DOCS-INDEX owns file inventory; strip file-inventory rows from LOOKUP, leave only topic SOT and playbook tables |
+| MG1 | Active doc → `_private/` routing | Active navigation routes through excluded path | `grep -E '\]\(\.?/?docs/_private/' AGENTS.md LOOKUP.md STATUS.md README.md` returns hits | Remove pointer from active routing; move to "Sensitive SOT register" with private flag |
+| MG2 | ROADMAP > 300 lines without extracted decisions or rotated history | Both completed work and decision rationale are inlined in ROADMAP | `wc -l ROADMAP.md` returns ≥ 300 AND (`docs/decisions/` folder is empty/absent OR `docs/roadmap-history/` folder is empty/absent) | Two-part fix: (a) extract Decision Log entries to `docs/decisions/YYYY-MM-DD-<topic>.md` (one file per decision); (b) rotate completed-priority sections older than the visible window to `docs/roadmap-history/YYYY-MM-DD-NN.md`. Replace inline content with pointers. |
+| MG3 | Broken link in current/root docs | Stale references | **File scope:** ALL root .md files AND `docs/DOCS-INDEX.md` AND `docs/playbooks/*` AND `docs/reference/*`. **Detection:** for EACH `](path)` markdown link in scope where path is relative (does not start with `http://` / `https://` / `#`): resolve the target relative to the file's directory; if target does not exist in fixture (and, for scoped fixtures, also does not exist at a non-private path in the source project), flag as MG3. **Precedence — suppress MG3 for any link already flagged as MG1**: if the same link triggered MG1 (active doc → `_private/`), report only MG1; fixing MG1 implicitly resolves the broken-link defect by removing the pointer. Run this scan as a final pass after all other anti-pattern detection. | Update link target; if archived, repair to `docs/_archive/` path or mark as `(archived snapshot, see docs/_archive/...)` |
+| (uncoded, advisory) | Pointer-only files in `docs/` | Missing summary | Same as A6 but applied at `docs/*` depth | Add summary or merge with adjacent doc |
+| (uncoded, advisory) | Exact duplicate active/archive docs | Archive workflow did not remove or redirect active copy | Byte-identical or near-identical content in active and `docs/_archive/` paths | Confirm links; archive or merge; keep one canonical copy |
+| (uncoded, advisory) | Root docs index with large docs folder | Index placement is inconsistent | Index file at project root when `docs/` has > 10 files | Prefer `docs/DOCS-INDEX.md` unless project has a legacy exception |
+| (uncoded, advisory) | Product content counted as docs clutter | Cleanup may damage user-facing content | Audit run flags email sequences / blog posts / embedded project content as findings | Scope the ratchet to operating docs; inventory product content separately |
+| (uncoded, advisory) | Archived file moved without link repair | History becomes hard to trust | After a `git mv` into `_archive/`, any link to the old path is now broken | Repair relative links after relocation, or mark snapshot as unlinked |
+
+## Routing accuracy test cases
+
+Reproducible scenarios. Any Audit run on the listed input MUST produce the listed Proposed Change row. Drift from these = routing-accuracy defect.
+
+| Test ID | Input scenario | Expected finding code | Expected Target | Expected Action keyword |
+|---|---|---|---|---|
+| RT-01 | Project has CLAUDE.md with 7 Hard Rules pasted verbatim from Layer 0 baseline | A11 | AGENTS.md | "Inherits from" pointer |
+| RT-02 | Project has CONTEXT.md as separate root file with Current Phase content | A3 | AGENTS.md | "Migrate ... delete CONTEXT.md" |
+| RT-03 | Project's STATUS.md is 220 lines with completed-work session history inline | A4 | docs/status-history/ | "Rotate oldest 50%" |
+| RT-04 | AGENTS.md Tech Stack table says `Next.js 14` but package.json says `next: 15.2.3` | A5 | AGENTS.md Tech Stack | "Update ... from manifest" |
+| RT-05 | README.md has a 90-line architecture diagram section with fenced code | A7 | docs/dev/ | "Extract to docs/dev/" |
+| RT-06 | docs/DOCS-INDEX.md says "Total documents: 42" with no Source citation | A8 | docs/DOCS-INDEX.md | "Hypothesis prefix ... Verify by" |
+| RT-07 | SESSION-HANDOFF.md has "Open Questions" section with 3 untagged Asks | A12 | SESSION-HANDOFF.md | "[DEST.md: notes] pre-route" |
+| RT-08 | CLAUDE.md Routing-by-task table has row `\| Import list \| docs/_private/sue-lists/PLAYBOOK.md \|` | MG1 | LOOKUP.md | "Sensitive SOT register" |
+| RT-09 | ROADMAP.md is 480 lines; docs/decisions/ AND docs/roadmap-history/ both absent | MG2 | docs/decisions/ + docs/roadmap-history/ | "Extract decisions + rotate completed entries" |
+| RT-10 | SESSION-HANDOFF.md has `[link](../CLAUDE.md)` and target does not exist relative to file | MG3 | SESSION-HANDOFF.md | "Update link target" (only if NOT also MG1) |
+| RT-11 | Project has both AGENTS.md (200 lines with full rule sets) AND CLAUDE.md (180 lines with full rule sets) | MG4 | CLAUDE.md | "1-line vendor stub" |
+
+To verify: run Audit on any project that exhibits one of these inputs; the Proposed Change row for that finding MUST match the Expected Target + Action keyword.

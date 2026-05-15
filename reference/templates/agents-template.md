@@ -1,142 +1,83 @@
-# [PROJECT NAME]
+# {{PROJECT_NAME}} Agent Instructions
+
+{{PROJECT_TAGLINE}}
 
 ## Identity
 
-[1-2 sentences: who you are, what this project is, who you're working with]
+{{PROJECT_DESCRIPTION_ONE_PARAGRAPH}}
 
-| | |
-|---|---|
-| **Type** | [web app / iOS app / CLI / library / etc.] |
-| **Tech stack** | [one-line summary, e.g. "Next.js + Supabase + Vercel"] |
-| **Status** | [Active / Beta / Maintenance] |
-| **Live URL** | [https://... or N/A] |
+## Current Phase
 
-## Hard Rules — Inherited Baseline (do not remove)
+**What we're building:** {{CURRENT_PHASE_GOAL}}
 
-These 7 rules are inherited from the global doc spec. They are derived from cross-project incidents that have repeated 3+ times. Do not edit or delete; add project-specific rules in the section below.
+**Success criteria:**
+- {{SUCCESS_CRITERION_1}}
+- {{SUCCESS_CRITERION_2}}
+- {{SUCCESS_CRITERION_3}}
 
-1. **Verify before claiming.** Read the code, run the CLI, or open the dashboard. Never answer state-of-the-system questions from memory.
-2. **Root-cause, not symptoms.** When something that worked is broken, identify what changed FIRST. Don't layer patches over a broken state.
-3. **Quality gate every commit.** Whatever the project's commit/push process is, follow it. Never skip review steps to save time.
-4. **Delegate to focused investigation** when a task needs to read >3 unrelated files. Protects context.
-5. **Trust documented state.** If a verified-state doc says X, use X. If state has drifted, UPDATE the doc — don't ask the user to re-verify what they already documented.
-6. **Hypothesis vs Fact.** Label confidence. Correlation is not causation. Don't pattern-match training data into confident claims without verification.
-7. **No session editorializing.** Report what changed and what's next. No "ready to ship," no commentary on session length, effort, or pacing.
-
-## Project-specific Rules
-
-Use **Burned:** [incident] format for incident-driven rules so future agents can judge edge cases.
-
-[Examples:]
-- **Never call the production API in dev environment.** **Burned:** sandbox / live env var swap caused a real customer charge in 2026-01.
-- **Always run the test suite before committing.** **Burned:** silent regression shipped to prod when tests were skipped 2026-02.
-
-## Tool-usage rules
-
-- **Library docs** before guessing API/SDK usage. Even for well-known frameworks. Training data goes stale.
-- **Verify env vars first** when integrations break. The 30-second check often saves 2 hours of dashboard hunting.
-- **Never assume SaaS dashboard layouts.** Verify via official docs or ask user what tabs they see. UIs change between versions.
-- **Source-of-truth files** (registered in REFERENCES.md) are read instead of summaries when generating content/SQL/code.
-
-## Folder Structure
-
-```
-[project-name]/
-├── README.md
-├── AGENTS.md                       (this file)
-├── CONTEXT.md
-├── SESSION-HANDOFF.md
-├── ROADMAP.md
-├── REFERENCES.md
-├── [src/ or app/ or lib/]          (main code)
-├── docs/
-│   ├── DOCS-INDEX.md               (navigation aid; required >10 docs)
-│   ├── history/            (completed work, old handoffs, retired roadmap detail)
-│   ├── reference/                  (verified-state SOT files)
-│   ├── playbooks/                  (process runbooks)
-│   ├── dev/                        (architecture / feature design)
-│   ├── release/                    (release notes)
-│   └── _archive/                   (historical material)
-└── [other project folders]
-```
-
-## Where new files go (creation cheat sheet)
-
-When creating any new doc during a session, follow this cheat sheet. For full detail, see the universal architecture spec.
-
-| If the file is... | Goes to | Naming |
-|---|---|---|
-| One of the 6 canonical root docs | Project root | ALL-CAPS-KEBAB.md |
-| Architecture / API design / schema doc | `docs/dev/` (or `docs/dev/<tech>/` if 3+ exist) | lowercase-kebab.md |
-| Release notes / changelog | `docs/release/` | `vX.Y-release-notes.md` |
-| Migration plan / decisions | `docs/dev/migrations/` (group when 3+) | `YYYY-MM-DD-<migration-name>.md` |
-| Migration runbook / rollback | `docs/playbooks/` | `migration-playbook.md` |
-| Code review / security audit | `docs/reviews/` | lowercase-kebab.md |
-| Verified-state config | `docs/reference/` | lowercase-kebab.md → also add SOT row in REFERENCES.md |
-| Process runbook | `docs/playbooks/` | lowercase-kebab.md → also add Playbooks row in REFERENCES.md |
-| Research / experiment | `docs/research/` | lowercase-kebab.md |
-| Sensitive (secrets, internal numbers) | `docs/_private/` | lowercase-kebab.md |
-| Don't know | Drop in `docs/research/` and let Audit relocate later, or ask before creating |
-
-**Rules at the moment of creation:**
-- NEVER create a `.md` file at project root unless it's one of the 6 canonical
-- NEVER use spaces, underscores (outside `_archive`/`_private` prefix), or camelCase in filenames
-- ALWAYS use `lowercase-kebab.md` inside `docs/`
-- ALWAYS use `YYYY-MM-DD` for dates in filenames
+**Out of bounds (don't touch this phase):**
+- {{OUT_OF_BOUNDS_1}}
+- {{OUT_OF_BOUNDS_2}}
 
 ## Routing-by-task
 
-| When you need to... | Read |
+| If you need to... | Open |
 |---|---|
-| Know what we're working on now | `CONTEXT.md` |
-| Know what just shipped + what's next | `SESSION-HANDOFF.md` |
-| Pick up a planned task | `ROADMAP.md` |
-| Look up an external URL, infra ID, naming convention | `REFERENCES.md` |
-| Look up a SOT file (canonical source) | `REFERENCES.md` → SOT section |
-| Follow a process runbook | `REFERENCES.md` → Playbooks section → `docs/playbooks/*.md` |
-| Look up a verified-state config (OAuth, env vars, infra) | `docs/reference/*.md` |
-| Find a file in `docs/` by location | `docs/DOCS-INDEX.md` |
+| Understand current state + last session | `STATUS.md` |
+| See what's next | `ROADMAP.md` |
+| Find a verified config / SOT | `docs/reference/<topic>.md` (see LOOKUP.md SOT registry for index) |
+| Follow a process runbook | `docs/playbooks/<topic>-playbook.md` (see LOOKUP.md Playbooks index) |
+| Look up an API constraint | `LOOKUP.md` API Constraints section |
+| Read decision rationale | `docs/decisions/<date>-<topic>.md` |
+| Check release notes | `docs/release/v<X.Y>-notes.md` |
+| Check completed work history | `docs/status-history/<date>-session-<NN>.md` |
+| Find cross-project rules | `+vantage-point/AGENTS.md` |
+
+## Where new files go
+
+| Type | Destination | Naming |
+|---|---|---|
+| Architecture / schema / API design | `docs/dev/` | `lowercase-kebab.md` |
+| Verified-state config (IDs, env, version pins) | `docs/reference/` | `<topic>.md` |
+| Process runbook ("when X, do Y") | `docs/playbooks/` | `<topic>-playbook.md` |
+| Code review / security audit | `docs/reviews/` | `YYYY-MM-DD-<scope>.md` |
+| Release notes / migration | `docs/release/` | `v<X.Y>-notes.md` |
+| Research / exploration | `docs/research/` | `<topic>.md` |
+| Decision rationale | `docs/decisions/` | `YYYY-MM-DD-<topic>.md` |
+| Persistent rule for this project | `AGENTS.md` "Project Rules" section | use **Burned:** [incident] format |
+| Sensitive content (gitignored) | `docs/_private/` | per project convention |
+| Retired content | `docs/_archive/<YYYY-MM-DD-batch>/` | (dated batch folder) |
+
+## Project Rules
+
+{{PROJECT_RULES_OR_EMPTY}}
+
+Use **Burned:** [incident] format for incident-driven rules. Example:
+
+> **Burned:** [2026-04-12 Meta OAuth outage] Never assume Meta access tokens refresh silently. Always confirm via `vercel env pull` before deploying after a Meta config change.
 
 ## Tech Stack
 
-Versioned table. Every fact cites the file it came from (Source column). The Detail column is OPTIONAL — include only when per-tech deep docs exist; OMIT individual rows' Detail entries when no deep doc exists yet.
+| Component | Version | Source |
+|---|---|---|
+{{TECH_STACK_ROWS}}
 
-| Layer | Technology | Version | Source | Detail |
-|---|---|---|---|---|
-| [e.g., Framework] | [e.g., Next.js] | [version] | [package.json] | [docs/dev/<tech>/ or — if none yet] |
-| [e.g., Database] | [e.g., Supabase] | [version] | [package.json (@supabase/supabase-js)] | [— or path to deep docs] |
+The Source column cites the file the version came from (e.g., `package.json`, `Cargo.toml`). Single-owner: this table is the canonical version registry. Other docs should point here, not duplicate.
 
-## Environment Variables
+## Gotchas
 
-Names only. Values live in `.env.local` (never commit).
+{{GOTCHAS_OR_EMPTY}}
 
-```bash
-# Core
-[NEXT_PUBLIC_API_URL]=
-[DATABASE_URL]=
+Sentence-form discipline:
+- **Imperative** ("do X" / "don't Y") = rule (this section or "Project Rules")
+- **Declarative** ("X is Y") = fact (Tech Stack or `docs/reference/`)
+- **Conditional** ("if X breaks, do Y") = recipe (STATUS.md Debugging Playbook)
 
-# [Service-specific]
-[SERVICE_API_KEY]=
-```
+## Inherits from
 
-## Development Commands
+This project inherits cross-project conventions from `+vantage-point/AGENTS.md`, including:
+- Layer 0 Hard Rules baseline (security, push, root-cause, verify-before-claim, etc.)
+- File naming conventions (see `+vantage-point/docs/conventions/file-naming-and-frontmatter.md`)
+- Routing conventions (see `+vantage-point/ROUTER.md`)
 
-Only commands TRACEABLE to actual scripts in your manifest (`package.json`'s `scripts`, `Cargo.toml`'s `[bin]`, etc.). If your manifest has no scripts defined, OMIT this section entirely.
-
-```bash
-# Examples
-npm run dev          # local development
-npm run build        # production build
-npm test             # run tests
-```
-
-## Important Notes / Gotchas
-
-[Numbered list, persistent warnings — added as discovered. OMIT this section entirely on greenfield.]
-
-1. [Gotcha or non-obvious behavior — use Burned: format if incident-driven]
-2. [Rate limits or constraints]
-
----
-
-*Read this file first on every new task. When unsure, verify via the source-of-truth file (see REFERENCES.md) before asking.*
+Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `+vantage-point/AGENTS.md` Hard Rule #8.

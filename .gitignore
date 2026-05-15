@@ -14,3 +14,7 @@ Thumbs.db
 # Local brand/art source files, kept outside the portable doc set
 anchor-point-logo.jpg
 anchor-point-logo.png
+
+# Internal overlay: monorepo-specific bindings, Phase-0 cert metadata, scan-register paths
+# NOT pushed to the public anchor-point GitHub repo
+internal-overlay.md

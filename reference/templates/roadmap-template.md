@@ -61,12 +61,10 @@ Dated history of shipped items. Newest first.
 
 ## Decision Log
 
-**Why** we chose what we chose. Prevents re-litigating settled decisions. Each entry: date, decision, alternatives considered, reason picked.
+Decision rationale lives in `docs/decisions/`, one file per decision (`YYYY-MM-DD-<topic>.md`). See that folder for full reasoning. Most recent:
 
-| Date | Decision | Alternatives | Why we picked it |
-|---|---|---|---|
-| YYYY-MM-DD | [Initial doc bootstrap] | (none — initial decision) | Project initialization |
-| YYYY-MM-DD | [e.g., Picked Next.js 15 + Supabase] | [e.g., Remix + Postgres, T3 stack] | [e.g., Familiar stack, fast iteration, free Supabase tier covers needs] |
+- **YYYY-MM-DD:** [decision summary] — see `docs/decisions/YYYY-MM-DD-<topic>.md`
+- **YYYY-MM-DD:** [decision summary] — see `docs/decisions/YYYY-MM-DD-<topic>.md`
 
 ---
 
@@ -110,4 +108,4 @@ This pattern is incident-driven: most "irreversible mistake" stories trace back 
 
 ---
 
-*Each item has: priority band (red/yellow/green), task name, status, notes pointer (to a detail doc if applicable). Item bodies stay short — implementation details go to `docs/release/<item>.md` or `docs/dev/<item>.md`.*
+*Each item has: priority band (red/yellow/green), task name, status, notes pointer (to a detail doc if applicable). Item bodies stay short — implementation details go to `docs/release/<item>.md` or `docs/dev/<item>.md`. When ROADMAP exceeds 300 lines, rotate completed sections older than the visible window to `docs/roadmap-history/YYYY-MM-DD-NN.md` (anti-pattern MG2).*
