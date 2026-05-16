@@ -3,13 +3,13 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.1
-last_reviewed: 2026-05-15
+version: 3.2
+last_reviewed: 2026-05-16
 applies_to_projects: all
-supersedes: v3.0 (added docs/roadmap-history/ bucket; expanded MG2 to two-part fix; canonical home moved into anchor-point post-merger)
+supersedes: v3.1 (added subfolder README discipline; AGENTS.md sizing rules via hot/warm test; CONTEXT.md reservation; project-level ROUTER.md thresholds; A14-A18; overdrive-lab extraction worked example)
 ---
 
-# Doc Architecture v3.1
+# Doc Architecture v3.2
 
 Canonical specification for how project docs are organized across all projects.
 Tool-agnostic. Optimized for multi-LLM, multi-session, parallel-agent work.
@@ -198,6 +198,89 @@ No file locks needed. Git merge resolves edge collisions.
 
 **Token budget at cold start: ~4.5K tokens total.** v1.2 cold start was ~8-10K tokens with CLAUDE.md + CONTEXT.md + LOOKUP.md + DOCS-INDEX.md.
 
+## Subfolder discipline (v3.2)
+
+v3.2 codifies how `docs/` subfolders, DOCS-INDEX.md, and CONTEXT.md naming interact. Origin: 2026-05-16 evaluation against Jake Van Cleef's CONTEXT.md proposal and Codex's progressive-disclosure framing surfaced three unaddressed gaps in v3.1's subfolder shape.
+
+### Rule 1 — Subfolder README content
+
+A subfolder `README.md` (the one inside `docs/dev/`, `docs/decisions/`, etc.) contains ONLY:
+
+- **Purpose** — 1 line
+- **What goes here** — 3-5 bullets
+- **Out of scope** — 1-2 bullets
+
+It does NOT list individual files. `docs/DOCS-INDEX.md` owns file inventory; duplicating it inside subfolder READMEs is anti-pattern A14.
+
+**Skip rule:** if a subfolder has fewer than 3 files AND its purpose is obvious from the folder name, skip the README entirely. DOCS-INDEX.md handles the navigation.
+
+### Rule 2 — DOCS-INDEX.md is location-only
+
+`docs/DOCS-INDEX.md` MUST NOT contain a "Quick Start" or task-routing table. That duplicates AGENTS.md §3 (Routing-by-task). Anti-pattern A17.
+
+DOCS-INDEX.md answers "what files exist here?" only. Task-driven routing ("if you're about to do X, open Y") lives in exactly one place: AGENTS.md §3.
+
+### Rule 3 — CONTEXT.md naming is reserved
+
+CONTEXT.md is NOT a default file type in v3.x. The name is reserved for one narrow case: agent-only working folders (e.g., `docs/_private/`, `scripts/` working notes) where the file is genuinely "what you need in your head to operate in here," not folder documentation. Even then, it is only useful if a parent file (AGENTS.md, README.md) routes to it explicitly.
+
+For all human-discoverable / GitHub-rendered folders, the convention is README.md.
+
+**Why this matters:** v3.0 explicitly removed CONTEXT.md from root files because it added a routing axis. Reintroducing CONTEXT.md at subfolder level — even with good intent — recreates that friction. The spec closes the door so future agents don't re-propose it under a different framing. See anti-pattern A15.
+
+### Rule 4 — AGENTS.md size discipline + extraction order
+
+When AGENTS.md exceeds the 200-line cap, the FIRST move is NOT to split routing. The routing table is the highest-value hot content. **Gotchas also stay** — they're proactive warnings the agent must absorb at session start to avoid; moving them to a reference file defeats the purpose (the agent doesn't open `gotchas.md` until after the mistake).
+
+**Hot-vs-warm test.** For any AGENTS.md section, ask: does the agent need this in context to AVOID a mistake (HOT), or will they QUERY it when relevant (WARM)?
+
+- HOT → stays in AGENTS.md regardless of length
+- WARM → extracts to `docs/`
+
+Sections that MUST stay in AGENTS.md (HOT — proactive avoidance content):
+
+| Section | Why hot |
+|---|---|
+| §1 Identity | Sets frame for every decision |
+| §2 Current Phase | Constrains what's in/out of scope |
+| §3 Routing-by-task | The agent's primary navigation table |
+| §4 Where new files go | Prevents misfiling at write-time |
+| §5 Project Rules | Imperatives ("never X", "always Y") — must be in head |
+| §7 Gotchas | Declarative warnings — agent can't query them they don't know they exist |
+| §8 Inherits-from | Pointer to baseline |
+
+Extraction order when over cap (WARM content first):
+
+1. **Tech Stack** → if >15 rows, extract to `docs/reference/tech-stack.md`. Warm: versions get queried when relevant; agent doesn't step on them. AGENTS.md keeps a 3-line pointer with file location + last-verified date.
+2. **Code-pattern sections** (Supabase patterns, API patterns, React patterns, etc.) → `docs/dev/<topic>.md`. Warm: agent opens when writing in that area. AGENTS.md lists imperative rules, not pattern reference. See anti-pattern A16.
+3. **Directory structure / file tree** → `docs/dev/file-structure.md`. Warm: opened when navigating, not when operating.
+4. **Only after** above, if §3 Routing-by-task itself exceeds ~25 rows, consider splitting to a project-level `ROUTER.md` (rare — see Rule 5).
+
+If §7 Gotchas alone exceeds ~40 lines, that's a signal to AUDIT (some "gotchas" may have decayed into stale facts or non-warnings) — prune, don't relocate.
+
+### Rule 5 — Project-level ROUTER.md thresholds
+
+A project-level `ROUTER.md` is NOT recommended by default. Routing belongs in AGENTS.md §3, inline.
+
+A split is justified only when ALL of these are true:
+
+- Routing-by-task table exceeds ~25 rows, AND
+- Project has ≥3 distinct task families with their own routing tables (e.g., dev + ops + marketing), AND
+- AGENTS.md extraction of Tech Stack / patterns / file-structure has already happened and isn't enough
+
+Splitting routing prematurely re-introduces the v1.x "look up which routing file to consult" intermediate hop that v3.0 specifically eliminated. See anti-pattern A18.
+
+**Workspace-level exception.** A workspace root (e.g., `+vantage-point/` in a monorepo) IS large enough to justify a dedicated ROUTER.md — its routing covers many departments + skills + routines. The project-level threshold doesn't apply.
+
+### Rule 6 — Workspace cheat-sheet ↔ ROUTER.md must not duplicate
+
+If a workspace root has both an AGENTS.md "Common Tasks Cheat Sheet" and a separate ROUTER.md, exactly one of them owns task→load routing. Resolution options:
+
+- Collapse the cheat-sheet to a 1-line pointer ("see ROUTER.md for task routing"), OR
+- Fold ROUTER.md back into AGENTS.md if its content is no longer scale-justified
+
+This is the workspace-level analog of anti-pattern A10.
+
 ## Anti-patterns (drift signatures)
 
 Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
@@ -217,6 +300,11 @@ Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
 | **A11** (new in v3.0) | Hard Rules baseline duplicated in project AGENTS.md instead of inherited | Use `## Inherits from` pointer; do not paste baseline. |
 | **A12** (new in v3.0) | Asks accumulated in SESSION-HANDOFF without routing tags | Pre-route Asks at write-time, not session-end. |
 | **A13** (new in v3.0) | doc-handoff output drifts when re-run on same inputs | Skill must be idempotent; same inputs → same outputs. |
+| **A14** (new in v3.2) | Subfolder README lists files (duplicates DOCS-INDEX) | Strip file list; keep purpose + "what goes here" + "out of scope" only. Skip the README entirely if <3 files. |
+| **A15** (new in v3.2) | CONTEXT.md used as folder documentation in a human-visible folder | Rename to README.md. CONTEXT.md is reserved for agent-only working folders that a parent file explicitly routes to. |
+| **A16** (new in v3.2) | Pattern/architecture content in AGENTS.md (Supabase patterns, API patterns, React patterns) | Extract to `docs/dev/<topic>.md`. AGENTS.md links to it. Reference material is warm, not hot. |
+| **A17** (new in v3.2) | DOCS-INDEX.md has a Quick Start / task-routing table | Strip it. AGENTS.md §3 is the only task→file routing table. DOCS-INDEX.md is location-only. |
+| **A18** (new in v3.2) | Project-level ROUTER.md split when justification thresholds (Rule 5) not met | Fold back into AGENTS.md §3. Splits cost more in load decisions than they save in line count. |
 | MG1 | Active doc → `_private/` routing | Move pointer to "Sensitive SOT register"; do not route as primary navigation. |
 | **MG2** (expanded in v3.1) | ROADMAP > 300 lines without extracted decisions OR rotated history | Two-part fix: (a) extract Decision Log → `docs/decisions/`; (b) rotate completed-priority sections → `docs/roadmap-history/`. |
 | MG3 | Broken link in current/root docs | Update link target. Suppress when link is also MG1 (precedence). |
@@ -273,6 +361,58 @@ Anchor Point Mode 1 (Init) creates the 5 root files plus the full docs/ ecosyste
 
 `docs/DOCS-INDEX.md` is created when `docs/` accumulates more than ~10 content files (an index isn't useful before then). Real content files inside each subfolder are added on demand; the bootstrap stubs document what goes where so agents always know the right destination.
 
+## Appendix: Worked example — extracting an over-cap AGENTS.md
+
+Worked example for Rule 4. Real case: `overdrive-lab/AGENTS.md` measured at 552 lines on 2026-05-16 (2.75x the 200-line cap). 14 sections; most of the bloat was reference/pattern content stuffed inline.
+
+**Before (552 lines):**
+
+| Section | Lines | Hot or warm? |
+|---|---|---|
+| Before Writing Code | 10 | Hot (imperatives) |
+| Project Identity | 10 | Hot |
+| Tech Stack (ENFORCED) | 57 | Warm — versions queried, not stepped on |
+| Directory Structure | 50 | Warm — opened when navigating |
+| Supabase Patterns (CRITICAL) | 67 | Warm — pattern reference |
+| API Route Patterns | 101 | Warm — pattern reference |
+| Design System | 43 | Warm — pattern reference |
+| TypeScript Rules | 31 | Warm — pattern reference |
+| React/Next.js Patterns | 54 | Warm — pattern reference |
+| AI Agent Behavior Rules | 29 | Hot (imperatives) |
+| Agency Voice (REQUIRED) | 15 | Warm — referenced when writing copy |
+| Anti-Patterns (FORBIDDEN) | 38 | **Hot** — gotchas/warnings agent must avoid |
+| Key Reference Files | 15 | Hot (short pointer table) |
+| Environment Variables | 15 | Hot (short pointer table) |
+
+**Extraction map (apply Rule 4 in order):**
+
+| From section | To file | Pointer left in AGENTS.md |
+|---|---|---|
+| Tech Stack | `docs/reference/tech-stack.md` | 3-line pointer (file + last-verified date + key versions) |
+| Directory Structure | `docs/dev/file-structure.md` | 1-line pointer |
+| Supabase Patterns | `docs/dev/supabase-patterns.md` | 1-line pointer in §3 Routing-by-task ("Supabase work → docs/dev/supabase-patterns.md") |
+| API Route Patterns | `docs/dev/api-route-patterns.md` | 1-line pointer in §3 |
+| Design System | `docs/dev/design-system.md` (or merge into existing brand voice file) | 1-line pointer in §3 |
+| TypeScript Rules | `docs/dev/typescript-rules.md` | 1-line pointer in §3 |
+| React/Next.js Patterns | `docs/dev/react-nextjs-patterns.md` | 1-line pointer in §3 |
+| Agency Voice | `docs/reference/voice.md` (or existing voice file) | 1-line pointer in §3 |
+
+**Sections that STAY in AGENTS.md:**
+
+- Before Writing Code (imperatives → §5 Project Rules)
+- Project Identity → §1 Identity
+- AI Agent Behavior Rules → §5 Project Rules
+- Anti-Patterns → §7 Gotchas (audit first; some may be stale and prunable)
+- Key Reference Files + Env Vars (already short pointer tables)
+
+**Projected after extraction:** ~160-180 lines, within the 200-line cap with gotchas preserved hot.
+
+**Important — what NOT to do in this worked example:**
+
+- Do NOT move Anti-Patterns (gotchas) to `docs/reference/gotchas.md`. The agent won't open that file proactively; gotchas exist to prevent mistakes the agent doesn't know they're about to make. Audit the 38 lines for staleness, then keep what survives.
+- Do NOT split §3 Routing-by-task into a separate ROUTER.md. Routing is the highest-value hot content; Rule 5 thresholds aren't met here.
+- Do NOT execute this extraction as part of writing the spec patch. The spec change comes first; per-project migrations follow as separate tasks.
+
 ## Future: autoresearch evaluation of Anchor Point itself
 
 Anchor Point itself is subject to optimization via the Workflow Autoresearch mode. The Skill Performance Rubric (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/architecture/skill-performance-rubric.md` in a vantage-point monorepo) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
@@ -286,5 +426,6 @@ Anchor Point itself is subject to optimization via the Workflow Autoresearch mod
 | 1.2 | 2026-05-09 | knowledge-ops | A9, A10; REFERENCES rename API Constraints |
 | 3.0 | 2026-05-14 | knowledge-ops | AGENTS canonical; CONTEXT absorbed; 5 root files; pure-function doc-handoff; pre-routed Asks; single-owner facts; A11-A13 |
 | 3.1 | 2026-05-15 | knowledge-ops | Added `docs/roadmap-history/` bucket (parallel to `status-history/`); expanded MG2 to two-part fix (decisions + history rotation); 9 canonical subfolders bootstrap; canonical home moved to `+vantage-point/skills/anchor-point/reference/doc-architecture.md` post-merger |
+| 3.2 | 2026-05-16 | knowledge-ops | Subfolder discipline (6 rules: README content, DOCS-INDEX location-only, CONTEXT.md reservation, AGENTS.md hot/warm sizing + extraction order, project ROUTER thresholds, workspace cheat-sheet ↔ ROUTER deduplication); A14-A18 anti-patterns; overdrive-lab worked example. Origin: 2026-05-16 evaluation against Jake Van Cleef CONTEXT.md proposal + Codex progressive-disclosure framing. |
 
 (Version 2.0 was a drafting checkpoint; never released.)
