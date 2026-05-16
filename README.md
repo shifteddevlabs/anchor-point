@@ -2,7 +2,7 @@
 
 **A model-agnostic documentation operating system for solo devs running multiple side projects.**
 
-Current version: **v1.1.0**. See `CHANGELOG.md` for what changed.
+Current version: **v3.1.0**. See `CHANGELOG.md` for what changed.
 
 Drop this folder into an AI project, repo, or knowledge base, then point tool-specific adapters at it. The agent becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy. Battle-tested, distilled from cross-project mining of real-world doc drift incidents.
 
@@ -16,10 +16,10 @@ Sound familiar? You don't need another tool. You need a system.
 
 ## What's in here
 
-- A clean way to organize your docs. 6 main files at the root, plus a `docs/` folder for everything else.
+- A clean way to organize your docs. 5 main files at the root, plus a `docs/` folder for everything else.
 - Naming rules that work the same way in every project (so you stop having "is it `auth.md` or `Auth.md` or `auth_flow.md`?" arguments with yourself).
 - A checklist of the common ways docs go sideways, so you catch them early.
-- Templates for each of the 6 main files. Drop-in, fill-in.
+- Templates for each of the 5 main files. Drop-in, fill-in.
 - Six workflows for the project lifecycle: **Init** (new project), **Review** (start of session), **Update** (end of session), **Audit** (periodic cleanup), **Ratchet** (duplicate-only improvement loop), and **Workflow Autoresearch** (hardening the doc system itself).
 
 ## Quick start (under 5 minutes)
@@ -38,10 +38,11 @@ The agent will respond as a doc specialist and walk you through the right workfl
 
 | File | What it's for |
 |---|---|
+| `SKILL.md` | The operational skill. Modes, workflows, hard rules, drift checks, scoring rubric, naming, where stuff goes. |
 | `identity.md` | Who the specialist is. Their background, what they're good at, what they won't touch. |
-| `rules.md` | How they work. The hard rules, the 6 workflows, naming, where stuff goes. |
 | `examples.md` | A few example interactions. Shows you what good output looks like. |
-| `reference/` | The full spec, naming rules, drift checklist, where-does-this-file-go decision tree, workflow scoring, ratchet/autoresearch specs, and templates. |
+| `components/` | Internal building blocks (snapshot, verify, harvest, promote-memory, security-preflight, workflow-score). |
+| `reference/` | The full spec, naming rules, drift checklist, where-does-this-file-go decision tree, ratchet/autoresearch specs, and templates. |
 | `README.md` | This file. |
 
 ## Vocabulary
@@ -65,32 +66,33 @@ Examples: Claude Project knowledge, a `CLAUDE.md` shim, Codex installed skill me
 
 ## The whole thing in one sentence
 
-Every project gets the same 6 root docs (`README`, `AGENTS.md`, `CONTEXT.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`), plus a `docs/` folder for everything else. Each file does one job. Anchor Point keeps you from drifting from that.
+Every project gets the same 5 root docs (`README.md`, `AGENTS.md`, `STATUS.md`, `ROADMAP.md`, `LOOKUP.md`), plus a `docs/` folder with 9 known subfolders. Each file does one job. Anchor Point keeps you from drifting from that.
 
 ## What your project looks like after Init
 
 ```
 your-project/
 ├── README.md              ← the public face
-├── AGENTS.md              ← rules + folder map (AI reads first every session)
-├── CONTEXT.md             ← what we're working on right now (current phase)
-├── SESSION-HANDOFF.md     ← what just shipped + what's next
-├── ROADMAP.md             ← priorities + decision log
-├── REFERENCES.md          ← topic-driven lookup ("where do I find X?")
+├── AGENTS.md              ← rules + folder map + current phase (AI reads first every session)
+├── STATUS.md              ← what just shipped + what's next (pure-function handoff)
+├── ROADMAP.md             ← priorities + next decisions
+├── LOOKUP.md              ← topic-driven lookup ("where do I find X?")
 └── docs/
     ├── DOCS-INDEX.md      ← location-driven file map (created when docs/ has >10 files)
-    ├── history/   ← completed work, old handoffs, roadmap detail
+    ├── status-history/    ← rotated STATUS.md backups (dated)
+    ├── roadmap-history/   ← rotated ROADMAP.md backups (dated)
+    ├── decisions/         ← one file per decision (dated)
     ├── reference/         ← verified-state files (config truths, capability matrices)
     ├── playbooks/         ← process runbooks ("when X happens, do Y")
     ├── dev/               ← architecture, feature design, schema docs
     ├── release/           ← release notes, migration steps
     ├── reviews/           ← code review reports, security audits
     ├── research/          ← experiments, exploration drops
-    ├── _archive/          ← historical (dated batches with READMEs)
-    └── _private/          ← gitignored sensitive content
+    ├── _archive/          ← historical (dated batches with READMEs); appears on demand
+    └── _private/          ← gitignored sensitive content; appears on demand
 ```
 
-Standard subfolders inside `docs/` get created on demand (Anchor Point handles it). You don't pre-create empty placeholders.
+All 9 standard `docs/` subfolders are created at bootstrap, each with a `README.md` stub that documents what goes there. Empty folders carry signal, not noise. The `_archive/` and `_private/` administrative folders appear when their content arrives.
 
 ## The 6 workflows (lifecycle)
 

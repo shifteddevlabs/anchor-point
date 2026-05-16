@@ -34,7 +34,7 @@ Generating 5 root files for `tasklane/` plus the 9-folder `docs/` ecosystem. Pre
 - Project Rules: 1 entry — "Never use `useEffect` for data fetching, use Server Components or Server Actions instead"
 - Tech Stack: Next.js 15.2.1, Supabase, TypeScript (cited from `package.json`)
 - Gotchas: empty for now (will populate as incidents surface)
-- Inherits from: `+vantage-point/AGENTS.md` (Layer 0 baseline pointer)
+- Inherits from: <your Layer 0 home> (Layer 0 baseline pointer; e.g., `+vantage-point/AGENTS.md` in a monorepo with a vantage-point harness)
 
 **`STATUS.md`** (28 lines), skeleton with TL;DR, Last session shipped (initial bootstrap), Next session pointing to ROADMAP top 3, Active blockers (none), Debugging Playbook + Asks sections OMITTED (empty on day 1).
 

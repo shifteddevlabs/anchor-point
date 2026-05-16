@@ -82,7 +82,7 @@ docs/
 | 5 | Project Rules | Project-specific persistent rules. Use **Burned:** [incident] format for incident-driven rules. | 5-30 lines |
 | 6 | Tech Stack | Single-owner table. Versioned. Source column cites where each fact came from. | 5-20 rows |
 | 7 | Gotchas | Project-specific persistent warnings. Sentence-form discipline: imperative=rule, declarative=fact, conditional=recipe. | 5-30 lines |
-| 8 | Inherits from | Pointer to `+vantage-point/AGENTS.md` for cross-project Hard Rules. NO duplication of Layer 0 rules in this file. | 2-3 lines |
+| 8 | Inherits from | Pointer to <your Layer 0 home> for cross-project Hard Rules (e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo). NO duplication of Layer 0 rules in this file. | 2-3 lines |
 
 **Routing-by-task table** is the v3.0 winning move. It replaces the v1.2 SOT registry in LOOKUP.md by holding direct file paths inline. Agent never needs an intermediate "look up which SOT file to consult" step. The agent reads AGENTS.md once at session start and has every routing decision pre-loaded.
 
@@ -118,13 +118,13 @@ LOOKUP.md is the topic-driven lookup hub. It contains tables of pointers, not or
 - API Constraints          (table: integration-specific facts only)
 - External docs            (URLs for SDK/framework docs)
 - External infrastructure  (GCP project IDs, billing IDs; NEVER secrets)
-- Skill ecosystem          (which +vantage-point/skills/* apply)
+- Skill ecosystem          (which shared skills apply; path bound via `internal-overlay.md`)
 ```
 
 **Single-owner discipline:**
 - Persistent rules → AGENTS.md "Project Rules"
 - Session-volatile hazards → STATUS.md
-- Cross-project conventions → `+vantage-point/AGENTS.md` (inherited, never duplicated in LOOKUP.md)
+- Cross-project conventions → <your Layer 0 home> (inherited, never duplicated in LOOKUP.md; e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo)
 - File inventory → docs/DOCS-INDEX.md (location-driven), NEVER duplicated in LOOKUP.md (anti-pattern A10)
 
 ## Routing decision: the agent's mental model
@@ -160,14 +160,14 @@ For any new piece of information, the home is determined by sentence form:
 
 No judgment about "is this a rule or a constraint?" — it is whichever form the sentence takes.
 
-## Cross-project inheritance: `+vantage-point/AGENTS.md`
+## Cross-project inheritance: Layer 0 home
 
-Cross-project rules (Layer 0 baseline, naming conventions, routing conventions, hard rules) live ONCE at `+vantage-point/AGENTS.md`. Per-project AGENTS.md files inherit by reference:
+Cross-project rules (Layer 0 baseline, naming conventions, routing conventions, hard rules) live ONCE at your Layer 0 home (e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo; path bound via `internal-overlay.md`). Per-project AGENTS.md files inherit by reference:
 
 ```
 ## Inherits from
 This project inherits the Hard Rules baseline + naming + routing conventions
-from `+vantage-point/AGENTS.md`. See that file before applying project-specific
+from <your Layer 0 home>. See that file before applying project-specific
 rules below.
 ```
 
@@ -224,7 +224,7 @@ Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
 
 ## Workflow skills (operate on this spec)
 
-This spec is consumed by `+vantage-point/skills/doc-system/SKILL.md`, which owns the 7 modes (Init, Review, Update, Audit, Inventory & Extract, Ratchet, Workflow Autoresearch). Mode definitions live in SKILL.md, not here. This document is the rationale + canonical schema.
+This spec is consumed by `SKILL.md` in the anchor-point skill folder, which owns the 7 modes (Init, Review, Update, Audit, Inventory & Extract, Ratchet, Workflow Autoresearch). Mode definitions live in SKILL.md, not here. This document is the rationale + canonical schema.
 
 ## What changed v1.2 → v3.0 (changelog)
 
@@ -238,9 +238,9 @@ This spec is consumed by `+vantage-point/skills/doc-system/SKILL.md`, which owns
 | doc-handoff redefined as idempotent pure function | Bulletproof session-end; deterministic outputs |
 | Pre-routed Asks (decisions at write-time, not session-end) | Eliminates judgment calls during handoff |
 | Single-owner facts (imperative/declarative test) | Removes rule-vs-fact ambiguity |
-| Layer 0 Hard Rules inherited from `+vantage-point/AGENTS.md`, not duplicated | Removes 11 lines of ceremony per project |
+| Layer 0 Hard Rules inherited from Layer 0 home (e.g., `+vantage-point/AGENTS.md`), not duplicated | Removes 11 lines of ceremony per project |
 | Red/yellow/green priority colors are optional, not required at bootstrap | Lower friction for new project adoption |
-| `docs/` subfolders all on-demand (lazy creation) | Empty folders are noise, not signal |
+| `docs/` subfolders all created at bootstrap with README stubs (v3.0); 9 canonical subfolders by v3.1 | Predictable shape per project; README stubs document purpose so empty folders carry signal, not noise |
 | Added anti-patterns A11, A12, A13 | Codify new drift modes specific to v3.0 |
 | Token cost cold start: 8-10K → ~4.5K | Routing tables pre-loaded; fewer files needed |
 
@@ -250,7 +250,7 @@ For projects already on v1.2 shape:
 
 1. Run doc-system Mode 1 (Init) with `refresh` flag
 2. CONTEXT.md content merges into AGENTS.md "Current Phase" section
-3. Layer 0 rules in CLAUDE.md replaced by inherit pointer to `+vantage-point/AGENTS.md`
+3. Layer 0 rules in CLAUDE.md replaced by inherit pointer to <your Layer 0 home> (e.g., `+vantage-point/AGENTS.md`)
 4. CLAUDE.md becomes 1-line stub if it remains (delete optional)
 5. LOOKUP.md project-documentation section deleted (A10)
 6. ROADMAP.md Decision Log entries split into individual files in docs/decisions/
@@ -259,17 +259,23 @@ doc-audit Mode 4 detects all v1.2 patterns and proposes migrations atomically.
 
 ## Migration from no-docs projects (greenfield)
 
-doc-system Mode 1 (Init) creates the minimum 4 root files:
+Anchor Point Mode 1 (Init) creates the 5 root files plus the full docs/ ecosystem:
+
+**Root files (all 5 created at bootstrap):**
 - README.md
 - AGENTS.md (with Identity, Current Phase, Routing, Where new files go, Tech Stack)
 - STATUS.md (empty stub)
 - ROADMAP.md (empty or seeded with current priorities)
+- LOOKUP.md (topic-driven lookup hub; seed rows added as SOT/playbook files appear)
 
-LOOKUP.md, DOCS-INDEX.md, and all `docs/` subfolders are NOT created at bootstrap. They appear on demand.
+**docs/ subfolders (all 9 created at bootstrap, each with a README.md stub):**
+`status-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`.
+
+`docs/DOCS-INDEX.md` is created when `docs/` accumulates more than ~10 content files (an index isn't useful before then). Real content files inside each subfolder are added on demand; the bootstrap stubs document what goes where so agents always know the right destination.
 
 ## Future: autoresearch evaluation of doc-system itself
 
-The doc-system skill itself is subject to optimization via the Workflow Autoresearch mode. The Skill Performance Rubric (at `+vantage-point/docs/architecture/skill-performance-rubric.md`) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
+The doc-system skill itself is subject to optimization via the Workflow Autoresearch mode. The Skill Performance Rubric (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/architecture/skill-performance-rubric.md` in a vantage-point monorepo) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
 
 ## Versioning
 

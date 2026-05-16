@@ -6,10 +6,11 @@ Use this to harden the documentation workflow itself. It is for structural misse
 
 - At least two prior project ratchet reports.
 - Preferred evidence set: three materially different projects.
-- Current `rules.md`.
+- Current `SKILL.md` (operational rules + mode definitions).
 - Current `reference/doc-ratchet.md`.
 - Current `reference/workflow-score.md`.
-- Current templates and anti-pattern catalog.
+- Current `reference/drift-checks.md` and `reference/anti-patterns.md`.
+- Current templates.
 
 ## Loop
 

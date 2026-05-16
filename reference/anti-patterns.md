@@ -231,7 +231,7 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 
 When generating the initial 5-file v3.0 doc set, Anchor Point AVOIDS creating these patterns from day one:
 
-- **A1, A11:** Hard Rules baseline lives at the Layer 0 location (e.g., `+vantage-point/AGENTS.md`); per-project AGENTS.md uses `## Inherits from` pointer
+- **A1, A11:** Hard Rules baseline lives at <your Layer 0 home> (e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo); per-project AGENTS.md uses `## Inherits from` pointer
 - **A2, A4:** STATUS.md skeleton is bounded (TL;DR + Last shipped + Next + Blockers + Debugging Playbook only)
 - **A3:** v3.0 never creates CONTEXT.md; "Current Phase" lives inside AGENTS.md
 - **A5:** Tech-stack table only includes versions confirmed by reading manifest files; Source column cited
