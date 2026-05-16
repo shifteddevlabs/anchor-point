@@ -3,10 +3,10 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.3
+version: 3.3.1
 last_reviewed: 2026-05-16
 applies_to_projects: all
-supersedes: v3.2 (promoted "ONE hot file" to first-class principle; sharpened Rule 5 thresholds; added A19 for overlapping hot files; added vantage-point worked example to appendix)
+supersedes: v3.3 (cleanup-only patch: 4 published-skill files updated from "update ROUTER.md" to "update Layer 0 AGENTS.md routing-by-task (or workspace ROUTER.md if Rule 5 justified)" — propagates v3.3 ONE-hot-file principle to harvest/promote-memory/audit workflow steps and agents-template)
 ---
 
 # Doc Architecture v3.3

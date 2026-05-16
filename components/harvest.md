@@ -23,7 +23,7 @@ Extract reusable process, patterns, prompts, checklists, and workflows from proj
    - source example
 4. Update your shared knowledge-ops scan register (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/inventories/scan-register.md` for vantage-point monorepos).
 5. Draft the extraction in the appropriate place.
-6. Update `ROUTER.md` only after the extracted asset exists.
+6. Update the Layer 0 home's `AGENTS.md` "Routing-by-task" section (or workspace ROUTER.md if one is justified per `reference/doc-architecture.md` Rule 5) only after the extracted asset exists.
 
 ## Output
 

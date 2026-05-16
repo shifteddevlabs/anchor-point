@@ -18,7 +18,7 @@ Chat/session insight
 → project AGENTS.md / LOOKUP.md / docs/playbooks
 → shared scan register (path bound via `internal-overlay.md`)
 → department / skill / routine
-→ ROUTER.md
+→ Layer 0 AGENTS.md "Routing-by-task" section
 ```
 
 ## Workflow
