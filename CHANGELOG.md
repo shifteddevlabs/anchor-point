@@ -1,5 +1,26 @@
 # Changelog
 
+## v3.3.1 — 2026-05-16
+
+Cleanup-only patch. Propagates the v3.3 ONE-hot-file principle into 4 published-skill workflow files that still pointed at `ROUTER.md` as the default place to update routing after extraction/promotion. Updated to point at Layer 0 AGENTS.md "Routing-by-task" section, with ROUTER.md noted as the Rule-5-justified exception (workspace-only, all thresholds met).
+
+### Changed
+
+- `SKILL.md` Mode 5 step 12 — was "Update `ROUTER.md` only after the reusable target exists." Now: "Update the Layer 0 home's `AGENTS.md` 'Routing-by-task' section (or, in the rare case a workspace ROUTER.md is justified per Rule 5, that file) only after the reusable target exists."
+- `components/harvest.md` step 6 — same pattern, updated to point at AGENTS.md as default.
+- `components/promote-memory.md` routing chart — final step was "→ ROUTER.md"; now "→ Layer 0 AGENTS.md 'Routing-by-task' section".
+- `reference/templates/agents-template.md` Inherits-from section — was "Routing conventions (see `{{LAYER_0_HOME}}/ROUTER.md`)"; now points at AGENTS.md "Routing-by-task" with ROUTER.md as the Rule-5-justified exception.
+
+### Why this is a patch, not a minor bump
+
+No new rules. No new anti-patterns. No schema changes. The v3.3 principle was already correct; v3.3.1 just propagates it consistently to the workflow files that operationalize it.
+
+### Not changed
+
+- All v3.3 spec content (Rules 1-6, A14-A19, worked examples) — unchanged
+- AGENTS.md sections, 5 root files, 9 docs/ subfolders — unchanged
+- Token tiers, anti-patterns scoring — unchanged
+
 ## v3.3.0 — 2026-05-16
 
 v3.3 promotes the foundational principle of the hot-warm split — "ONE hot file" — to first-class status in the spec, and adds A19 to detect overlapping hot files in general (the broader case beyond v3.2's workspace-specific Rule 6). Driven by the architectural reset that surfaced when implementing the v3.2 vantage-point cleanup: the question "should we keep ROUTER.md or fold it into AGENTS.md?" exposed that v3.2 had stated the rule implicitly (via Rule 4 hot-vs-warm test) but never elevated it to a principle.

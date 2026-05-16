@@ -274,7 +274,7 @@ Workflow:
 9. Update the inventories scan-register.
 10. Use `components/promote-memory.md` to place durable learnings.
 11. Propose extraction targets.
-12. Update `ROUTER.md` only after the reusable target exists.
+12. Update the Layer 0 home's `AGENTS.md` "Routing-by-task" section (or, in the rare case a workspace ROUTER.md is justified per Rule 5, that file) only after the reusable target exists.
 
 Rules:
 

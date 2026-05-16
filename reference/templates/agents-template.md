@@ -78,6 +78,6 @@ Sentence-form discipline:
 This project inherits cross-project conventions from `{{LAYER_0_HOME}}` (replace with your monorepo's Layer 0 path; for example, `+vantage-point/AGENTS.md`), including:
 - Layer 0 Hard Rules baseline (security, push, root-cause, verify-before-claim, etc.)
 - File naming conventions (see `{{LAYER_0_HOME}}/docs/conventions/file-naming-and-frontmatter.md`)
-- Routing conventions (see `{{LAYER_0_HOME}}/ROUTER.md`)
+- Routing conventions (see `{{LAYER_0_HOME}}/AGENTS.md` "Routing-by-task" section; or `{{LAYER_0_HOME}}/ROUTER.md` if one is justified per `reference/doc-architecture.md` Rule 5)
 
 Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `{{LAYER_0_HOME}}` Hard Rule #8.
