@@ -1,6 +1,6 @@
-# Doc System Components
+# Anchor Point Components
 
-Components are small reusable process blocks used by the main doc-system modes.
+Components are small reusable process blocks used by the main Anchor Point modes.
 
 They are not meant to create command sprawl. A user can ask for `doc-update`, and that workflow can internally run `snapshot`, `verify`, `promote-memory`, `harvest`, and `security-preflight` as needed.
 
