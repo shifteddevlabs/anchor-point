@@ -75,9 +75,14 @@ Sentence-form discipline:
 
 ## Inherits from
 
-This project inherits cross-project conventions from `{{LAYER_0_HOME}}` (replace with your monorepo's Layer 0 path; for example, `+vantage-point/AGENTS.md`), including:
-- Layer 0 Hard Rules baseline (security, push, root-cause, verify-before-claim, etc.)
-- File naming conventions (see `{{LAYER_0_HOME}}/docs/conventions/file-naming-and-frontmatter.md`)
-- Routing conventions (see `{{LAYER_0_HOME}}/AGENTS.md` "Routing-by-task" section; or `{{LAYER_0_HOME}}/ROUTER.md` if one is justified per `reference/doc-architecture.md` Rule 5)
+Read [`{{LAYER_0_HOME}}/AGENTS.md`]({{LAYER_0_HOME}}/AGENTS.md) first — it's the canonical workspace operating system with everything a cross-tool agent needs:
 
-Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `{{LAYER_0_HOME}}` Hard Rule #8.
+- **Routing-by-task** (commit gates, doc lifecycle, security review, etc.)
+- **Hard Rules** baseline (credential injection patterns, security guardrails, conflict-resolution protocol, root-cause requirements, verify-before-claim, etc.)
+- **Skills + Operating Agreements + Infrastructure maps**
+- **Connection-first rule** (Context7 → MCP → CLI → REST → dashboard)
+- **File naming conventions** (also at `{{LAYER_0_HOME}}/docs/conventions/file-naming-and-frontmatter.md`)
+
+Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `{{LAYER_0_HOME}}/AGENTS.md` Hard Rule #8 (or your Layer 0's equivalent).
+
+Replace `{{LAYER_0_HOME}}` with your monorepo's Layer 0 path (e.g., `+vantage-point/` in a vantage-point monorepo).

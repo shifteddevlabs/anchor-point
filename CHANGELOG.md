@@ -1,5 +1,31 @@
 # Changelog
 
+## v3.3.2 — 2026-05-16
+
+Template-only patch. The `agents-template.md` "Inherits from" section was understating what's at the Layer 0 home destination. The previous wording said "Hard Rules baseline + naming + routing conventions" — that sounds like 3 narrow things. The reality is the Layer 0 AGENTS file holds the canonical workspace operating system (routing, Hard Rules incl. credential injection, skills + operating agreements + infrastructure maps, connection-first rule).
+
+### Why
+
+An agent that reads a project's AGENTS.md "Inherits from" pointer needs to know that the destination is COMPREHENSIVE — otherwise they may not bother opening the workspace file before doing work. The risk in practice: agent reads project AGENTS, doesn't re-read workspace AGENTS, then violates a workspace Hard Rule (e.g., raw `git push` falling through to keychain instead of using Infisical injection per Rule #12).
+
+The fix is a wording change, not duplication. The new wording labels what's at the destination so the agent knows it's worth opening, without restating the content.
+
+### Changed
+
+- `reference/templates/agents-template.md` Inherits-from section — replaced the narrow 3-item list with a bulleted summary of what's at the workspace AGENTS destination (Routing-by-task, Hard Rules baseline, Skills + Operating Agreements + Infrastructure maps, Connection-first rule, File naming conventions). Parameterization with `{{LAYER_0_HOME}}` preserved.
+
+### Not changed
+
+- The single-pointer model from project AGENTS to workspace AGENTS — unchanged. Still one pointer, still routes everything through the workspace hot file. v3.x layered model intact.
+- No new rules, no new anti-patterns, no schema changes.
+- All v3.3 content (Subfolder Discipline, A14-A19, worked examples) — unchanged.
+
+### Propagation note
+
+Existing v3.x-migrated projects do NOT automatically inherit this new wording — `/doc-audit` Mode 4 doesn't currently detect "Inherits-from wording drift" as an anti-pattern. Manual updates to existing projects' AGENTS.md (e.g., shifteddevlabs/smg-ep#TBD, shifteddevlabs/split-sheet#TBD) accompany this template patch. Future `/doc-init` greenfield bootstraps (or refresh-mode runs) will pick up the new wording from the template.
+
+If audit-time enforcement of template-wording drift is wanted, that's a v3.4 spec extension (add a Mode 4 drift check that compares each project's Inherits-from text against the canonical template wording). Not blocking for v3.3.2.
+
 ## v3.3.1 — 2026-05-16
 
 Cleanup-only patch. Propagates the v3.3 ONE-hot-file principle into 4 published-skill workflow files that still pointed at `ROUTER.md` as the default place to update routing after extraction/promotion. Updated to point at Layer 0 AGENTS.md "Routing-by-task" section, with ROUTER.md noted as the Rule-5-justified exception (workspace-only, all thresholds met).
