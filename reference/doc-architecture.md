@@ -248,7 +248,7 @@ This spec is consumed by `SKILL.md` in the anchor-point skill folder, which owns
 
 For projects already on v1.2 shape:
 
-1. Run doc-system Mode 1 (Init) with `refresh` flag
+1. Run Anchor Point Mode 1 (Init) with `refresh` flag
 2. CONTEXT.md content merges into AGENTS.md "Current Phase" section
 3. Layer 0 rules in CLAUDE.md replaced by inherit pointer to <your Layer 0 home> (e.g., `+vantage-point/AGENTS.md`)
 4. CLAUDE.md becomes 1-line stub if it remains (delete optional)
@@ -273,9 +273,9 @@ Anchor Point Mode 1 (Init) creates the 5 root files plus the full docs/ ecosyste
 
 `docs/DOCS-INDEX.md` is created when `docs/` accumulates more than ~10 content files (an index isn't useful before then). Real content files inside each subfolder are added on demand; the bootstrap stubs document what goes where so agents always know the right destination.
 
-## Future: autoresearch evaluation of doc-system itself
+## Future: autoresearch evaluation of Anchor Point itself
 
-The doc-system skill itself is subject to optimization via the Workflow Autoresearch mode. The Skill Performance Rubric (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/architecture/skill-performance-rubric.md` in a vantage-point monorepo) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
+Anchor Point itself is subject to optimization via the Workflow Autoresearch mode. The Skill Performance Rubric (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/architecture/skill-performance-rubric.md` in a vantage-point monorepo) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
 
 ## Versioning
 
