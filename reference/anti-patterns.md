@@ -2,9 +2,9 @@
 type: reference
 status: active
 owner: knowledge-ops
-last_reviewed: 2026-05-15
+last_reviewed: 2026-05-16
 applies_to: anchor-point Audit + Review modes
-description: Rationale catalog for the doc-architecture drift codes (A1-A13, MG1-MG4). For deterministic detection grep patterns, see drift-checks.md. This file explains WHY each code matters and what real-world incidents drove it into the catalog.
+description: Rationale catalog for the doc-architecture drift codes (A1-A18, MG1-MG4). For deterministic detection grep patterns, see drift-checks.md. This file explains WHY each code matters and what real-world incidents drove it into the catalog.
 ---
 
 # Anti-Patterns — Doc Architecture Drift Catalog
@@ -201,6 +201,75 @@ See that file before applying project-specific rules below.
 
 ---
 
+## A14. Subfolder README lists files (duplicates DOCS-INDEX)
+
+**Signature:** A subfolder README.md inside `docs/` (e.g., `docs/decisions/README.md`, `docs/dev/README.md`) contains a table listing every file in that folder.
+
+**Why it matters:** `docs/DOCS-INDEX.md` is the single owner of file inventory. Per-subfolder file tables duplicate that content, drift independently, and bloat token cost for an agent walking the tree. The subfolder README's actual job is to define purpose and "what goes here" — the inventory belongs at the index level.
+
+**Fix:** Strip the file list. Keep three short sections only: Purpose (1 line), What goes here (3-5 bullets), Out of scope (1-2 bullets). If the subfolder has fewer than 3 files and an obvious purpose, delete the README entirely — DOCS-INDEX.md is sufficient.
+
+**Real example:** `smg-ep/docs/decisions/README.md` (2026-05-16) contained a table of all 5 decision files plus a "How to add a decision" recipe. The recipe is fine; the file table duplicates `docs/DOCS-INDEX.md` lines 96-104.
+
+---
+
+## A15. CONTEXT.md used as folder documentation in a human-visible folder
+
+**Signature:** A folder browsable by humans (or rendered by GitHub) contains a `CONTEXT.md` instead of (or in addition to) a `README.md`, with content that describes the folder's purpose rather than serving as agent-only working notes.
+
+**Why it matters:** v3.0 explicitly removed CONTEXT.md from the root file set because it added a routing axis (agents asked "do I read README or CONTEXT?"). Reintroducing CONTEXT.md at subfolder level — even with the intent of "this is agent context" — recreates that friction. README.md is also more portable: GitHub renders it, humans expect it.
+
+The narrow legitimate use of CONTEXT.md is agent-only working folders (e.g., `docs/_private/`, `scripts/` working notes) where a parent file (AGENTS.md, README.md) routes to it explicitly.
+
+**Fix:** Rename CONTEXT.md → README.md and conform to A14's content rules. If the folder is genuinely agent-only AND a parent file routes to it, CONTEXT.md is acceptable.
+
+---
+
+## A16. Pattern/architecture content in AGENTS.md
+
+**Signature:** AGENTS.md contains H2 sections like "Supabase Patterns", "API Route Patterns", "React Patterns", "TypeScript Rules" — pattern reference material that runs 30+ lines and describes HOW to write code in that area, not WHAT rules to follow.
+
+**Why it matters:** AGENTS.md is hot-loaded every session. Pattern reference is warm content — the agent opens it when writing in that area, not before. Stuffing patterns into AGENTS.md inflates the always-loaded token cost without proportional value. It's also a maintenance hazard: pattern docs drift fast and benefit from sitting next to the code they describe.
+
+The hot/warm test (Rule 4 in `doc-architecture.md`): does the agent need this in context to AVOID a mistake (hot), or will they QUERY it when relevant (warm)? Pattern reference is the canonical "warm" content.
+
+**Fix:** Extract each pattern section to `docs/dev/<topic>.md`. Add a 1-line entry to AGENTS.md §3 Routing-by-task ("Supabase work → docs/dev/supabase-patterns.md").
+
+**Real example:** `overdrive-lab/AGENTS.md` (2026-05-16) had 67 lines of Supabase Patterns + 101 lines of API Route Patterns + 54 lines of React Patterns inside AGENTS.md, contributing to a 552-line file (2.75x cap).
+
+---
+
+## A17. DOCS-INDEX.md has a Quick Start / task-routing table
+
+**Signature:** `docs/DOCS-INDEX.md` opens with a "Quick Start" or "If you need X, read Y" table that routes by task type to specific files.
+
+**Why it matters:** Task-driven routing is owned by AGENTS.md §3 (Routing-by-task). DOCS-INDEX.md answers "what files exist here?" — a location-driven question. Mixing the two means agents have two routing tables to maintain, and they drift independently.
+
+This is the v3.2 analog of A10 (LOOKUP duplicating DOCS-INDEX). v3.2 closes the symmetrical hole: DOCS-INDEX must not duplicate AGENTS.md routing either.
+
+**Fix:** Delete the Quick Start / routing table from DOCS-INDEX.md. Keep only file inventory (tree + per-subfolder tables of files with purposes). AGENTS.md §3 is the only task→file router.
+
+**Real example:** `smg-ep/docs/DOCS-INDEX.md` lines 10-22 contained a "Quick Start" table that duplicated AGENTS.md §3 routing rows.
+
+---
+
+## A18. Project-level ROUTER.md split when thresholds not met
+
+**Signature:** A project (not the workspace root) contains a `ROUTER.md` separate from `AGENTS.md`, when the project's routing-by-task content is small enough to fit comfortably in AGENTS.md §3.
+
+**Why it matters:** Splitting routing into a separate file re-introduces the v1.x "look up which routing file to consult" intermediate hop that v3.0 specifically eliminated. The split costs more in load decisions than it saves in AGENTS.md line count.
+
+Rule 5 thresholds for a justified split (ALL must be true):
+- Routing-by-task table exceeds ~25 rows, AND
+- Project has ≥3 distinct task families with their own routing tables, AND
+- Tech Stack / pattern / file-structure extraction has already happened and isn't enough
+
+Workspace root (`+vantage-point/`-style) is exempt — its scale justifies a dedicated ROUTER.md.
+
+**Fix:** Fold ROUTER.md back into AGENTS.md §3. If the workspace cheat-sheet ↔ ROUTER.md duplicate exists (workspace level), follow Rule 6 to resolve.
+
+---
+
 ## Severity + scoring
 
 When Audit scores doc health (100-point system per the rubric in `SKILL.md`), each anti-pattern affects different dimensions:
@@ -220,6 +289,11 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 | A11 (Layer 0 duplicated) | Maintenance / Drift |
 | A12 (Asks without routing tags) | Handoff hygiene / Idempotency |
 | A13 (handoff non-idempotent) | Automation readiness |
+| A14 (subfolder README lists files) | Single-owner discipline / Token cost |
+| A15 (CONTEXT.md in human folder) | Routing axis / Portability |
+| A16 (patterns in AGENTS.md) | Concision / Hot-vs-warm discipline |
+| A17 (DOCS-INDEX has routing table) | Single-owner discipline / Drift |
+| A18 (premature ROUTER.md split) | Routing accuracy / Load-decision overhead |
 | MG1 (active → _private) | Security / Findability |
 | MG2 (ROADMAP overflow) | Concision / History preservation |
 | MG3 (broken links) | Findability |
@@ -246,3 +320,8 @@ When generating the initial 5-file v3.0 doc set, Anchor Point AVOIDS creating th
 - **MG2:** Init creates `docs/decisions/` and `docs/roadmap-history/` as part of the standard 9-folder bootstrap
 - **MG3:** Init validates relative links from generated content
 - **MG4:** Init creates AGENTS.md as canonical and CLAUDE.md as 1-line stub (when needed for tool compatibility)
+- **A14:** Init writes subfolder READMEs with the three-section shape (Purpose / What goes here / Out of scope) only — no file tables
+- **A15:** Init never writes CONTEXT.md in human-visible folders; reserved name for agent-only working folders
+- **A16:** Init's AGENTS.md template has no pattern-reference sections; pattern docs are seeded as `docs/dev/` files when relevant
+- **A17:** Init's DOCS-INDEX.md template has no Quick Start / routing table; routing lives only in AGENTS.md §3
+- **A18:** Init never creates a project-level ROUTER.md; the workspace ROUTER.md (if present) stays at the workspace root
