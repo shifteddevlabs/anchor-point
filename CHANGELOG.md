@@ -1,5 +1,37 @@
 # Changelog
 
+## v3.3.0 — 2026-05-16
+
+v3.3 promotes the foundational principle of the hot-warm split — "ONE hot file" — to first-class status in the spec, and adds A19 to detect overlapping hot files in general (the broader case beyond v3.2's workspace-specific Rule 6). Driven by the architectural reset that surfaced when implementing the v3.2 vantage-point cleanup: the question "should we keep ROUTER.md or fold it into AGENTS.md?" exposed that v3.2 had stated the rule implicitly (via Rule 4 hot-vs-warm test) but never elevated it to a principle.
+
+### Added
+
+- **Foundational principle "ONE hot file"** at the head of the Subfolder Discipline section in `reference/doc-architecture.md`. Reads as the principle Rules 1-6 derive from rather than a derived rule itself.
+- **A19: Two hot files hold overlapping content at the same level.** Generalizes beyond ROUTER.md to cover any future variant (separate `gotchas.md`, separate `rules.md`, etc.). Rationale + fix + worked-example pointer in `reference/anti-patterns.md`; one-line row in the doc-architecture anti-patterns table.
+- **Vantage-point worked example** in `reference/doc-architecture.md` appendix. Demonstrates A19 collapse: 2 hot files (92 + 76 lines, 3-hop boot) → 1 hot file (~165 lines, 2-hop boot). Companion to the v3.2 overdrive-lab worked example (different problem class — that was over-cap single file; this is two-files-at-same-level).
+
+### Sharpened
+
+- **Rule 5 thresholds** rewritten from 3 conditions to 5 concrete AND conditions, with explicit ordering (warm extraction must come first, then check routing-table size + task families). Removes the previous "rare" language in favor of a hard checklist.
+- **A18 cross-reference to A19.** A18 retains its specificity (project-level ROUTER.md without justification); A19 covers the general case. The two anti-patterns reference each other so audit detection picks up both narrow and broad cases.
+- **Workspace exemption language.** Workspace roots are no longer "automatically exempt" from project-level rules — same thresholds apply, scale just makes them easier to meet. The vantage-point case (workspace with only 92+76 lines, well under threshold) proved the previous blanket exemption was wrong.
+
+### Why elevated to a principle
+
+v3.2 had Rule 4 (hot-vs-warm test for AGENTS.md sizing) and Rule 6 (workspace cheat-sheet ↔ ROUTER deduplication). Both implied "one hot file" without saying it. When evaluating the vantage-point ROUTER cleanup, the question "should we keep ROUTER for a smaller AGENTS, or fold it in?" surfaced that an agent reading v3.2 could still arrive at "two hot files might be better for size." That ambiguity is what v3.3 closes. The principle is now the lead, with Rules 1-6 (and A19) presented as direct applications.
+
+### Not changed
+
+- Hot/warm test from v3.2 Rule 4 — unchanged
+- 5 root files, 9 docs/ subfolders, 8 AGENTS.md sections — unchanged
+- 200-line AGENTS.md cap — unchanged
+- Gotchas-stay-hot guidance from v3.2 — unchanged
+
+### Migration impact
+
+- **vantage-point ROUTER.md collapse** — this is the worked example. Tracked as a separate PR (`+vantage-point/` workspace repo).
+- **Other projects** — no project currently has two hot files (verified: smg-ep, split-sheet, ai-health-export, overdrive-lab, quicksinq all have only AGENTS.md as hot). A19 protects against future drift.
+
 ## v3.2.0 — 2026-05-16
 
 v3.2 codifies how `docs/` subfolders, DOCS-INDEX.md, and CONTEXT.md naming interact. Origin: 2026-05-16 evaluation against Jake Van Cleef's CONTEXT.md proposal and Codex's progressive-disclosure framing surfaced three unaddressed gaps in v3.1's subfolder shape. No root file changes; v3.2 is purely additive rules + 5 new anti-patterns + a worked example.

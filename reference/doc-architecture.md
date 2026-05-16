@@ -3,13 +3,13 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.2
+version: 3.3
 last_reviewed: 2026-05-16
 applies_to_projects: all
-supersedes: v3.1 (added subfolder README discipline; AGENTS.md sizing rules via hot/warm test; CONTEXT.md reservation; project-level ROUTER.md thresholds; A14-A18; overdrive-lab extraction worked example)
+supersedes: v3.2 (promoted "ONE hot file" to first-class principle; sharpened Rule 5 thresholds; added A19 for overlapping hot files; added vantage-point worked example to appendix)
 ---
 
-# Doc Architecture v3.2
+# Doc Architecture v3.3
 
 Canonical specification for how project docs are organized across all projects.
 Tool-agnostic. Optimized for multi-LLM, multi-session, parallel-agent work.
@@ -198,9 +198,21 @@ No file locks needed. Git merge resolves edge collisions.
 
 **Token budget at cold start: ~4.5K tokens total.** v1.2 cold start was ~8-10K tokens with CLAUDE.md + CONTEXT.md + LOOKUP.md + DOCS-INDEX.md.
 
-## Subfolder discipline (v3.2)
+## Subfolder discipline (v3.2, refined in v3.3)
 
-v3.2 codifies how `docs/` subfolders, DOCS-INDEX.md, and CONTEXT.md naming interact. Origin: 2026-05-16 evaluation against Jake Van Cleef's CONTEXT.md proposal and Codex's progressive-disclosure framing surfaced three unaddressed gaps in v3.1's subfolder shape.
+v3.2 codified how `docs/` subfolders, DOCS-INDEX.md, and CONTEXT.md naming interact. v3.3 promotes the foundational principle below to first-class status and adds A19 to cover overlapping hot files.
+
+### The foundational principle: ONE hot file
+
+**There is exactly ONE hot file in a project: `AGENTS.md`.** It holds everything the agent needs in head at session start: identity, current phase, routing-by-task, where new files go, project rules, gotchas, inherits-from.
+
+**WARM content lives in `docs/`**, opened only when the task touches it. Tech stack versions, code-pattern references, architecture diagrams, file-structure trees, decision rationale — all warm.
+
+**Hot content has ONE home.** Any two files at the same level holding overlapping hot content (e.g., AGENTS.md's routing table + a separate ROUTER.md's routing table; AGENTS.md's gotchas + a separate `gotchas.md`) is anti-pattern A19. Collapse into the canonical hot file (AGENTS.md).
+
+**Why this matters:** Two hot files force the agent to load both at boot AND make a "which file owns this?" routing decision before doing any work. That's a 3-hop pattern (AGENTS → second hot file → warm target) instead of the v3.x 2-hop ideal (AGENTS → warm target via direct path in §3). It also creates a drift hazard: the same fact in two places diverges over time.
+
+Rules 1-6 below are applications of this principle to specific surfaces (subfolder READMEs, DOCS-INDEX, CONTEXT.md naming, AGENTS sizing, ROUTER thresholds, workspace cleanup).
 
 ### Rule 1 — Subfolder README content
 
@@ -258,19 +270,21 @@ Extraction order when over cap (WARM content first):
 
 If §7 Gotchas alone exceeds ~40 lines, that's a signal to AUDIT (some "gotchas" may have decayed into stale facts or non-warnings) — prune, don't relocate.
 
-### Rule 5 — Project-level ROUTER.md thresholds
+### Rule 5 — Project-level ROUTER.md thresholds (sharpened in v3.3)
 
-A project-level `ROUTER.md` is NOT recommended by default. Routing belongs in AGENTS.md §3, inline.
+Routing belongs in AGENTS.md §3, inline. A project-level `ROUTER.md` is the wrong default — it would be a second hot file (A19) and a hop the agent doesn't need.
 
-A split is justified only when ALL of these are true:
+A split is justified ONLY when ALL of these are true:
 
-- Routing-by-task table exceeds ~25 rows, AND
-- Project has ≥3 distinct task families with their own routing tables (e.g., dev + ops + marketing), AND
-- AGENTS.md extraction of Tech Stack / patterns / file-structure has already happened and isn't enough
+1. AGENTS.md exceeds the 200-line cap, AND
+2. All warm-content extractions per Rule 4 (Tech Stack → docs/reference/, code-pattern sections → docs/dev/, file-structure → docs/dev/file-structure.md) have already been done, AND
+3. Even after warm extraction, AGENTS.md is still over cap, AND
+4. The Routing-by-task table itself is ≥25 rows, AND
+5. The project has ≥3 distinct task families with their own routing tables (e.g., dev + ops + marketing)
 
-Splitting routing prematurely re-introduces the v1.x "look up which routing file to consult" intermediate hop that v3.0 specifically eliminated. See anti-pattern A18.
+If any condition is false, the split is premature (A18). If conditions 1-3 are false, the answer is "extract more warm content." If condition 4-5 are false, the table genuinely fits in §3 and should stay there.
 
-**Workspace-level exception.** A workspace root (e.g., `+vantage-point/` in a monorepo) IS large enough to justify a dedicated ROUTER.md — its routing covers many departments + skills + routines. The project-level threshold doesn't apply.
+**Workspace-level exception.** A workspace root (e.g., `+vantage-point/` in a monorepo) that holds cross-cutting routing for many departments + skills + routines MAY justify a dedicated ROUTER.md if its combined AGENTS+ROUTER content would exceed the 200-line cap. Even at workspace scale, the principle is one hot file unless splitting strictly saves more than it costs. Conditions 1-5 still apply; workspace scale just makes them easier to meet. See vantage-point worked example in the appendix for a case where workspace-level ROUTER.md was retired because the combined content fit in AGENTS.md.
 
 ### Rule 6 — Workspace cheat-sheet ↔ ROUTER.md must not duplicate
 
@@ -305,6 +319,7 @@ Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
 | **A16** (new in v3.2) | Pattern/architecture content in AGENTS.md (Supabase patterns, API patterns, React patterns) | Extract to `docs/dev/<topic>.md`. AGENTS.md links to it. Reference material is warm, not hot. |
 | **A17** (new in v3.2) | DOCS-INDEX.md has a Quick Start / task-routing table | Strip it. AGENTS.md §3 is the only task→file routing table. DOCS-INDEX.md is location-only. |
 | **A18** (new in v3.2) | Project-level ROUTER.md split when justification thresholds (Rule 5) not met | Fold back into AGENTS.md §3. Splits cost more in load decisions than they save in line count. |
+| **A19** (new in v3.3) | Two hot files hold overlapping content at the same level (e.g., AGENTS.md routing table + separate ROUTER.md routing table; AGENTS.md gotchas + separate gotchas.md) | Collapse into the canonical hot file (AGENTS.md). Hot content has exactly one home per the foundational principle. |
 | MG1 | Active doc → `_private/` routing | Move pointer to "Sensitive SOT register"; do not route as primary navigation. |
 | **MG2** (expanded in v3.1) | ROADMAP > 300 lines without extracted decisions OR rotated history | Two-part fix: (a) extract Decision Log → `docs/decisions/`; (b) rotate completed-priority sections → `docs/roadmap-history/`. |
 | MG3 | Broken link in current/root docs | Update link target. Suppress when link is also MG1 (precedence). |
@@ -360,6 +375,50 @@ Anchor Point Mode 1 (Init) creates the 5 root files plus the full docs/ ecosyste
 `status-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`.
 
 `docs/DOCS-INDEX.md` is created when `docs/` accumulates more than ~10 content files (an index isn't useful before then). Real content files inside each subfolder are added on demand; the bootstrap stubs document what goes where so agents always know the right destination.
+
+## Appendix: Worked example — collapsing two hot files (A19)
+
+Worked example for the foundational principle + Rule 5 + A19. Real case: `+vantage-point/` (workspace root) had both `AGENTS.md` (92 lines, with a "Common Tasks Cheat Sheet" task→load table) AND `ROUTER.md` (76 lines, with overlapping department/skill routing tables). Both at the workspace root. Both holding hot content (task routing). Two hot files at the same level.
+
+**Hot/warm audit:**
+
+| Content | Lives in | Hot or warm? |
+|---|---|---|
+| Identity, Load Order, Common Tasks Cheat Sheet | AGENTS.md | Hot |
+| Glossary, Hard Rules | AGENTS.md | Hot |
+| Default Flow + Token Budget Rule + Connection Ladder | ROUTER.md | Hot (load-time guidance) |
+| Department Routing table (14 rows) | ROUTER.md | Hot (task routing) |
+| Current Skills table + Operating Agreements + Infrastructure Map | ROUTER.md | Hot (load targets) |
+
+All of ROUTER.md was hot. So was the relevant portion of AGENTS.md. **Two hot files = A19.**
+
+**Rule 5 threshold check:**
+
+| Condition | Met? |
+|---|---|
+| AGENTS.md exceeds 200-line cap | NO (was 92 lines) |
+| Warm extractions already done | N/A (no warm content was inline) |
+| AGENTS.md still over cap after warm extraction | NO |
+| Routing table ≥25 rows | Borderline (combined was ~22 rows after dedupe) |
+| ≥3 distinct task families with own tables | NO (departments + skills are one family) |
+
+Threshold conditions NOT met → split was unjustified → A18 + A19 → collapse.
+
+**Collapse outcome:**
+
+| Before | After |
+|---|---|
+| `+vantage-point/AGENTS.md` (92 lines) + `+vantage-point/ROUTER.md` (76 lines) | `+vantage-point/AGENTS.md` (~165 lines, under cap with room) |
+| 2 hot files, ~3 inbound pointer locations | 1 hot file, 0 ROUTER.md pointers |
+| 3-hop boot pattern (AGENTS → ROUTER → target) | 2-hop boot pattern (AGENTS → target via direct path) |
+
+ROUTER.md deleted entirely. All ~14 active inbound pointers updated to point at AGENTS.md sections. Historical/snapshot files left alone (decisions, inventories, reviews — they describe past state correctly at time of writing).
+
+**Important — what NOT to do:**
+
+- Do NOT leave ROUTER.md as a 1-line stub "moved to AGENTS.md." Stubs add a hop without adding value. Update the pointers and delete the file.
+- Do NOT update historical decision files, inventories, or extraction-run snapshots. They are point-in-time records; rewriting them corrupts the historical record.
+- Do NOT apply this collapse to a workspace root that genuinely meets the Rule 5 thresholds. Some monorepos really do have routing surfaces big enough to warrant a separate ROUTER.md. The principle is "one hot file unless splitting strictly saves more than it costs."
 
 ## Appendix: Worked example — extracting an over-cap AGENTS.md
 
@@ -427,5 +486,6 @@ Anchor Point itself is subject to optimization via the Workflow Autoresearch mod
 | 3.0 | 2026-05-14 | knowledge-ops | AGENTS canonical; CONTEXT absorbed; 5 root files; pure-function doc-handoff; pre-routed Asks; single-owner facts; A11-A13 |
 | 3.1 | 2026-05-15 | knowledge-ops | Added `docs/roadmap-history/` bucket (parallel to `status-history/`); expanded MG2 to two-part fix (decisions + history rotation); 9 canonical subfolders bootstrap; canonical home moved to `+vantage-point/skills/anchor-point/reference/doc-architecture.md` post-merger |
 | 3.2 | 2026-05-16 | knowledge-ops | Subfolder discipline (6 rules: README content, DOCS-INDEX location-only, CONTEXT.md reservation, AGENTS.md hot/warm sizing + extraction order, project ROUTER thresholds, workspace cheat-sheet ↔ ROUTER deduplication); A14-A18 anti-patterns; overdrive-lab worked example. Origin: 2026-05-16 evaluation against Jake Van Cleef CONTEXT.md proposal + Codex progressive-disclosure framing. |
+| 3.3 | 2026-05-16 | knowledge-ops | Promoted "ONE hot file" to first-class principle at the head of Subfolder discipline (was implicit in v3.2); sharpened Rule 5 thresholds to 5 concrete AND conditions; added A19 (two hot files holding overlapping content) covering the general case beyond v3.2's workspace-specific Rule 6; added vantage-point worked example to appendix demonstrating A19 collapse. Origin: 2026-05-16 architectural reset clarifying that hot-warm split is about discipline + update locality, not token cost. |
 
 (Version 2.0 was a drafting checkpoint; never released.)

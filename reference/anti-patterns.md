@@ -4,7 +4,7 @@ status: active
 owner: knowledge-ops
 last_reviewed: 2026-05-16
 applies_to: anchor-point Audit + Review modes
-description: Rationale catalog for the doc-architecture drift codes (A1-A18, MG1-MG4). For deterministic detection grep patterns, see drift-checks.md. This file explains WHY each code matters and what real-world incidents drove it into the catalog.
+description: Rationale catalog for the doc-architecture drift codes (A1-A19, MG1-MG4). For deterministic detection grep patterns, see drift-checks.md. This file explains WHY each code matters and what real-world incidents drove it into the catalog.
 ---
 
 # Anti-Patterns — Doc Architecture Drift Catalog
@@ -260,13 +260,34 @@ This is the v3.2 analog of A10 (LOOKUP duplicating DOCS-INDEX). v3.2 closes the 
 **Why it matters:** Splitting routing into a separate file re-introduces the v1.x "look up which routing file to consult" intermediate hop that v3.0 specifically eliminated. The split costs more in load decisions than it saves in AGENTS.md line count.
 
 Rule 5 thresholds for a justified split (ALL must be true):
+- AGENTS.md exceeds the 200-line cap AND warm extraction is exhausted, AND
 - Routing-by-task table exceeds ~25 rows, AND
-- Project has ≥3 distinct task families with their own routing tables, AND
-- Tech Stack / pattern / file-structure extraction has already happened and isn't enough
+- Project has ≥3 distinct task families with their own routing tables
 
-Workspace root (`+vantage-point/`-style) is exempt — its scale justifies a dedicated ROUTER.md.
+Workspace root (`+vantage-point/`-style) is not automatically exempt — the same thresholds apply, scale just makes them easier to meet. See A19 for the more general "two hot files" anti-pattern that covers workspace-level cases.
 
-**Fix:** Fold ROUTER.md back into AGENTS.md §3. If the workspace cheat-sheet ↔ ROUTER.md duplicate exists (workspace level), follow Rule 6 to resolve.
+**Fix:** Fold ROUTER.md back into AGENTS.md §3. See A19 for the general principle and the worked example.
+
+---
+
+## A19. Two hot files hold overlapping content at the same level
+
+**Signature:** Two files at the same level (e.g., both at the project root, or both at the workspace root) hold overlapping hot content. The canonical example: `AGENTS.md` has a routing-by-task table AND a separate `ROUTER.md` has its own routing table. Variant: `AGENTS.md` has a Gotchas section AND a separate `gotchas.md` exists.
+
+**Why it matters:** The foundational principle of v3.x is "ONE hot file." Hot content (rules, routing, gotchas — anything the agent needs in head at session start) belongs in AGENTS.md alone. Splitting hot content across two files:
+
+- Forces the agent to load BOTH files at boot, increasing cold-start cost
+- Forces a "which file owns this?" routing decision before the agent can act
+- Creates a drift hazard — the same fact in two places diverges over time
+- Re-introduces the v1.x multi-hop pattern (AGENTS → second hot file → warm target) that v3.0 specifically eliminated in favor of direct paths from AGENTS §3
+
+A19 differs from A18 by being more general: A18 names ROUTER.md specifically and applies to project-level splits; A19 covers any two hot files at any level — including workspace-level cases like `+vantage-point/AGENTS.md` "Common Tasks Cheat Sheet" + `+vantage-point/ROUTER.md` Department Routing, or future variants like a separate `gotchas.md` or `rules.md`.
+
+**Fix:** Identify which file is canonical (default: AGENTS.md). Collapse the overlapping hot content into it. Dedupe any rows that appear in both. Delete the non-canonical file entirely (no stubs — they add a hop without value). Update all live inbound pointers to point at AGENTS.md sections. Leave historical/snapshot files untouched.
+
+**Worked example:** See `reference/doc-architecture.md` appendix "Worked example — collapsing two hot files (A19)" for the `+vantage-point/` ROUTER.md → AGENTS.md collapse executed 2026-05-16. Before: 2 hot files (92 + 76 lines), 3-hop boot pattern. After: 1 hot file (~165 lines), 2-hop boot pattern.
+
+**Rule 5 check before invoking A19:** If the combined content would push AGENTS.md over the 200-line cap AND warm-content extraction is already exhausted AND the routing table itself is ≥25 rows AND there are ≥3 distinct task families, a split MAY be justified. In that narrow case A19 does not apply. For all other cases, collapse.
 
 ---
 
@@ -294,6 +315,7 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 | A16 (patterns in AGENTS.md) | Concision / Hot-vs-warm discipline |
 | A17 (DOCS-INDEX has routing table) | Single-owner discipline / Drift |
 | A18 (premature ROUTER.md split) | Routing accuracy / Load-decision overhead |
+| A19 (two hot files overlap) | Drift / Hot-load discipline / Multi-hop boot |
 | MG1 (active → _private) | Security / Findability |
 | MG2 (ROADMAP overflow) | Concision / History preservation |
 | MG3 (broken links) | Findability |
@@ -324,4 +346,5 @@ When generating the initial 5-file v3.0 doc set, Anchor Point AVOIDS creating th
 - **A15:** Init never writes CONTEXT.md in human-visible folders; reserved name for agent-only working folders
 - **A16:** Init's AGENTS.md template has no pattern-reference sections; pattern docs are seeded as `docs/dev/` files when relevant
 - **A17:** Init's DOCS-INDEX.md template has no Quick Start / routing table; routing lives only in AGENTS.md §3
-- **A18:** Init never creates a project-level ROUTER.md; the workspace ROUTER.md (if present) stays at the workspace root
+- **A18:** Init never creates a project-level ROUTER.md
+- **A19:** Init creates exactly ONE hot file per project (AGENTS.md). No parallel hot files for routing, rules, gotchas, or any other hot content. Audit Mode 4 scans for any file at the project or workspace root holding hot content that overlaps with AGENTS.md, and proposes collapse per the worked example in `reference/doc-architecture.md`.
