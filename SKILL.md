@@ -1,13 +1,14 @@
 ---
 name: anchor-point
 type: capability
+version: 3.1
 repo_intent: published
 status: active
 owner: knowledge-ops
 last_reviewed: 2026-05-15
 applies_to_projects: all
 github_repo: https://github.com/shifteddevlabs/anchor-point
-description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3.0 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
+description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3.1 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
 triggers:
   - anchor point
   - doc init
@@ -36,13 +37,15 @@ This is the unified operational skill. For human-readable orientation see `ident
 
 This skill is model-agnostic. It prefers `AGENTS.md` as the AI bootstrap document for new shared infrastructure, while respecting existing `CLAUDE.md` or other platform-specific files already present in projects.
 
+**Working inside a monorepo or capability harness?** If a file named `internal-overlay.md` sits alongside this `SKILL.md`, read it first — it binds the generic references in this skill (Layer 0 home, shared knowledge-ops paths, workflow-score script, migration trackers) to your monorepo's actual paths. Public clones won't have one; that's fine, the methodology stands alone.
+
 ## Reference Docs
 
 Read only what is needed for the current mode.
 
 | Source | Use For |
 |---|---|
-| `reference/doc-architecture.md` | Canonical architecture spec (v3.0) |
+| `reference/doc-architecture.md` | Canonical architecture spec (v3.1) |
 | `reference/canonical-file-set.md` | File placement decision tree |
 | `reference/anti-patterns.md` | Drift signatures (rationale for the codes used in `drift-checks.md`) |
 | `reference/drift-checks.md` | Drift-check detection table (grep patterns + fix routing for Audit and Review modes) |
@@ -108,7 +111,7 @@ These apply to EVERY workflow, every session. Derived from cross-project inciden
 - **No em-dashes.** Use commas or parentheses.
 - **Length:** as long as needed; as short as possible. No filler.
 
-## Canonical Project Surfaces (v3.0)
+## Canonical Project Surfaces (v3.1)
 
 For new model-agnostic project docs, use these 5 root files:
 
@@ -150,7 +153,7 @@ docs/
 
 `status-history/` and `roadmap-history/` follow the same convention: when the live file exceeds its length budget (STATUS > 200 lines, ROADMAP > 300 lines), rotate the oldest 50% to a dated file (`YYYY-MM-DD-NN.md`) before the next write. Both folders carry a `README.md` documenting the rotation policy.
 
-Use `docs/INDEX.md` when `docs/` has more than 10 docs.
+Use `docs/DOCS-INDEX.md` when `docs/` has more than 10 docs.
 
 ## Modes
 

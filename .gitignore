@@ -18,3 +18,7 @@ anchor-point-logo.png
 # Internal overlay: monorepo-specific bindings, Phase-0 cert metadata, scan-register paths
 # NOT pushed to the public anchor-point GitHub repo
 internal-overlay.md
+
+# Workspace-specific tooling. The methodology is portable; these scripts are bound
+# to the monorepo's structure (hardcoded +vantage-point/ paths). Stay local.
+scripts/

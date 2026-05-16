@@ -31,7 +31,7 @@
 | Read decision rationale | `docs/decisions/<date>-<topic>.md` |
 | Check release notes | `docs/release/v<X.Y>-notes.md` |
 | Check completed work history | `docs/status-history/<date>-session-<NN>.md` |
-| Find cross-project rules | `+vantage-point/AGENTS.md` |
+| Find cross-project rules | `{{LAYER_0_HOME}}/AGENTS.md` (replace with your Layer 0 path; e.g., `+vantage-point/AGENTS.md`) |
 
 ## Where new files go
 
@@ -75,9 +75,9 @@ Sentence-form discipline:
 
 ## Inherits from
 
-This project inherits cross-project conventions from `+vantage-point/AGENTS.md`, including:
+This project inherits cross-project conventions from `{{LAYER_0_HOME}}` (replace with your monorepo's Layer 0 path; for example, `+vantage-point/AGENTS.md`), including:
 - Layer 0 Hard Rules baseline (security, push, root-cause, verify-before-claim, etc.)
-- File naming conventions (see `+vantage-point/docs/conventions/file-naming-and-frontmatter.md`)
-- Routing conventions (see `+vantage-point/ROUTER.md`)
+- File naming conventions (see `{{LAYER_0_HOME}}/docs/conventions/file-naming-and-frontmatter.md`)
+- Routing conventions (see `{{LAYER_0_HOME}}/ROUTER.md`)
 
-Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `+vantage-point/AGENTS.md` Hard Rule #8.
+Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `{{LAYER_0_HOME}}` Hard Rule #8.

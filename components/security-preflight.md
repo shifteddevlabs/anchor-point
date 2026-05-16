@@ -41,7 +41,7 @@ Prevent credentials, secrets, and private business data from being copied into r
 5. Treat broad keyword hits as filename-only candidates until inspection is necessary.
 6. If a candidate file must be inspected, inspect only enough surrounding structure to classify it.
 7. Never copy or quote secret values.
-8. Add sensitive candidates to `+vantage-point/docs/security/sensitive-doc-watchlist.md`.
+8. Add sensitive candidates to your shared security watchlist (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/security/sensitive-doc-watchlist.md` for vantage-point monorepos).
 9. Recommend rotation if a live secret is committed, shared, or stored outside private ignored docs.
 
 ## Output

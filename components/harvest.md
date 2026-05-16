@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Extract reusable process, patterns, prompts, checklists, and workflows from project-local work into `+vantage-point/`.
+Extract reusable process, patterns, prompts, checklists, and workflows from project-local work into your shared knowledge-ops home (path bound via `internal-overlay.md`; e.g., `+vantage-point/` for vantage-point monorepos).
 
 ## Used By
 
@@ -21,7 +21,7 @@ Extract reusable process, patterns, prompts, checklists, and workflows from proj
    - adapter
    - project overlay
    - source example
-4. Update `+vantage-point/docs/inventories/scan-register.md`.
+4. Update your shared knowledge-ops scan register (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/inventories/scan-register.md` for vantage-point monorepos).
 5. Draft the extraction in the appropriate place.
 6. Update `ROUTER.md` only after the extracted asset exists.
 

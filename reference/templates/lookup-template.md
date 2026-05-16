@@ -58,7 +58,7 @@ GCP project IDs, billing IDs, dashboard URLs. **NEVER secrets.**
 
 ## Skill ecosystem
 
-Which `+vantage-point/skills/*` apply to this project.
+Which shared skills apply to this project (path bound via `{{LAYER_0_HOME}}`; e.g., `+vantage-point/skills/*`).
 
 | Skill | Use for | Trigger |
 |---|---|---|
@@ -66,4 +66,4 @@ Which `+vantage-point/skills/*` apply to this project.
 
 ---
 
-*LOOKUP.md is HOT — loaded every session. Keep it ≤ 150 lines. Single-owner discipline: persistent rules → `AGENTS.md`; session-volatile hazards → `STATUS.md`; cross-project conventions → `+vantage-point/AGENTS.md` (inherited, never duplicated). File inventory → `docs/DOCS-INDEX.md` only (anti-pattern A10).*
+*LOOKUP.md is HOT — loaded every session. Keep it ≤ 150 lines. Single-owner discipline: persistent rules → `AGENTS.md`; session-volatile hazards → `STATUS.md`; cross-project conventions → `{{LAYER_0_HOME}}` (replace with your Layer 0 path; e.g., `+vantage-point/AGENTS.md`) (inherited, never duplicated). File inventory → `docs/DOCS-INDEX.md` only (anti-pattern A10).*

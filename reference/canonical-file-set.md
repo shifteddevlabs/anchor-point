@@ -4,7 +4,7 @@ status: active
 owner: knowledge-ops
 last_reviewed: 2026-05-15
 applies_to: anchor-point Init + Audit modes
-description: Canonical 5-root-file v3.0 doc set plus the docs/ ecosystem decision tree. Routes any new file to the right home.
+description: Canonical 5-root-file v3.1 doc set plus the docs/ ecosystem decision tree. Routes any new file to the right home.
 ---
 
 # Canonical File Set + Where-Things-Go Decision Tree
@@ -13,7 +13,7 @@ The 5 canonical root files plus the docs/ ecosystem and a complete decision tree
 
 ---
 
-## The canonical 5 root files (v3.0)
+## The canonical 5 root files (v3.1)
 
 Every project should have these.
 
@@ -35,7 +35,7 @@ All 9 subfolders are created at bootstrap by Init Mode, each with a `README.md` 
 
 | Path | Purpose | Created |
 |---|---|---|
-| `docs/DOCS-INDEX.md` | Location-driven file inventory | When `docs/` exceeds 10 files (or `docs/INDEX.md` if preferred) |
+| `docs/DOCS-INDEX.md` | Location-driven file inventory | When `docs/` exceeds 10 files |
 | `docs/status-history/` + `README.md` | Rotated STATUS.md backups; dated files (`YYYY-MM-DD-NN.md`) | At bootstrap (or first STATUS rotation) |
 | `docs/roadmap-history/` + `README.md` | Rotated ROADMAP.md backups; dated files (`YYYY-MM-DD-NN.md`) | At bootstrap (or first ROADMAP rotation) |
 | `docs/decisions/` + `README.md` | One file per decision, dated (`YYYY-MM-DD-<topic>.md`); supersedes ROADMAP Decision Log | At bootstrap |
