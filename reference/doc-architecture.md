@@ -3,10 +3,10 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.3.1
+version: 3.3.2
 last_reviewed: 2026-05-16
 applies_to_projects: all
-supersedes: v3.3 (cleanup-only patch: 4 published-skill files updated from "update ROUTER.md" to "update Layer 0 AGENTS.md routing-by-task (or workspace ROUTER.md if Rule 5 justified)" — propagates v3.3 ONE-hot-file principle to harvest/promote-memory/audit workflow steps and agents-template)
+supersedes: v3.3.1 (template-only patch: agents-template.md Inherits-from section strengthened to surface what's at the workspace AGENTS destination — routing, Hard Rules, skills, operating agreements, infrastructure, connection-first. Wording accuracy fix, no content duplication.)
 ---
 
 # Doc Architecture v3.3
