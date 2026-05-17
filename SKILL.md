@@ -1,6 +1,6 @@
 ---
 name: anchor-point
-type: capability
+type: skill
 version: 3.1
 repo_intent: published
 status: active
