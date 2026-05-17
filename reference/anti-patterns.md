@@ -291,6 +291,24 @@ A19 differs from A18 by being more general: A18 names ROUTER.md specifically and
 
 ---
 
+## A20. Inherits-from wording drift (v3.4)
+
+**Signature:** Project AGENTS.md has a `## Inherits from` section, but the section body understates what's at the workspace AGENTS destination — e.g., a narrow 3-item list like "Hard Rules + naming + routing" instead of the canonical bulleted summary (Routing-by-task, Hard Rules baseline, Skills + Operating Agreements + Infrastructure maps, Connection-first rule, File naming conventions).
+
+**Why it matters:** Agents that read a project's "Inherits from" pointer use the wording at the project level to decide whether to bother opening the workspace AGENTS.md. If the wording sounds narrow ("just rules and naming"), the agent may skip the re-read and miss the workspace's actual scope — routing tables, skills registry, credential-injection patterns, connection-first rule. The practical failure mode: an agent reads project AGENTS, doesn't re-read workspace AGENTS, then violates a workspace Hard Rule (e.g., raw `git push` falling through to keychain instead of using Infisical injection per Rule #12). This is the gap that motivated the v3.3.2 canonical template patch; v3.4 adds the audit-time enforcement so the wording can't silently drift back.
+
+**Canonical incident:** The v3.3.2 patch (2026-05-16) strengthened the agents-template.md "Inherits from" section after recognizing that the prior 3-item phrasing didn't surface the workspace's actual scope. Existing v3.x-migrated projects (smg-ep, split-sheet, etc.) kept the prior wording until manually updated — no audit-time check existed to catch the drift. A20 is that check.
+
+**Fix:** Replace the project's `## Inherits from` section body with the canonical wording from `reference/templates/agents-template.md` "Inherits from" block. Substitute the `{{LAYER_0_HOME}}` parameter with the project's actual Layer 0 path (e.g., `+vantage-point/` in a vantage-point monorepo). Preserve the conflict-resolution sentence ("Project-specific rules above OVERRIDE inherited defaults...").
+
+**Detection severity (per `drift-checks.md`):**
+- **Soft warning** (Mode 4 reports, doesn't block): bullet count is 3 OR keyword coverage is 4.
+- **Hard fix** (Mode 4 proposes the rewrite as a structural finding): bullet count < 3 OR keyword coverage < 4. Hard fix is consistent with how A3 and A11 are scored (both also Inherits-from-related).
+
+**Note on A11 vs A20:** A11 fires when "Inherits from" is MISSING and Hard Rules are pasted instead. A20 fires when "Inherits from" is PRESENT but its content is too narrow. The two are complementary — projects can drift from "no inheritance pointer at all" → "pointer with narrow wording" → "pointer with canonical wording" as they mature.
+
+---
+
 ## Severity + scoring
 
 When Audit scores doc health (100-point system per the rubric in `SKILL.md`), each anti-pattern affects different dimensions:
@@ -316,6 +334,7 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 | A17 (DOCS-INDEX has routing table) | Single-owner discipline / Drift |
 | A18 (premature ROUTER.md split) | Routing accuracy / Load-decision overhead |
 | A19 (two hot files overlap) | Drift / Hot-load discipline / Multi-hop boot |
+| A20 (Inherits-from wording drift) | Maintenance / Drift / Cross-tool durability |
 | MG1 (active → _private) | Security / Findability |
 | MG2 (ROADMAP overflow) | Concision / History preservation |
 | MG3 (broken links) | Findability |
@@ -348,3 +367,4 @@ When generating the initial 5-file v3.0 doc set, Anchor Point AVOIDS creating th
 - **A17:** Init's DOCS-INDEX.md template has no Quick Start / routing table; routing lives only in AGENTS.md §3
 - **A18:** Init never creates a project-level ROUTER.md
 - **A19:** Init creates exactly ONE hot file per project (AGENTS.md). No parallel hot files for routing, rules, gotchas, or any other hot content. Audit Mode 4 scans for any file at the project or workspace root holding hot content that overlaps with AGENTS.md, and proposes collapse per the worked example in `reference/doc-architecture.md`.
+- **A20:** Init writes the `## Inherits from` section using the canonical template wording (5-point summary covering routing, Hard Rules, skills + operating agreements + infrastructure, connection-first, file naming). Audit Mode 4 detects drift via bullet count + keyword coverage thresholds per `reference/drift-checks.md` and proposes a rewrite to the canonical wording when the section understates the workspace AGENTS scope.
