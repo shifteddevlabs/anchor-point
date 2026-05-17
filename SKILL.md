@@ -1,11 +1,11 @@
 ---
 name: anchor-point
 type: skill
-version: 3.1
+version: 3.4.0
 repo_intent: published
 status: active
 owner: knowledge-ops
-last_reviewed: 2026-05-15
+last_reviewed: 2026-05-16
 applies_to_projects: all
 github_repo: https://github.com/shifteddevlabs/anchor-point
 description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3.1 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
