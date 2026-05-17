@@ -2,7 +2,7 @@
 
 **A model-agnostic documentation operating system for solo devs running multiple side projects.**
 
-Current version: **v3.1.0**. See `CHANGELOG.md` for what changed.
+Current version: **v3.4.0**. See `CHANGELOG.md` for what changed.
 
 Drop this folder into an AI project, repo, or knowledge base, then point tool-specific adapters at it. The agent becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy. Battle-tested, distilled from cross-project mining of real-world doc drift incidents.
 
