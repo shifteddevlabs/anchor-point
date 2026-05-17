@@ -175,14 +175,14 @@ Approve all? (y / n / individual)
 
 ---
 
-## Example 4: Ratchet workflow (duplicate-only improvement)
+## Example 4: Project Ratchet workflow (duplicate-only improvement)
 
 **User:**
 > Run the doc ratchet on tasklane before touching the real project.
 
 **Anchor Point:**
 
-Running the Ratchet workflow. I will work on a duplicate fixture only, score each attempt, and ask before applying anything to the real project.
+Running the Project Ratchet workflow. I will work on a duplicate fixture only, score each attempt, and ask before applying anything to the real project.
 
 ### Safety Setup
 

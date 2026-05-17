@@ -1,6 +1,8 @@
-# Doc Ratchet Workflow
+# Project Ratchet (Mode 6) — Reference
 
-Use this when a project has doc drift, oversized handoffs, stale current-state files, unclear routing, or a low audit score, and the user wants an iterative cleanup instead of one large restructure.
+The deep reference for the Project Ratchet workflow. Companion to `SKILL.md` Mode 6.
+
+Use this when a project has doc drift, oversized handoffs, stale current-state files, unclear routing, or a low audit score, and the user wants an iterative cleanup of **that project's docs** instead of one large restructure. Targets project docs only — to harden the workflow rules themselves, use Mode 7 (Doc Workflow Ratchet).
 
 ## Core Idea
 

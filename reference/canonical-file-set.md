@@ -4,7 +4,7 @@ status: active
 owner: knowledge-ops
 last_reviewed: 2026-05-15
 applies_to: anchor-point Init + Audit modes
-description: Canonical 5-root-file v3.1 doc set plus the docs/ ecosystem decision tree. Routes any new file to the right home.
+description: Canonical 5-root-file v3.4.1 doc set plus the docs/ ecosystem decision tree. Routes any new file to the right home.
 ---
 
 # Canonical File Set + Where-Things-Go Decision Tree
@@ -13,7 +13,7 @@ The 5 canonical root files plus the docs/ ecosystem and a complete decision tree
 
 ---
 
-## The canonical 5 root files (v3.1)
+## The canonical 5 root files (v3.4.1)
 
 Every project should have these.
 

@@ -1,6 +1,8 @@
-# Workflow Autoresearch
+# Doc Workflow Ratchet (Mode 7) — Reference
 
-Use this to harden the documentation workflow itself. It is for structural misses in Init, Review, Update, Audit, Ratchet, and their internal components.
+The deep reference for the Doc Workflow Ratchet workflow. Companion to `SKILL.md` Mode 7.
+
+Use this to harden **the documentation workflow itself**, not a specific project. It is for structural misses in Init, Review, Update, Audit, Project Ratchet, and their internal components. Inputs are evidence reports from prior Project Ratchet (Mode 6) runs.
 
 ## Inputs
 

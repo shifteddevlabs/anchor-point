@@ -1,5 +1,47 @@
 # Changelog
 
+## v3.4.1 — 2026-05-16
+
+Naming-clarity patch. Renames Mode 6 and Mode 7 to make their targets explicit, after a session where the user (skill author) couldn't recall which mode did what.
+
+### Why
+
+Both modes are Karpathy-style ratchet loops, but the noun being ratcheted differs:
+- Mode 6 ratchets **one project's docs** against the existing spec.
+- Mode 7 ratchets **the spec itself** using evidence from Mode 6 runs.
+
+Pre-v3.4.1 names ("Ratchet" / "Workflow Autoresearch") obscured that distinction. "Doc Ratchet" in particular gave no signal about which doc was being ratcheted (one project's vs the workflow's). The new names spell out the target.
+
+### Changed
+
+- `SKILL.md` Mode 6 heading: "Ratchet" → "**Project Ratchet**". One-sentence target clarification added.
+- `SKILL.md` Mode 7 heading: "Workflow Autoresearch" → "**Doc Workflow Ratchet**". One-sentence target clarification added, including the Mode 6 → Mode 7 evidence flow.
+- `SKILL.md` body line referring to "workflow-autoresearch mode" → "Doc Workflow Ratchet mode".
+- `SKILL.md` Reference Docs table: descriptions for `reference/doc-ratchet.md` and `reference/workflow-autoresearch.md` updated to lead with the mode name.
+- `SKILL.md` Component Chains table: `doc-ratchet` row renamed to `project-ratchet`.
+- `SKILL.md` frontmatter triggers: added `project ratchet` and `doc workflow ratchet`; kept `doc ratchet` for backward compatibility (natural-language invocation is sticky).
+- `README.md`: 6-workflows list, vocabulary table, and lifecycle ASCII updated to new names.
+- `reference/doc-ratchet.md` title: "Doc Ratchet Workflow" → "Project Ratchet (Mode 6) — Reference". Lead-in paragraph updated; filename retained to avoid inbound-link churn.
+- `reference/workflow-autoresearch.md` title: "Workflow Autoresearch" → "Doc Workflow Ratchet (Mode 7) — Reference". Lead-in paragraph updated; filename retained.
+
+### Not changed
+
+- Mode numbers (still Mode 6 and Mode 7). Anything referring to "Mode 6" or "Mode 7" remains valid.
+- Mode workflows, rules, rubric, drift checks, hard gates — all spec content identical.
+- Reference filenames (`reference/doc-ratchet.md`, `reference/workflow-autoresearch.md`) — kept to avoid breaking inbound links across `docs/_archive/`, `docs/inventories/`, test-run reports, and project AGENTS files.
+- Trigger phrase `doc ratchet` — retained alongside the new triggers.
+
+### Why patch, not minor
+
+No spec change. No new rule. No new anti-pattern. Wording change in published workflow files only. Matches the v3.3.1 / v3.3.2 cleanup-patch pattern.
+
+### Downstream sweep needed (Phase 7)
+
+- `+vantage-point/AGENTS.md` mode list — done in this PR.
+- `+vantage-point/README.md`, `program.md`, `STATUS.md`, `ROADMAP.md`, `routines/README.md`, `routines/doc-migration.md`, `docs/DOCS-INDEX.md`, `docs/README.md` — done in this PR.
+- Private memory (`MEMORY.md`) — done in this PR.
+- Project AGENTS files in other repos — none currently reference these mode names by their old form (verified by grep).
+
 ## v3.4.0 — 2026-05-16
 
 Spec extension. Adds **A20 (Inherits-from wording drift)** as a deterministic Mode 4 / Mode 2 drift check, closing the propagation gap flagged in the v3.3.2 patch.

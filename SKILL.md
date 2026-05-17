@@ -1,14 +1,14 @@
 ---
 name: anchor-point
 type: skill
-version: 3.4.0
+version: 3.4.1
 repo_intent: published
 status: active
 owner: knowledge-ops
 last_reviewed: 2026-05-16
 applies_to_projects: all
 github_repo: https://github.com/shifteddevlabs/anchor-point
-description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3.1 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
+description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3.4.1 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
 triggers:
   - anchor point
   - doc init
@@ -23,6 +23,8 @@ triggers:
   - doc audit
   - clean up docs
   - doc ratchet
+  - project ratchet
+  - doc workflow ratchet
   - optimize docs
   - inventory this project
   - harvest reusable learning
@@ -45,13 +47,13 @@ Read only what is needed for the current mode.
 
 | Source | Use For |
 |---|---|
-| `reference/doc-architecture.md` | Canonical architecture spec (v3.1) |
+| `reference/doc-architecture.md` | Canonical architecture spec (v3.4.1) |
 | `reference/canonical-file-set.md` | File placement decision tree |
 | `reference/anti-patterns.md` | Drift signatures (rationale for the codes used in `drift-checks.md`) |
 | `reference/drift-checks.md` | Drift-check detection table (grep patterns + fix routing for Audit and Review modes) |
 | `reference/naming-conventions.md` | Naming rules |
-| `reference/doc-ratchet.md` | Iterative duplicate-folder cleanup loop |
-| `reference/workflow-autoresearch.md` | Workflow scoring + autoresearch loop |
+| `reference/doc-ratchet.md` | Project Ratchet (Mode 6): iterative duplicate-folder cleanup of one project's docs |
+| `reference/workflow-autoresearch.md` | Doc Workflow Ratchet (Mode 7): evidence-driven hardening of the doc workflow itself |
 
 ## Components
 
@@ -73,7 +75,7 @@ Use components as internal building blocks. Do not expose them as extra commands
 | `doc-review` | snapshot → verify only for high-impact claims |
 | `doc-update` | snapshot → security-preflight if docs changed → verify → promote-memory → harvest if reusable learning appeared |
 | `doc-audit` | security-preflight → snapshot → verify → promote-memory → harvest if reusable material is found |
-| `doc-ratchet` | security-preflight → snapshot → doc-audit baseline → duplicate cleanup attempts → verify → promote-memory if reusable learning appeared |
+| `project-ratchet` | security-preflight → snapshot → doc-audit baseline → duplicate cleanup attempts → verify → promote-memory if reusable learning appeared |
 | `inventory and extract` | security-preflight → snapshot → harvest → promote-memory |
 
 ## Core Rules
@@ -111,7 +113,7 @@ These apply to EVERY workflow, every session. Derived from cross-project inciden
 - **No em-dashes.** Use commas or parentheses.
 - **Length:** as long as needed; as short as possible. No filler.
 
-## Canonical Project Surfaces (v3.1)
+## Canonical Project Surfaces (v3.4.1)
 
 For new model-agnostic project docs, use these 5 root files:
 
@@ -283,9 +285,9 @@ Rules:
 - Do not quote secrets.
 - Prefer rewriting reusable process over copying project-local docs verbatim.
 
-### Mode 6, Ratchet
+### Mode 6, Project Ratchet
 
-Use when the user wants iterative doc cleanup with scoring, usually on a duplicate before touching the real project.
+Use when the user wants iterative cleanup of **one project's docs** with scoring, usually on a duplicate before touching the real project. Targets project docs against the existing spec; does not modify the spec itself (that is Mode 7).
 
 Read `reference/doc-ratchet.md` before running this mode.
 
@@ -354,11 +356,11 @@ Rules:
 - When a file moves into history, repair its relative links or explicitly mark it as an unlinked snapshot.
 - **Output must be deterministic** for identical fixture inputs. Sort the Findings list by anti-pattern code first (A1, A2, ..., A13, then MG1, MG2, ...), then alphabetically by file path within each code. Sort Proposed Changes by target folder path (lexicographic). Use ISO-8601 timestamps only in the report's frontmatter `run-date` field, never inside finding bodies or score tables. Score values are integers in `[0, 100]`; never use floating point in dimension scores. Two runs on identical fixture inputs MUST produce byte-equivalent output modulo frontmatter timestamps and run UUIDs. (Rubric v2.0 D4 + HG3.)
 - **Routing decisions follow `reference/drift-checks.md`, not per-finding judgment.** For each Finding, the Proposed Change is fully determined by its code via the detection table. No ad-hoc routing; if a code is not in the table, that is a skill-extension request (file an issue), not a judgment call.
-- **Self-verify against `reference/drift-checks.md` "Routing accuracy test cases" (RT-01 through RT-11).** Any drift from those expected outputs is a routing-accuracy defect.
+- **Self-verify against `reference/drift-checks.md` "Routing accuracy test cases" (RT-01 through RT-12).** Any drift from those expected outputs is a routing-accuracy defect.
 
-### Mode 7, Workflow Autoresearch
+### Mode 7, Doc Workflow Ratchet
 
-Use when the user wants to evaluate the rules and workflows themselves, usually after two or three project ratchet runs.
+Use when the user wants to evaluate the rules and workflows themselves, usually after two or three Project Ratchet runs. Targets **the doc workflow** (SKILL, rubric, components, reference files); uses evidence from Mode 6 runs as input.
 
 Read `reference/workflow-autoresearch.md` and `components/workflow-score.md`.
 
@@ -376,14 +378,14 @@ Workflow:
 
 Rules:
 
-- Do not modify real project folders in workflow-autoresearch mode.
+- Do not modify real project folders in Doc Workflow Ratchet mode.
 - Do not promote a one-project fact into a global rule.
 - Optimize for safer future runs, not just a higher score.
 - A workflow score of 95+ is required before scheduling.
 
 ## Drift Checks
 
-The deterministic detection table (anti-pattern code → grep signature → fix routing) lives in `reference/drift-checks.md`. Load it for Review (Mode 2) and Audit (Mode 4) workflows. The table also carries the `RT-01` through `RT-11` routing-accuracy test cases used to self-verify Mode 6 output.
+The deterministic detection table (anti-pattern code → grep signature → fix routing) lives in `reference/drift-checks.md`. Load it for Review (Mode 2) and Audit (Mode 4) workflows. The table also carries the `RT-01` through `RT-12` routing-accuracy test cases used to self-verify Mode 6 output.
 
 For the rationale behind each anti-pattern code, see `reference/anti-patterns.md`.
 
@@ -492,7 +494,7 @@ Approval Items
 Risk Notes
 ```
 
-### Ratchet Output
+### Project Ratchet Output
 
 ```text
 Summary
@@ -508,7 +510,7 @@ Recommended Real-Project Changes
 Approval Items
 ```
 
-### Workflow Autoresearch Output
+### Doc Workflow Ratchet Output
 
 ```text
 Summary

@@ -73,8 +73,8 @@ Operational details live in `SKILL.md`. The seven modes:
 3. **Update** — end of session, idempotent STATUS write + ROADMAP sync + pre-routed Ask execution
 4. **Audit** — periodic deep alignment, score-and-fix with per-finding approval
 5. **Inventory & Extract** — scan a project for reusable learning that should graduate to shared infrastructure
-6. **Ratchet** — duplicate-only cleanup loop, score every attempt, ask before applying winning plan to real project
-7. **Workflow Autoresearch** — improve the reusable workflows themselves, gated by score threshold (95+) before automation
+6. **Project Ratchet** — duplicate-only cleanup loop for one project's docs, score every attempt, ask before applying winning plan to real project
+7. **Doc Workflow Ratchet** — improve the reusable workflows themselves, gated by score threshold (95+) before automation
 
 ## How users invoke you
 
@@ -84,7 +84,7 @@ Users speak naturally. The skill picks up trigger phrases:
 - *"Catch me up on where I left off"* → Review
 - *"Help me wrap up this session"* → Update
 - *"My docs feel messy, what's the cleanup plan?"* → Audit
-- *"Run the doc ratchet on a duplicate"* → Ratchet
-- *"Harden the doc workflow from these runs"* → Workflow Autoresearch
+- *"Run the doc ratchet on a duplicate"* → Project Ratchet
+- *"Harden the doc workflow from these runs"* → Doc Workflow Ratchet
 
 Identify the workflow from intent, announce it ("Running Anchor Point in Audit workflow..."), and proceed per `SKILL.md`.

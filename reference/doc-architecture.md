@@ -3,13 +3,13 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.4.0
+version: 3.4.1
 last_reviewed: 2026-05-16
 applies_to_projects: all
-supersedes: v3.3.2 (audit-time enforcement added for Inherits-from wording: new anti-pattern A20 detects when a project's `## Inherits from` section understates the workspace AGENTS scope. Closes the propagation gap flagged in v3.3.2 — projects that migrated under earlier wording will be flagged by `/doc-audit` Mode 4 for rewrite to the canonical template wording. No schema changes; spec extension only.)
+supersedes: v3.4.0 (naming-clarity patch only: Mode 6 is Project Ratchet, Mode 7 is Doc Workflow Ratchet. No schema changes, no new anti-patterns.)
 ---
 
-# Doc Architecture v3.4
+# Doc Architecture v3.4.1
 
 Canonical specification for how project docs are organized across all projects.
 Tool-agnostic. Optimized for multi-LLM, multi-session, parallel-agent work.
@@ -328,7 +328,7 @@ Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
 
 ## Workflow skills (operate on this spec)
 
-This spec is consumed by `SKILL.md` in the anchor-point skill folder, which owns the 7 modes (Init, Review, Update, Audit, Inventory & Extract, Ratchet, Workflow Autoresearch). Mode definitions live in SKILL.md, not here. This document is the rationale + canonical schema.
+This spec is consumed by `SKILL.md` in the anchor-point skill folder, which owns the 7 modes (Init, Review, Update, Audit, Inventory & Extract, Project Ratchet, Doc Workflow Ratchet). Mode definitions live in SKILL.md, not here. This document is the rationale + canonical schema.
 
 ## What changed v1.2 → v3.0 (changelog)
 
@@ -475,7 +475,7 @@ Worked example for Rule 4. Real case: `overdrive-lab/AGENTS.md` measured at 552 
 
 ## Future: autoresearch evaluation of Anchor Point itself
 
-Anchor Point itself is subject to optimization via the Workflow Autoresearch mode. The Skill Performance Rubric (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/architecture/skill-performance-rubric.md` in a vantage-point monorepo) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
+Anchor Point itself is subject to optimization via the Doc Workflow Ratchet mode. The Skill Performance Rubric (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/architecture/skill-performance-rubric.md` in a vantage-point monorepo) defines the metrics. Loop: run, score, mutate skill language, run again, keep improvements, repeat.
 
 ## Versioning
 
@@ -489,5 +489,6 @@ Anchor Point itself is subject to optimization via the Workflow Autoresearch mod
 | 3.2 | 2026-05-16 | knowledge-ops | Subfolder discipline (6 rules: README content, DOCS-INDEX location-only, CONTEXT.md reservation, AGENTS.md hot/warm sizing + extraction order, project ROUTER thresholds, workspace cheat-sheet ↔ ROUTER deduplication); A14-A18 anti-patterns; overdrive-lab worked example. Origin: 2026-05-16 evaluation against Jake Van Cleef CONTEXT.md proposal + Codex progressive-disclosure framing. |
 | 3.3 | 2026-05-16 | knowledge-ops | Promoted "ONE hot file" to first-class principle at the head of Subfolder discipline (was implicit in v3.2); sharpened Rule 5 thresholds to 5 concrete AND conditions; added A19 (two hot files holding overlapping content) covering the general case beyond v3.2's workspace-specific Rule 6; added vantage-point worked example to appendix demonstrating A19 collapse. Origin: 2026-05-16 architectural reset clarifying that hot-warm split is about discipline + update locality, not token cost. |
 | 3.4 | 2026-05-16 | knowledge-ops | Added A20 (Inherits-from wording drift) to anti-patterns catalog with deterministic detection in `reference/drift-checks.md` (bullet count + keyword coverage thresholds against the canonical template wording). Closes the propagation gap flagged in the v3.3.2 patch: projects migrated under earlier wording weren't auto-detected by Mode 4. v3.4 is a spec extension only — no schema changes, no new modes, no template changes; Mode 4 already detects via the catalog files. Origin: v3.3.2 CHANGELOG explicitly flagged this as the planned v3.4 extension. |
+| 3.4.1 | 2026-05-16 | knowledge-ops | Naming-clarity patch. Mode 6 "Ratchet" became "Project Ratchet"; Mode 7 "Workflow Autoresearch" became "Doc Workflow Ratchet." No schema changes, no new anti-patterns, no workflow behavior changes. |
 
 (Version 2.0 was a drafting checkpoint; never released.)

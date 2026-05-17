@@ -4,7 +4,7 @@ status: active
 owner: knowledge-ops
 last_reviewed: 2026-05-15
 applies_to: anchor-point Audit + Review modes
-description: Deterministic drift-check detection table. Each row pairs an anti-pattern code with a grep/scan signature and the routed fix. Loaded by Audit (Mode 4) and Review (Mode 2). Mode 6 Ratchet uses the same table for baseline scoring.
+description: Deterministic drift-check detection table. Each row pairs an anti-pattern code with a grep/scan signature and the routed fix. Loaded by Audit (Mode 4) and Review (Mode 2). Mode 6 Project Ratchet uses the same table for baseline scoring.
 ---
 
 # Drift Checks

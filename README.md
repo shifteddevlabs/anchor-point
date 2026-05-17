@@ -2,7 +2,7 @@
 
 **A model-agnostic documentation operating system for solo devs running multiple side projects.**
 
-Current version: **v3.4.0**. See `CHANGELOG.md` for what changed.
+Current version: **v3.4.1**. See `CHANGELOG.md` for what changed.
 
 Drop this folder into an AI project, repo, or knowledge base, then point tool-specific adapters at it. The agent becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy. Battle-tested, distilled from cross-project mining of real-world doc drift incidents.
 
@@ -20,7 +20,7 @@ Sound familiar? You don't need another tool. You need a system.
 - Naming rules that work the same way in every project (so you stop having "is it `auth.md` or `Auth.md` or `auth_flow.md`?" arguments with yourself).
 - A checklist of the common ways docs go sideways, so you catch them early.
 - Templates for each of the 5 main files. Drop-in, fill-in.
-- Six workflows for the project lifecycle: **Init** (new project), **Review** (start of session), **Update** (end of session), **Audit** (periodic cleanup), **Ratchet** (duplicate-only improvement loop), and **Workflow Autoresearch** (hardening the doc system itself).
+- Six workflows for the project lifecycle: **Init** (new project), **Review** (start of session), **Update** (end of session), **Audit** (periodic cleanup), **Project Ratchet** (duplicate-only improvement loop for one project's docs), and **Doc Workflow Ratchet** (hardening the doc workflow itself from project evidence).
 
 ## Quick start (under 5 minutes)
 
@@ -52,7 +52,7 @@ Use these names going forward:
 | Term | Meaning |
 |---|---|
 | **Capability** | A repoed, model-agnostic package of docs, rules, routines, and references. Anchor Point is a capability. |
-| **Workflow** | A user-facing process such as Init, Review, Update, Audit, Ratchet, or Workflow Autoresearch. |
+| **Workflow** | A user-facing process such as Init, Review, Update, Audit, Project Ratchet, or Doc Workflow Ratchet. |
 | **Routine** | A chainable repeatable block inside a workflow, such as harvest, verify, snapshot, score, or security preflight. |
 | **Component** | A reusable internal checklist, rubric, template, or scoring rule. |
 | **Adapter** | A tool-specific wrapper, slash command, installed skill, prompt, or scheduler entry that points back to the capability. |
@@ -101,8 +101,8 @@ NEW PROJECT        →  Init        bootstrap all files
 START OF SESSION   →  Review      read state, suggest next steps (read-only)
 END OF SESSION     →  Update      handoff, roadmap sync, harvest, verify, snapshot
 PERIODIC CLEANUP   →  Audit       deep alignment, file relocation, drift score
-LOW SCORE / MESSY  →  Ratchet     duplicate-only cleanup loop, score, keep best
-SYSTEM HARDENING   →  Autoresearch improve the workflows themselves from evidence
+LOW SCORE / MESSY  →  Project Ratchet      duplicate-only cleanup of one project's docs
+SYSTEM HARDENING   →  Doc Workflow Ratchet improve the doc workflow itself from evidence
 ```
 
 You don't memorize commands. Just talk naturally ("catch me up", "wrap this session", "my docs are messy") and the right workflow kicks in.
