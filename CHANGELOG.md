@@ -1,5 +1,45 @@
 # Changelog
 
+## v3.4.0 — 2026-05-16
+
+Spec extension. Adds **A20 (Inherits-from wording drift)** as a deterministic Mode 4 / Mode 2 drift check, closing the propagation gap flagged in the v3.3.2 patch.
+
+### Why
+
+v3.3.2 strengthened the `agents-template.md` "Inherits from" wording (canonical destination summary instead of a narrow 3-item list), and its CHANGELOG explicitly noted: "If audit-time enforcement of template-wording drift is wanted, that's a v3.4 spec extension (add a Mode 4 drift check that compares each project's Inherits-from text against the canonical template wording)."
+
+Without that check, projects migrated under the earlier wording (smg-ep, split-sheet, etc.) keep the narrow phrasing unless updated manually. v3.4 makes the drift visible to `/doc-audit` so future Mode 4 / Mode 2 runs flag it for rewrite.
+
+### What A20 detects
+
+A project AGENTS.md has a `## Inherits from` section, but its body fails ONE OR BOTH of:
+
+- Bullet count ≥ 4 (lines starting with `- ` or `* `)
+- Keyword coverage ≥ 5 of: `Routing-by-task`, `Hard Rules`, `Skills`, `Operating Agreements`, `Infrastructure`, `Connection-first`, `File naming` (case-insensitive substring)
+
+**Severity:** soft warning at bullet count 3 or keyword coverage 4; hard fix below those.
+
+### Why this is a minor bump, not a patch
+
+A20 is a new anti-pattern code. The catalog grew (A1-A19 → A1-A20). Minor bump is appropriate; patches are wording fixes within an existing code.
+
+### Changed
+
+- `reference/drift-checks.md` — added A20 detection row after A11 (related: both Inherits-from anti-patterns) plus RT-12 routing test case.
+- `reference/anti-patterns.md` — added A20 rationale section after A19; severity table row; "How Init pre-empts these" bullet.
+- `reference/doc-architecture.md` — added A20 row to the anti-patterns table; bumped frontmatter version + supersedes; spec title v3.3 → v3.4; v3.4 row added to the Versioning table.
+
+### Not changed
+
+- No new mode. Mode 4 (Audit) detects A20 via the existing catalog files; same pattern v3.2 used to add A14-A18.
+- No template change. The canonical wording in `reference/templates/agents-template.md` is what A20 compares against (unchanged since v3.3.2).
+- No schema change. 5 root files + 9 docs/ subfolders unchanged.
+- All v3.3 / v3.3.1 / v3.3.2 content intact.
+
+### Propagation
+
+Existing projects with narrow Inherits-from wording will be flagged by the next `/doc-audit` run. Per the standard Mode 4 atomic-approval pattern, the user approves each rewrite individually before changes apply.
+
 ## v3.3.2 — 2026-05-16
 
 Template-only patch. The `agents-template.md` "Inherits from" section was understating what's at the Layer 0 home destination. The previous wording said "Hard Rules baseline + naming + routing conventions" — that sounds like 3 narrow things. The reality is the Layer 0 AGENTS file holds the canonical workspace operating system (routing, Hard Rules incl. credential injection, skills + operating agreements + infrastructure maps, connection-first rule).

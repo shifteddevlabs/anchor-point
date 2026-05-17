@@ -3,13 +3,13 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.3.2
+version: 3.4.0
 last_reviewed: 2026-05-16
 applies_to_projects: all
-supersedes: v3.3.1 (template-only patch: agents-template.md Inherits-from section strengthened to surface what's at the workspace AGENTS destination — routing, Hard Rules, skills, operating agreements, infrastructure, connection-first. Wording accuracy fix, no content duplication.)
+supersedes: v3.3.2 (audit-time enforcement added for Inherits-from wording: new anti-pattern A20 detects when a project's `## Inherits from` section understates the workspace AGENTS scope. Closes the propagation gap flagged in v3.3.2 — projects that migrated under earlier wording will be flagged by `/doc-audit` Mode 4 for rewrite to the canonical template wording. No schema changes; spec extension only.)
 ---
 
-# Doc Architecture v3.3
+# Doc Architecture v3.4
 
 Canonical specification for how project docs are organized across all projects.
 Tool-agnostic. Optimized for multi-LLM, multi-session, parallel-agent work.
@@ -320,6 +320,7 @@ Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
 | **A17** (new in v3.2) | DOCS-INDEX.md has a Quick Start / task-routing table | Strip it. AGENTS.md §3 is the only task→file routing table. DOCS-INDEX.md is location-only. |
 | **A18** (new in v3.2) | Project-level ROUTER.md split when justification thresholds (Rule 5) not met | Fold back into AGENTS.md §3. Splits cost more in load decisions than they save in line count. |
 | **A19** (new in v3.3) | Two hot files hold overlapping content at the same level (e.g., AGENTS.md routing table + separate ROUTER.md routing table; AGENTS.md gotchas + separate gotchas.md) | Collapse into the canonical hot file (AGENTS.md). Hot content has exactly one home per the foundational principle. |
+| **A20** (new in v3.4) | Project AGENTS.md `## Inherits from` section understates the workspace AGENTS scope (e.g., narrow 3-item list instead of the canonical bulleted summary covering routing, Hard Rules, skills + operating agreements + infrastructure, connection-first, file naming) | Replace section body with the canonical wording from `reference/templates/agents-template.md` "Inherits from" block. Substitute `{{LAYER_0_HOME}}` with the project's actual Layer 0 path. Closes the propagation gap from v3.3.2: projects migrated under earlier wording weren't auto-detected; v3.4's deterministic check (bullet count + keyword coverage thresholds in `reference/drift-checks.md`) makes drift visible at audit time. |
 | MG1 | Active doc → `_private/` routing | Move pointer to "Sensitive SOT register"; do not route as primary navigation. |
 | **MG2** (expanded in v3.1) | ROADMAP > 300 lines without extracted decisions OR rotated history | Two-part fix: (a) extract Decision Log → `docs/decisions/`; (b) rotate completed-priority sections → `docs/roadmap-history/`. |
 | MG3 | Broken link in current/root docs | Update link target. Suppress when link is also MG1 (precedence). |
@@ -487,5 +488,6 @@ Anchor Point itself is subject to optimization via the Workflow Autoresearch mod
 | 3.1 | 2026-05-15 | knowledge-ops | Added `docs/roadmap-history/` bucket (parallel to `status-history/`); expanded MG2 to two-part fix (decisions + history rotation); 9 canonical subfolders bootstrap; canonical home moved to `+vantage-point/skills/anchor-point/reference/doc-architecture.md` post-merger |
 | 3.2 | 2026-05-16 | knowledge-ops | Subfolder discipline (6 rules: README content, DOCS-INDEX location-only, CONTEXT.md reservation, AGENTS.md hot/warm sizing + extraction order, project ROUTER thresholds, workspace cheat-sheet ↔ ROUTER deduplication); A14-A18 anti-patterns; overdrive-lab worked example. Origin: 2026-05-16 evaluation against Jake Van Cleef CONTEXT.md proposal + Codex progressive-disclosure framing. |
 | 3.3 | 2026-05-16 | knowledge-ops | Promoted "ONE hot file" to first-class principle at the head of Subfolder discipline (was implicit in v3.2); sharpened Rule 5 thresholds to 5 concrete AND conditions; added A19 (two hot files holding overlapping content) covering the general case beyond v3.2's workspace-specific Rule 6; added vantage-point worked example to appendix demonstrating A19 collapse. Origin: 2026-05-16 architectural reset clarifying that hot-warm split is about discipline + update locality, not token cost. |
+| 3.4 | 2026-05-16 | knowledge-ops | Added A20 (Inherits-from wording drift) to anti-patterns catalog with deterministic detection in `reference/drift-checks.md` (bullet count + keyword coverage thresholds against the canonical template wording). Closes the propagation gap flagged in the v3.3.2 patch: projects migrated under earlier wording weren't auto-detected by Mode 4. v3.4 is a spec extension only — no schema changes, no new modes, no template changes; Mode 4 already detects via the catalog files. Origin: v3.3.2 CHANGELOG explicitly flagged this as the planned v3.4 extension. |
 
 (Version 2.0 was a drafting checkpoint; never released.)
