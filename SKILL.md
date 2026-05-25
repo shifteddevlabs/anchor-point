@@ -12,12 +12,12 @@ description: Model-agnostic documentation operating system. Initializes, reviews
 triggers:
   - anchor point
   - doc init
-  - initialize docs
   - bootstrap docs
   - review docs
   - catch me up
   - where were we
   - update docs
+  - status update
   - session handoff
   - wrap up
   - doc audit
