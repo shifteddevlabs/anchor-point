@@ -3,13 +3,13 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3.4.1
-last_reviewed: 2026-05-16
+version: 3
+last_reviewed: 2026-05-18
 applies_to_projects: all
-supersedes: v3.4.0 (naming-clarity patch only: Mode 6 is Project Ratchet, Mode 7 is Doc Workflow Ratchet. No schema changes, no new anti-patterns.)
+supersedes: v3.4.1 (legacy decimal label; folded into public v3 when whole-number versioning was adopted. Future accepted edits increment to v4, v5, etc.)
 ---
 
-# Doc Architecture v3.4.1
+# Doc Architecture v3
 
 Canonical specification for how project docs are organized across all projects.
 Tool-agnostic. Optimized for multi-LLM, multi-session, parallel-agent work.
@@ -141,7 +141,7 @@ Read row in AGENTS.md "Where new files go" table (pre-loaded)
   ├── Verified-state config (IDs, env, version)──► docs/reference/<topic>.md
   │                                              + LOOKUP.md SOT row
   ├── Code review / security audit            ──► docs/reviews/YYYY-MM-DD-<scope>.md
-  ├── Release notes                           ──► docs/release/vX.Y-notes.md
+  ├── Release notes                           ──► docs/release/vN-notes.md
   ├── Research / exploration                  ──► docs/research/<topic>.md
   ├── Decision rationale                      ──► docs/decisions/YYYY-MM-DD-<topic>.md
   └── Persistent rule for this project        ──► AGENTS.md "Project Rules"
@@ -479,7 +479,23 @@ Anchor Point itself is subject to optimization via the Doc Workflow Ratchet mode
 
 ## Versioning
 
-| Version | Date | Author | Notes |
+Anchor Point uses whole-number public versions:
+
+- Current public version: **v3**
+- Next accepted edit: **v4**
+- Then **v5**, **v6**, and so on
+- The changelog explains the size and intent of each change
+- Decimal labels from the earlier `v3.x` period are legacy audit history only
+
+| Public Version | Date | Author | Notes |
+|---|---|---|---|
+| 1 | 2026-05-08 | knowledge-ops | Initial Anchor Point package and early doc lifecycle shape. |
+| 2 | 2026-05-14 | knowledge-ops | Drafting checkpoint, never released as the public target. |
+| 3 | 2026-05-18 | knowledge-ops | Current published shape. Folds legacy `3.0` through `3.4.1` history into a single public version and adopts whole-number versioning going forward. |
+
+### Legacy Decimal History
+
+| Legacy Label | Date | Author | Notes |
 |---|---|---|---|
 | 1.0 | 2026-05-08 | knowledge-ops | Initial 7-bucket spec |
 | 1.1 | 2026-05-08 | knowledge-ops | Layer 0 baseline, SOT registry, Debugging Playbook, A8 |

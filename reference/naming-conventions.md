@@ -20,7 +20,7 @@ Universal naming rules across all projects. Anchor Point applies these in Init w
 - **Exception:** `docs/DOCS-INDEX.md` follows root convention (ALL-CAPS-KEBAB) because it functions as a top-level navigation file within `docs/`
 - **Exception:** subfolder `README.md` files (e.g., `docs/status-history/README.md`, `docs/_archive/<batch>/ARCHIVE-README.md`) follow GitHub-standard ALL-CAPS naming
 
-**Folders (the 9 canonical docs/ subfolders, v3.4.1):** `lowercase-kebab/`
+**Folders (the 9 canonical docs/ subfolders, v3):** `lowercase-kebab/`
 - `status-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`
 - Hyphens between words
 - **Exception:** sort-to-bottom folders use leading underscore: `_archive/`, `_private/`

@@ -1,5 +1,27 @@
 # Changelog
 
+## v3 — 2026-05-18
+
+Versioning policy reset. Anchor Point now uses whole-number public versions instead of semantic or decimal-style versioning.
+
+### Why
+
+Anchor Point is a living methodology, not an API library. Decimal labels like `v3.4.1` created fake precision and made agents distinguish between structural spec versions, skill-driver naming patches, and historical migration labels. The user chose the simpler rule: current version is `v3`; the next accepted edit is `v4`, no matter how small.
+
+### Changed
+
+- Public/current labels now say **v3** instead of **v3.4.1**.
+- `SKILL.md` frontmatter now uses `version: 3`.
+- `reference/doc-architecture.md` now declares `version: 3` and titles the spec "Doc Architecture v3."
+- `README.md` now documents the whole-number versioning policy.
+- Legacy decimal history remains below for audit context only.
+
+### Versioning rule going forward
+
+- Every accepted edit increments the public version by one.
+- The changelog explains whether the change was tiny, naming-only, structural, or a major rethink.
+- Do not introduce patch/minor semantics back into Anchor Point unless the user explicitly reverses this policy.
+
 ## v3.4.1 — 2026-05-16
 
 Naming-clarity patch. Renames Mode 6 and Mode 7 to make their targets explicit, after a session where the user (skill author) couldn't recall which mode did what.
@@ -253,7 +275,6 @@ This release hardens Anchor Point from a Claude-centered documentation specialis
 
 ### Versioning Notes
 
-- `v1.0.x`: original Anchor Point package, centered on the 4-mode doc lifecycle.
-- `v1.1.0`: hardened capability architecture, model-agnostic bootstrap, ratchet/autoresearch workflows.
-- Future minor versions should add new reusable workflows or scoring criteria.
-- Future patch versions should fix wording, templates, examples, or link issues without changing workflow shape.
+- Historical note: the early package used decimal labels such as `v1.0.x`, `v1.1.0`, and `v3.4.1`.
+- Superseded on 2026-05-18 by the whole-number public policy introduced in `v3`.
+- Future accepted edits increment by one public version (`v4`, `v5`, `v6`), regardless of whether the change is small or large.

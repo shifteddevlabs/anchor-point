@@ -1,14 +1,14 @@
 ---
 name: anchor-point
 type: skill
-version: 3.4.1
+version: 3
 repo_intent: published
 status: active
 owner: knowledge-ops
-last_reviewed: 2026-05-16
+last_reviewed: 2026-05-18
 applies_to_projects: all
 github_repo: https://github.com/shifteddevlabs/anchor-point
-description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3.4.1 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
+description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
 triggers:
   - anchor point
   - doc init
@@ -25,10 +25,6 @@ triggers:
   - doc ratchet
   - project ratchet
   - doc workflow ratchet
-  - optimize docs
-  - inventory this project
-  - harvest reusable learning
-  - extract reusable docs
 ---
 
 # Anchor Point
@@ -47,7 +43,7 @@ Read only what is needed for the current mode.
 
 | Source | Use For |
 |---|---|
-| `reference/doc-architecture.md` | Canonical architecture spec (v3.4.1) |
+| `reference/doc-architecture.md` | Canonical architecture spec (v3) |
 | `reference/canonical-file-set.md` | File placement decision tree |
 | `reference/anti-patterns.md` | Drift signatures (rationale for the codes used in `drift-checks.md`) |
 | `reference/drift-checks.md` | Drift-check detection table (grep patterns + fix routing for Audit and Review modes) |
@@ -113,7 +109,7 @@ These apply to EVERY workflow, every session. Derived from cross-project inciden
 - **No em-dashes.** Use commas or parentheses.
 - **Length:** as long as needed; as short as possible. No filler.
 
-## Canonical Project Surfaces (v3.4.1)
+## Canonical Project Surfaces (v3)
 
 For new model-agnostic project docs, use these 5 root files:
 
@@ -447,7 +443,7 @@ Health bands:
 | Architecture, schema, API design | `docs/dev/` | `lowercase-kebab.md` |
 | Verified config or source of truth | `docs/reference/` | `lowercase-kebab.md` |
 | Repeatable runbook | `docs/playbooks/` | `<topic>-playbook.md` |
-| Release notes or migration notes | `docs/release/` | `vX.Y-notes.md` |
+| Release notes or migration notes | `docs/release/` | `vN-notes.md` |
 | Code review or audit report | `docs/reviews/` | `YYYY-MM-DD-<scope>.md` |
 | Research or exploration | `docs/research/` | `lowercase-kebab.md` |
 | Decision rationale (one per decision) | `docs/decisions/` | `YYYY-MM-DD-<topic>.md` |
