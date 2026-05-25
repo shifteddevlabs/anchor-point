@@ -2,7 +2,7 @@
 
 **A model-agnostic documentation operating system for solo devs running multiple side projects.**
 
-Current version: **v3.4.1**. See `CHANGELOG.md` for what changed.
+Current version: **v3**. See `CHANGELOG.md` for what changed.
 
 Drop this folder into an AI project, repo, or knowledge base, then point tool-specific adapters at it. The agent becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy. Battle-tested, distilled from cross-project mining of real-world doc drift incidents.
 
@@ -33,6 +33,12 @@ Sound familiar? You don't need another tool. You need a system.
    - *"My docs are a mess. What's the cleanup plan?"*
 
 The agent will respond as a doc specialist and walk you through the right workflow. That's it.
+
+## Versioning
+
+Anchor Point uses whole-number public versions. The current published shape is **v3**. The next accepted edit is **v4**, then **v5**, and so on. The changelog explains whether a change was tiny, naming-only, structural, or a major rethink; the version number itself does not encode patch/minor/major semantics.
+
+Older decimal labels (`v3.4.1`, `v3.4.0`, etc.) are retained in the changelog only as historical audit detail.
 
 ## What's in this folder
 

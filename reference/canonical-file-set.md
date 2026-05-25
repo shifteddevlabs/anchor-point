@@ -2,9 +2,9 @@
 type: reference
 status: active
 owner: knowledge-ops
-last_reviewed: 2026-05-15
+last_reviewed: 2026-05-18
 applies_to: anchor-point Init + Audit modes
-description: Canonical 5-root-file v3.4.1 doc set plus the docs/ ecosystem decision tree. Routes any new file to the right home.
+description: Canonical 5-root-file v3 doc set plus the docs/ ecosystem decision tree. Routes any new file to the right home.
 ---
 
 # Canonical File Set + Where-Things-Go Decision Tree
@@ -13,7 +13,7 @@ The 5 canonical root files plus the docs/ ecosystem and a complete decision tree
 
 ---
 
-## The canonical 5 root files (v3.4.1)
+## The canonical 5 root files (v3)
 
 Every project should have these.
 
@@ -74,10 +74,10 @@ When a new file needs to be created, walk this table top-to-bottom. First match 
 |---|---|---|---|
 | One of the 5 canonical root docs | Project root | `ALL-CAPS-KEBAB.md` | None — already canonical |
 | Architecture / API design / schema doc | `docs/dev/` (or `docs/dev/<tech>/` if 3+ exist for one tech) | `lowercase-kebab.md` | None |
-| Release notes / changelog | `docs/release/` | `vX.Y-notes.md` | None |
+| Release notes / changelog | `docs/release/` | `vN-notes.md` | None |
 | Migration plan / per-migration decisions | `docs/decisions/` | `YYYY-MM-DD-<migration>.md` | None |
 | Migration runbook / rollback procedure | `docs/playbooks/` | `<topic>-playbook.md` | Add row to LOOKUP.md Playbooks index |
-| Migration notes tied to a release | `docs/release/` | `vX.Y-migration-notes.md` | None |
+| Migration notes tied to a release | `docs/release/` | `vN-migration-notes.md` | None |
 | Code review / security audit | `docs/reviews/` | `YYYY-MM-DD-<scope>.md` | None |
 | Decision rationale (one per decision) | `docs/decisions/` | `YYYY-MM-DD-<topic>.md` | Reduce ROADMAP Decision Log to a 1-line pointer |
 | Verified-state config (OAuth IDs, env vars, exact values) | `docs/reference/` (or `docs/reference/<tech>/` if 3+) | `lowercase-kebab.md` | Add row to LOOKUP.md SOT registry |

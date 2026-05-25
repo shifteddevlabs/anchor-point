@@ -1,11 +1,11 @@
 # Roadmap
 
 > **Last Updated:** [DATE]
-> **Current version:** [vX.Y]
+> **Current version:** [vN]
 
 ---
 
-## Current Version — [vX.Y]
+## Current Version — [vN]
 
 ### Red — blockers (must ship before release)
 
@@ -28,7 +28,7 @@
 
 ---
 
-## vNext Backlog ([vX.Y+1])
+## vNext Backlog ([vN+1])
 
 Polish items + small features queued for the next release after current.
 
