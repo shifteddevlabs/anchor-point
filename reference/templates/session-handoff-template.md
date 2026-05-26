@@ -1,4 +1,4 @@
-# Status — {{PROJECT_NAME}}
+# Session Handoff — {{PROJECT_NAME}}
 
 > **Updated:** {{YYYY-MM-DD}}
 
@@ -47,4 +47,4 @@ Open questions that need a decision. Each Ask carries a routing tag in brackets 
 
 ---
 
-*STATUS.md is HOT — loaded every session. Keep it ≤ 150 lines. When it exceeds 200, rotate the oldest 50% to `docs/status-history/<YYYY-MM-DD>-NN.md` BEFORE the next write. doc-handoff (Mode 3) does this automatically.*
+*SESSION-HANDOFF.md is HOT — loaded every session. Keep it ≤ 150 lines. When it exceeds 200, rotate the oldest 50% to `docs/handoff-history/<YYYY-MM-DD>-NN.md` BEFORE the next write. doc-handoff (Mode 3) does this automatically.*

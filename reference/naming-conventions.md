@@ -7,24 +7,25 @@ Universal naming rules across all projects. Anchor Point applies these in Init w
 ## The rules
 
 **Root-level files (the 5 canonical, v3.0+):** `ALL-CAPS-KEBAB.md`
-- `README.md`, `AGENTS.md`, `STATUS.md`, `ROADMAP.md`, `LOOKUP.md`
+- `README.md`, `AGENTS.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`
 - Hyphens between words (no spaces, no underscores, no camelCase)
 - Always `.md` extension
 - `CLAUDE.md` (and other vendor-specific bootstrap files) become 1-line stubs pointing to `AGENTS.md` when present
-- **Legacy v1.x:** projects on the old shape had `CONTEXT.md` (now absorbed into AGENTS.md §2), `SESSION-HANDOFF.md` (renamed to `STATUS.md`), and `REFERENCES.md` (renamed to `LOOKUP.md`). Migrated by Audit (Mode 4)
+- **Legacy v1.x:** projects on the old shape had `CONTEXT.md` (now absorbed into AGENTS.md §2), `SESSION-HANDOFF.md` (renamed to `STATUS.md` in v3, restored to `SESSION-HANDOFF.md` in v4), and `REFERENCES.md` (renamed to `LOOKUP.md` in v3, restored to `REFERENCES.md` in v4). Migrated by Audit (Mode 4)
+- **Legacy v3:** projects on the v3 shape used `STATUS.md` (now `SESSION-HANDOFF.md`) and `LOOKUP.md` (now `REFERENCES.md`). Migrated by Audit (Mode 4) via MG5.
 
 **`docs/` files:** `lowercase-kebab.md`
 - `meta-app-capabilities.md`, `auth-flow-design.md`, `stripe-webhook-flow.md`
 - Hyphens between words
 - Always `.md` extension
 - **Exception:** `docs/DOCS-INDEX.md` follows root convention (ALL-CAPS-KEBAB) because it functions as a top-level navigation file within `docs/`
-- **Exception:** subfolder `README.md` files (e.g., `docs/status-history/README.md`, `docs/_archive/<batch>/ARCHIVE-README.md`) follow GitHub-standard ALL-CAPS naming
+- **Exception:** subfolder `README.md` files (e.g., `docs/handoff-history/README.md`, `docs/_archive/<batch>/ARCHIVE-README.md`) follow GitHub-standard ALL-CAPS naming
 
-**Folders (the 9 canonical docs/ subfolders, v3):** `lowercase-kebab/`
-- `status-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`
+**Folders (the 9 canonical docs/ subfolders, v4):** `lowercase-kebab/`
+- `handoff-history/` (v3 was `status-history/`), `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`
 - Hyphens between words
 - **Exception:** sort-to-bottom folders use leading underscore: `_archive/`, `_private/`
-- **Legacy:** old `zzz-archive/` and `zzz-private/` get migrated by the Audit workflow → `docs/_archive/` and `docs/_private/`. Old `history/` was split into `status-history/` and `roadmap-history/` in v3.1.
+- **Legacy:** old `zzz-archive/` and `zzz-private/` get migrated by the Audit workflow → `docs/_archive/` and `docs/_private/`. Old `history/` was split into `status-history/` and `roadmap-history/` in v3.1, and `status-history/` was renamed to `handoff-history/` in v4.
 
 **Date format in filenames:** `YYYY-MM-DD` (ISO-8601, sortable)
 - Session files: `YYYY-MM-DD-session-NN.md` (e.g., `2026-04-19-session-25.md`)
@@ -71,14 +72,14 @@ When violated, agents waste cycles guessing the canonical filename. ("Is it `aut
 my-project/
 ├── README.md
 ├── AGENTS.md
-├── STATUS.md
+├── SESSION-HANDOFF.md
 ├── ROADMAP.md
-├── LOOKUP.md
+├── REFERENCES.md
 └── docs/
     ├── DOCS-INDEX.md
-    ├── status-history/
+    ├── handoff-history/
     │   ├── README.md
-    │   └── 2026-04-19-session-25.md
+    │   └── 2026-04-19-handoff-25.md
     ├── roadmap-history/
     │   ├── README.md
     │   └── 2026-05-15-roadmap-snapshot.md
@@ -104,7 +105,7 @@ my-project/
 ├── README.md                           ✓ correct
 ├── agents.md                           ✗ should be AGENTS.md
 ├── My Notes.md                         ✗ space + camelCase + at root
-├── status_v2.md                        ✗ underscore + lowercase (also: STATUS.md is canonical, no v2 suffix)
+├── status_v2.md                        ✗ underscore + lowercase (also: SESSION-HANDOFF.md is canonical, no v2 suffix)
 ├── 2026.04.19-release-plan.md          ✗ dots in date format
 └── docs/
     ├── AuthFlow.md                     ✗ camelCase in docs/

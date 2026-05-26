@@ -1,4 +1,4 @@
-# Lookup — {{PROJECT_NAME}}
+# References — {{PROJECT_NAME}}
 
 Topic-driven lookup hub. Tables of pointers, not original content. For file-by-file inventory see `docs/DOCS-INDEX.md`.
 
@@ -66,4 +66,4 @@ Which shared skills apply to this project (path bound via `{{LAYER_0_HOME}}`; e.
 
 ---
 
-*LOOKUP.md is HOT — loaded every session. Keep it ≤ 150 lines. Single-owner discipline: persistent rules → `AGENTS.md`; session-volatile hazards → `STATUS.md`; cross-project conventions → `{{LAYER_0_HOME}}` (replace with your Layer 0 path; e.g., `+vantage-point/AGENTS.md`) (inherited, never duplicated). File inventory → `docs/DOCS-INDEX.md` only (anti-pattern A10).*
+*REFERENCES.md is HOT — loaded every session. Keep it ≤ 150 lines. Single-owner discipline: persistent rules → `AGENTS.md`; session-volatile hazards → `SESSION-HANDOFF.md`; cross-project conventions → `{{LAYER_0_HOME}}` (replace with your Layer 0 path; e.g., `+vantage-point/AGENTS.md`) (inherited, never duplicated). File inventory → `docs/DOCS-INDEX.md` only (anti-pattern A10).*

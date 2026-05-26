@@ -13,7 +13,7 @@ The 5 canonical root files plus the docs/ ecosystem and a complete decision tree
 
 ---
 
-## The canonical 5 root files (v3)
+## The canonical 5 root files (v4)
 
 Every project should have these.
 
@@ -21,9 +21,9 @@ Every project should have these.
 |---|---|---|
 | `README.md` | Public face — what is this, quick start, tech stack | 50-100 lines |
 | `AGENTS.md` | AI bootstrap — Identity, Current Phase, Routing-by-task, Where new files go, Project Rules, Tech Stack, Gotchas, Inherits-from pointer | 200 lines max |
-| `STATUS.md` | Latest delta — TL;DR, Last shipped, Next session, Blockers, Debugging Playbook | 150 lines max |
+| `SESSION-HANDOFF.md` | Latest delta — TL;DR, Last shipped, Next session, Blockers, Debugging Playbook | 150 lines max |
 | `ROADMAP.md` | Priorities — current red/yellow/green, vNext backlog, future. Decision Log split out to `docs/decisions/`. | scales (rotate at 300) |
-| `LOOKUP.md` | Topic-driven lookup — SOT registry, playbooks index, API constraints, external docs, external infra | 150 lines max |
+| `REFERENCES.md` | Topic-driven lookup — SOT registry, playbooks index, API constraints, external docs, external infra | 150 lines max |
 
 `CLAUDE.md` (and other vendor-specific bootstrap files like `.cursorrules`) become 1-line stubs pointing to `AGENTS.md` when present, kept only for tool compatibility.
 
@@ -36,7 +36,7 @@ All 9 subfolders are created at bootstrap by Init Mode, each with a `README.md` 
 | Path | Purpose | Created |
 |---|---|---|
 | `docs/DOCS-INDEX.md` | Location-driven file inventory | When `docs/` exceeds 10 files |
-| `docs/status-history/` + `README.md` | Rotated STATUS.md backups; dated files (`YYYY-MM-DD-NN.md`) | At bootstrap (or first STATUS rotation) |
+| `docs/handoff-history/` + `README.md` | Rotated SESSION-HANDOFF.md backups; dated files (`YYYY-MM-DD-NN.md`) | At bootstrap (or first SESSION-HANDOFF rotation) |
 | `docs/roadmap-history/` + `README.md` | Rotated ROADMAP.md backups; dated files (`YYYY-MM-DD-NN.md`) | At bootstrap (or first ROADMAP rotation) |
 | `docs/decisions/` + `README.md` | One file per decision, dated (`YYYY-MM-DD-<topic>.md`); supersedes ROADMAP Decision Log | At bootstrap |
 | `docs/reference/` | Verified-state SOT files | At bootstrap |
@@ -58,7 +58,7 @@ These three subfolders all hold "older" content but follow different conventions
 
 | Folder | Triggered when | File naming | Owner of rotation |
 |---|---|---|---|
-| `status-history/` | STATUS.md > 200 lines | `YYYY-MM-DD-NN.md` (whole-file rotation, oldest 50%) | Update mode (auto) |
+| `handoff-history/` | SESSION-HANDOFF.md > 200 lines | `YYYY-MM-DD-NN.md` (whole-file rotation, oldest 50%) | Update mode (auto) |
 | `roadmap-history/` | ROADMAP.md > 300 lines (completed-priority entries pile up) | `YYYY-MM-DD-NN.md` (rotation of completed sections) | Update mode (auto) |
 | `decisions/` | A decision is made (any time) | `YYYY-MM-DD-<topic>.md` (one file per decision) | Per-decision (manual or Update-mode auto) |
 
@@ -83,7 +83,7 @@ When a new file needs to be created, walk this table top-to-bottom. First match 
 | Verified-state config (OAuth IDs, env vars, exact values) | `docs/reference/` (or `docs/reference/<tech>/` if 3+) | `lowercase-kebab.md` | Add row to LOOKUP.md SOT registry |
 | Process runbook ("when X happens, do Y") | `docs/playbooks/` (or `docs/playbooks/<tech>/` if 3+) | `<topic>-playbook.md` | Add row to LOOKUP.md Playbooks index |
 | Research / experiment / exploration | `docs/research/` | `lowercase-kebab.md` | None |
-| Rotated STATUS.md content | `docs/status-history/` | `YYYY-MM-DD-NN.md` | None (auto by Update mode) |
+| Rotated SESSION-HANDOFF.md content | `docs/handoff-history/` | `YYYY-MM-DD-NN.md` | None (auto by Update mode) |
 | Rotated ROADMAP.md content | `docs/roadmap-history/` | `YYYY-MM-DD-NN.md` | None (auto by Update mode) |
 | Sensitive (secrets, internal numbers, business docs) | `docs/_private/` | `lowercase-kebab.md` | None |
 | Don't know where it goes | Drop in `docs/research/` and let Audit relocate later, or ask before creating | `lowercase-kebab.md` | Flag for Audit |
@@ -119,7 +119,7 @@ This is what makes Audit safe — moves are atomic AND fully reconciled across t
 
 ## Why this organization works
 
-**Predictability:** an agent or human can find any file by walking the tree. Architecture docs? `docs/dev/`. Verified config? `docs/reference/`. Decisions? `docs/decisions/`. Rotated history? `docs/status-history/` or `docs/roadmap-history/`. No guessing.
+**Predictability:** an agent or human can find any file by walking the tree. Architecture docs? `docs/dev/`. Verified config? `docs/reference/`. Decisions? `docs/decisions/`. Rotated history? `docs/handoff-history/` or `docs/roadmap-history/`. No guessing.
 
 **Compounds over time:** as the project grows, the structure scales. Three migrations? `docs/decisions/`. Three Stripe docs? `docs/playbooks/stripe/`. Audit handles consolidation when thresholds are crossed.
 
@@ -130,6 +130,20 @@ This is what makes Audit safe — moves are atomic AND fully reconciled across t
 **Tool-agnostic:** the architecture works whether you use Claude, Codex, Cursor, Cowork, or no AI tool at all. The structure is what matters.
 
 **Adapter-friendly:** tool-specific commands, installed skills, and scheduled jobs should point back to this capability instead of becoming separate sources of truth.
+
+---
+
+## Migration from v3 (5-file with STATUS/LOOKUP) projects
+
+Projects that adopted the v3 5-file shape used `STATUS.md` and `LOOKUP.md` at the root. The v4 rename adopts canonical names that match natural LLM routing language:
+
+| v3 file/folder | v4 destination | Action |
+|---|---|---|
+| `STATUS.md` | `SESSION-HANDOFF.md` | `git mv STATUS.md SESSION-HANDOFF.md` |
+| `LOOKUP.md` | `REFERENCES.md` | `git mv LOOKUP.md REFERENCES.md` |
+| `docs/status-history/` | `docs/handoff-history/` | `git mv docs/status-history docs/handoff-history` |
+
+Audit Mode 4 detects via MG5 and proposes migration atomically.
 
 ---
 

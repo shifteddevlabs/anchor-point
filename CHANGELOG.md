@@ -1,5 +1,40 @@
 # Changelog
 
+## v4 — 2026-05-26
+
+Root-file canonical rename: STATUS.md → SESSION-HANDOFF.md, LOOKUP.md → REFERENCES.md, docs/status-history/ → docs/handoff-history/. Driven by the two-layer canonical/display naming model adopted in the 2026-05-26 +vantage-point decision (see `+vantage-point/docs/decisions/2026-05-26-agent-ops-rename-and-canonical-routes.md`).
+
+### Why
+
+Agents repeatedly route on literal trigger words like "session handoff" then self-correct away to STATUS, wasting tokens on every cycle. The v4 canonical names match the natural LLM routing language. Brand/display layer ("Anchor Point") preserved unchanged.
+
+### Changed
+
+- `SKILL.md` frontmatter `version: 3` → `version: 4`.
+- `reference/doc-architecture.md` frontmatter `version: 3` → `version: 4`; v4 row added to the Public Version history table.
+- `reference/canonical-file-set.md`: 5 root files table updated (STATUS → SESSION-HANDOFF, LOOKUP → REFERENCES); docs/ ecosystem updated (status-history → handoff-history); new "Migration from v3 projects" section added.
+- `reference/naming-conventions.md`: canonical name list updated; legacy v3 migration history added; tree examples updated.
+- `reference/drift-checks.md`: new MG5 row detecting v3→v4 migration candidates; RT-13 routing test added.
+- `reference/templates/status-template.md` → `session-handoff-template.md` (renamed via `git mv`); content header + footer updated.
+- `reference/templates/lookup-template.md` → `references-template.md` (renamed via `git mv`); content header + footer updated.
+- `reference/templates/agents-template.md`: cross-references to STATUS/LOOKUP updated.
+- `reference/mode-1-init.md`, `mode-3-update.md`: workflow steps updated to write new canonical filenames.
+
+### Not changed (deferred to Phase 3a.1)
+
+- Narrative prose in `examples.md`, `identity.md`, `README.md`, `SKILL.md` body, `components/*`, `anti-patterns.md`, and `doc-architecture.md` body sections that describe v3 behavior. These still reference STATUS.md / LOOKUP.md / status-history in prose; they describe historical/conceptual content and will be updated in a follow-up pass.
+- Mode 2, Mode 5, Mode 6, Mode 7 reference files.
+- Historical changelog entries (v3.x, v1.x). They describe past versions accurately and stay.
+
+### Downstream sweep
+
+- Per-project file renames across 16 projects in ~/Desktop/ai-projects/ — Phase 3b, executed one project per session as separate /push commits. Audit Mode 4 + MG5 detects each project's migration candidacy.
+- Claude-local doc-* adapters (`~/.claude/skills/doc-init`, `doc-update`, `doc-review`, `doc-audit`) — updated alongside this spec change.
+
+### Versioning rule reminder
+
+Per the v3 policy reset: whole-number public versions. v4 is one increment from v3 regardless of change scope. CHANGELOG explains.
+
 ## v3 — 2026-05-18
 
 Versioning policy reset. Anchor Point now uses whole-number public versions instead of semantic or decimal-style versioning.

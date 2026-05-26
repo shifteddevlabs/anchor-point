@@ -3,7 +3,7 @@ type: spec
 repo_intent: published
 status: active
 owner: knowledge-ops
-version: 3
+version: 4
 last_reviewed: 2026-05-18
 applies_to_projects: all
 supersedes: v3.4.1 (legacy decimal label; folded into public v3 when whole-number versioning was adopted. Future accepted edits increment to v4, v5, etc.)
@@ -492,6 +492,7 @@ Anchor Point uses whole-number public versions:
 | 1 | 2026-05-08 | knowledge-ops | Initial Anchor Point package and early doc lifecycle shape. |
 | 2 | 2026-05-14 | knowledge-ops | Drafting checkpoint, never released as the public target. |
 | 3 | 2026-05-18 | knowledge-ops | Current published shape. Folds legacy `3.0` through `3.4.1` history into a single public version and adopts whole-number versioning going forward. |
+| 4 | 2026-05-26 | knowledge-ops | STATUS.md → SESSION-HANDOFF.md, LOOKUP.md → REFERENCES.md, docs/status-history/ → docs/handoff-history/ rename per 2026-05-26 decision. MG5 migration check added. |
 
 ### Legacy Decimal History
 

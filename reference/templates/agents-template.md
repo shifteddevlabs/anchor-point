@@ -23,14 +23,14 @@
 
 | If you need to... | Open |
 |---|---|
-| Understand current state + last session | `STATUS.md` |
+| Understand current state + last session | `SESSION-HANDOFF.md` |
 | See what's next | `ROADMAP.md` |
-| Find a verified config / SOT | `docs/reference/<topic>.md` (see LOOKUP.md SOT registry for index) |
-| Follow a process runbook | `docs/playbooks/<topic>-playbook.md` (see LOOKUP.md Playbooks index) |
-| Look up an API constraint | `LOOKUP.md` API Constraints section |
+| Find a verified config / SOT | `docs/reference/<topic>.md` (see REFERENCES.md SOT registry for index) |
+| Follow a process runbook | `docs/playbooks/<topic>-playbook.md` (see REFERENCES.md Playbooks index) |
+| Look up an API constraint | `REFERENCES.md` API Constraints section |
 | Read decision rationale | `docs/decisions/<date>-<topic>.md` |
 | Check release notes | `docs/release/v<X.Y>-notes.md` |
-| Check completed work history | `docs/status-history/<date>-session-<NN>.md` |
+| Check completed work history | `docs/handoff-history/<date>-handoff-<NN>.md` |
 | Find cross-project rules | `{{LAYER_0_HOME}}/AGENTS.md` (replace with your Layer 0 path; e.g., `+vantage-point/AGENTS.md`) |
 
 ## Where new files go
@@ -71,7 +71,7 @@ The Source column cites the file the version came from (e.g., `package.json`, `C
 Sentence-form discipline:
 - **Imperative** ("do X" / "don't Y") = rule (this section or "Project Rules")
 - **Declarative** ("X is Y") = fact (Tech Stack or `docs/reference/`)
-- **Conditional** ("if X breaks, do Y") = recipe (STATUS.md Debugging Playbook)
+- **Conditional** ("if X breaks, do Y") = recipe (SESSION-HANDOFF.md Debugging Playbook)
 
 ## Inherits from
 

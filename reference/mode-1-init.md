@@ -28,7 +28,7 @@ Use when starting docs for a new project or bringing a thin project up to baseli
 
 - created or proposed root docs
 - initial docs folder map
-- first `STATUS.md`
+- first `SESSION-HANDOFF.md`
 - initial `ROADMAP.md`
 
 ## Component Chain

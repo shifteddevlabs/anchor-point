@@ -1,14 +1,15 @@
 ---
 name: anchor-point
+display: Anchor Point
 type: skill
-version: 3
+version: 4
 repo_intent: published
 status: active
 owner: knowledge-ops
-last_reviewed: 2026-05-24
+last_reviewed: 2026-05-26
 applies_to_projects: all
 github_repo: https://github.com/shifteddevlabs/anchor-point
-description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v3 standard (README, AGENTS, STATUS, ROADMAP, LOOKUP) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
+description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v4 standard (README, AGENTS, SESSION-HANDOFF, ROADMAP, REFERENCES) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
 triggers:
   - anchor point
   - doc init
@@ -25,6 +26,8 @@ triggers:
   - doc ratchet
   - project ratchet
   - doc workflow ratchet
+  - doc system
+  - documentation system
 ---
 
 # Anchor Point
@@ -54,7 +57,7 @@ Read only what is needed for the current mode.
 | `reference/mode-5-inventory-extract.md` | Mode 5 full workflow |
 | `reference/mode-6-project-ratchet.md` | Mode 6 full workflow + read-budget + timing table |
 | `reference/mode-7-doc-workflow-ratchet.md` | Mode 7 full workflow |
-| `reference/doc-architecture.md` | Canonical architecture spec (v3) |
+| `reference/doc-architecture.md` | Canonical architecture spec (v4) |
 | `reference/canonical-file-set.md` | File placement decision tree |
 | `reference/anti-patterns.md` | Drift signatures (rationale for the codes used in `drift-checks.md`) |
 | `reference/drift-checks.md` | Drift-check detection table (grep patterns + fix routing for Audit and Review modes) |
@@ -120,7 +123,7 @@ These apply to EVERY workflow, every session. Derived from cross-project inciden
 - **No em-dashes.** Use commas or parentheses.
 - **Length:** as long as needed; as short as possible. No filler.
 
-## Canonical Project Surfaces (v3)
+## Canonical Project Surfaces (v4)
 
 For new model-agnostic project docs, use these 5 root files:
 
@@ -128,9 +131,9 @@ For new model-agnostic project docs, use these 5 root files:
 |---|---|
 | `README.md` | Public overview and quick start |
 | `AGENTS.md` | AI bootstrap. Owns Identity, Current Phase (absorbed CONTEXT.md), Routing-by-task, Where new files go, Project Rules, Tech Stack, Gotchas, Inherits-from pointer. |
-| `STATUS.md` | Latest delta + next pickup. Pure-function output of Mode 3. |
+| `SESSION-HANDOFF.md` | Latest delta + next pickup. Pure-function output of Mode 3. (v3 name: `STATUS.md`; projects on v3 detected by MG5 + migrated by Mode 4.) |
 | `ROADMAP.md` | Priorities. Decisions split out to `docs/decisions/`. |
-| `LOOKUP.md` | Topic-driven lookup hub (SOT registry, playbooks index, API constraints, external docs). |
+| `REFERENCES.md` | Topic-driven lookup hub (SOT registry, playbooks index, API constraints, external docs). (v3 name: `LOOKUP.md`; projects on v3 detected by MG5 + migrated by Mode 4.) |
 
 `CLAUDE.md` (and other vendor-specific bootstrap files) become 1-line stubs pointing to `AGENTS.md` when present. If a project already uses a full `CLAUDE.md`, do not delete or rename it automatically; classify and migrate per Mode 1 refresh.
 

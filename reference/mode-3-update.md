@@ -20,12 +20,12 @@ Use at session end or after meaningful work.
 4. Use `components/verify.md` for volatile or high-impact claims.
 5. Use `components/promote-memory.md` to place durable learnings.
 6. Use `components/harvest.md` only if reusable cross-project process appeared.
-7. Update `STATUS.md`.
+7. Update `SESSION-HANDOFF.md`.
 8. Sync `ROADMAP.md` for completed and newly surfaced work.
 9. Add decision rows when decisions were made.
-10. Update `LOOKUP.md` when new source-of-truth or playbook docs appear.
+10. Update `REFERENCES.md` when new source-of-truth or playbook docs appear.
 11. Add persistent rules to `AGENTS.md` or project-local bootstrap docs only when a durable lesson emerged.
-12. Rotate when needed: STATUS.md content older than the latest delta → `docs/status-history/`; ROADMAP.md completed-priority entries beyond the visible window → `docs/roadmap-history/`. Decision Log rows → `docs/decisions/` (one file per decision).
+12. Rotate when needed: SESSION-HANDOFF.md content older than the latest delta → `docs/handoff-history/`; ROADMAP.md completed-priority entries beyond the visible window → `docs/roadmap-history/`. Decision Log rows → `docs/decisions/` (one file per decision).
 
 ## Rules
 
