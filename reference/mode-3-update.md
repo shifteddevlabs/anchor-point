@@ -30,9 +30,10 @@ Use at session end or after meaningful work.
 ## Rules
 
 - Content-only.
-- Do not move or rename files.
+- Do not move or rename files (that's Mode 4's job).
 - Do not rewrite project history.
 - Keep handoff concise and specific.
+- **Idempotent** — same inputs (git log, file diffs, pre-routed Asks) MUST produce a byte-identical `SESSION-HANDOFF.md`. Re-running Mode 3 on the same state should be a no-op. Anti-pattern A13 prevents drift here.
 
 ## Component Chain
 

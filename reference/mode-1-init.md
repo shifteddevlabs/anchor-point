@@ -31,6 +31,16 @@ Use when starting docs for a new project or bringing a thin project up to baseli
 - first `SESSION-HANDOFF.md`
 - initial `ROADMAP.md`
 
+## Modes ($ARGUMENTS)
+
+When invoked via host slash command (Claude `/doc-init`, equivalent in other hosts):
+
+- (default) — full interview, generate all files for the current project
+- `quick` — infer everything from project files, no interview
+- `refresh` — update existing files surgically (preserve user customization)
+- `workspace` — bootstrap workspace-level master AGENTS.md only (no per-project files)
+- `workspace --children` — workspace mode plus walk into each child folder
+
 ## Component Chain
 
 `verify → snapshot`

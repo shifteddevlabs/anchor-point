@@ -29,10 +29,20 @@ The Audit Scoring Rubric (Hard Gates + 100-point categories + health bands) live
 
 ## Rules
 
-- Approval required before structure changes.
+- **Always present plan before executing. No exceptions.**
+- **Atomic per-finding approval.** Never bulk-rewrite multiple files in one operation. Every move/rename/merge surfaces as its own finding awaiting user OK.
 - Never delete, archive instead.
 - Do not move secret-bearing files without a private migration plan.
-- Execute changes atomically.
+- **Never modify history files post-write** except for link repair or sensitive-data redaction.
+- Execute changes atomically per finding.
+- **Always update DOCS-INDEX.md and AGENTS.md folder map** after structural changes.
+- **Always update cross-references to prevent link rot.**
+
+## Auto-invocation safety
+
+Mode 4 is structural (rename, relocate, merge, archive) and may take 30-60 minutes. Auto-invocation is acceptable because the per-finding approval gate (Rules above) prevents accidental writes — every move/rename/merge surfaces in a plan and waits for explicit user OK before executing.
+
+Host adapters MAY add `disable-model-invocation: true` in their frontmatter if they want manual-only invocation in a specific environment. Adapters that auto-invoke must clearly document that the approval gate is the safety mechanism.
 
 ## Component Chain
 

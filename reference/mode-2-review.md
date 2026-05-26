@@ -23,10 +23,12 @@ Use at session start or when the user asks for status.
 
 ## Rules
 
-- Read-only.
-- Do not write files.
+- Read-only. Do not write files.
 - Do not perform structural cleanup.
-- If drift exists, recommend Update or Audit.
+- If drift exists, recommend Update or Audit; do not auto-fix.
+- **Be FAST** — under 60 seconds end-to-end.
+- **Be CONCISE** — output should be scannable in 10 seconds.
+- **Be HONEST** — if you can't determine something, say so. Don't guess.
 
 ## Component Chain
 
