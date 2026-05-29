@@ -14,8 +14,8 @@ Move durable learnings to the right memory layer so future agents can find them 
 
 ```text
 Chat/session insight
-→ STATUS.md
-→ project AGENTS.md / LOOKUP.md / docs/playbooks
+→ SESSION-HANDOFF.md
+→ project AGENTS.md / REFERENCES.md / docs/playbooks
 → shared scan register (path bound via `internal-overlay.md`)
 → department / skill / routine
 → Layer 0 AGENTS.md "Routing-by-task" section
@@ -39,9 +39,9 @@ Chat/session insight
 
 | Learning Type | Home |
 |---|---|
-| What happened this session | `STATUS.md` |
+| What happened this session | `SESSION-HANDOFF.md` |
 | Durable project rule | `AGENTS.md` or existing project bootstrap doc |
-| Verified project fact | `LOOKUP.md` or `docs/reference/` |
+| Verified project fact | `REFERENCES.md` or `docs/reference/` |
 | Repeatable project process | `docs/playbooks/` |
 | Cross-project reusable process | shared skills, departments, or routines home (path bound via `internal-overlay.md`; e.g., `+vantage-point/skills/`, `departments/`, or `routines/`) |
 | Sensitive warning | shared security docs home (path bound via `internal-overlay.md`; e.g., `+vantage-point/docs/security/`) plus local private handling |

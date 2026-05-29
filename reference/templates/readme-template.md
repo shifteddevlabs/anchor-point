@@ -26,9 +26,9 @@ Open {{LOCAL_URL}} in your browser.
 ## Project docs
 
 - `AGENTS.md` — instructions for AI agents working in this repo
-- `STATUS.md` — current state and next session pickup
+- `SESSION-HANDOFF.md` — current state and next session pickup
 - `ROADMAP.md` — priorities (current red/yellow/green, vNext, future)
-- `LOOKUP.md` — topic-driven lookup hub (SOT, playbooks, external docs)
+- `REFERENCES.md` — topic-driven lookup hub (SOT, playbooks, external docs)
 - `docs/` — reference material, playbooks, dev docs, decisions, history
 
 ## License

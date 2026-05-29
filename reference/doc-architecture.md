@@ -41,9 +41,9 @@ v3.0 fixes these by collapsing to 5 root files, making AGENTS.md the canonical b
 |---|---|---|---|
 | README.md | Public face | Humans | 50-100 lines |
 | AGENTS.md | Canonical agent bootstrap (rules, identity, current phase, routing, tech stack, gotchas) | All agents | 200 lines |
-| STATUS.md | Latest delta and next-pickup pointer | All agents | 150 lines |
+| SESSION-HANDOFF.md | Latest delta and next-pickup pointer | All agents | 150 lines |
 | ROADMAP.md | Priorities and decisions | Humans + agents | scales |
-| LOOKUP.md | Topic-driven lookup (SOT files, playbooks, external docs) | All agents | 150 lines |
+| REFERENCES.md | Topic-driven lookup (SOT files, playbooks, external docs) | All agents | 150 lines |
 
 CLAUDE.md is a 1-line stub pointing to AGENTS.md, for Claude Code's expected filename. Other tool-specific bootstrap files (.cursorrules, etc.) can also be stubs pointing to AGENTS.md.
 
@@ -54,7 +54,7 @@ CLAUDE.md is a 1-line stub pointing to AGENTS.md, for Claude Code's expected fil
 ```
 docs/
   DOCS-INDEX.md            (or INDEX.md; navigation aid for >10 docs)
-  status-history/          (rotated STATUS.md backups; dated files YYYY-MM-DD-NN.md)
+  handoff-history/         (rotated SESSION-HANDOFF.md backups; dated files YYYY-MM-DD-NN.md)
   roadmap-history/         (rotated ROADMAP.md backups; dated files YYYY-MM-DD-NN.md)
   decisions/               (one file per decision, dated; supersedes ROADMAP Decision Log)
   reference/               (verified-state SOT files)
@@ -67,9 +67,9 @@ docs/
   _private/                (gitignored sensitive content)
 ```
 
-**Opinionated bootstrap structure.** All 9 canonical subfolders (`status-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`) are created at bootstrap, each with a `README.md` explaining what goes there. Administrative folders (`_archive/`, `_private/`) appear when content arrives. Every project has the same shape; zero variance; predictable navigation. Empty folders carry signal (the README defines purpose), not noise.
+**Opinionated bootstrap structure.** All 9 canonical subfolders (`handoff-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`) are created at bootstrap, each with a `README.md` explaining what goes there. Administrative folders (`_archive/`, `_private/`) appear when content arrives. Every project has the same shape; zero variance; predictable navigation. Empty folders carry signal (the README defines purpose), not noise.
 
-`status-history/` and `roadmap-history/` follow the same rotation convention: when the live file exceeds its length budget (STATUS > 200 lines, ROADMAP > 300 lines), rotate the oldest 50% (or completed-priority sections beyond the visible window) to a dated file (`YYYY-MM-DD-NN.md`) before the next write. doc-handoff (Mode 3) does this automatically. `decisions/` is the parallel for decision rationale, but uses per-decision filenames (`YYYY-MM-DD-<topic>.md`) instead of rotation-batch naming.
+`handoff-history/` and `roadmap-history/` follow the same rotation convention: when the live file exceeds its length budget (SESSION-HANDOFF > 200 lines, ROADMAP > 300 lines), rotate the oldest 50% (or completed-priority sections beyond the visible window) to a dated file (`YYYY-MM-DD-NN.md`) before the next write. doc-handoff (Mode 3) does this automatically. `decisions/` is the parallel for decision rationale, but uses per-decision filenames (`YYYY-MM-DD-<topic>.md`) instead of rotation-batch naming.
 
 ## The 8 AGENTS.md sections (fixed schema, in order)
 
@@ -86,9 +86,9 @@ docs/
 
 **Routing-by-task table** is the v3.0 winning move. It replaces the v1.2 SOT registry in LOOKUP.md by holding direct file paths inline. Agent never needs an intermediate "look up which SOT file to consult" step. The agent reads AGENTS.md once at session start and has every routing decision pre-loaded.
 
-## STATUS.md schema (pure-function output)
+## SESSION-HANDOFF.md schema (pure-function output)
 
-doc-handoff produces STATUS.md deterministically from these inputs:
+doc-handoff produces SESSION-HANDOFF.md deterministically from these inputs:
 
 ```
 INPUTS:
@@ -104,13 +104,13 @@ OUTPUTS (fixed schema, in order):
   5. Debugging Playbook          (conditional recipes that survived prior sessions)
 ```
 
-**Idempotency rule.** Running doc-handoff twice on the same inputs produces an identical file. No accumulated state. No "append" mode that depends on previous SESSION-HANDOFF content. The previous version rotates to `docs/status-history/` BEFORE the new write.
+**Idempotency rule.** Running doc-handoff twice on the same inputs produces an identical file. No accumulated state. No "append" mode that depends on previous SESSION-HANDOFF content. The previous version rotates to `docs/handoff-history/` BEFORE the new write.
 
 **Pre-routed Asks.** When an agent mid-session captures an "ask the docs should have answered," it tags the destination home immediately (not deferred to session end). Example: `[AGENTS.md: never log raw HealthKit data — add as Burned rule]`. At session end, doc-handoff executes pre-tagged moves; it does not decide where each Ask goes.
 
-## LOOKUP.md scope (tightened in v3.0)
+## REFERENCES.md scope (tightened from v3.0)
 
-LOOKUP.md is the topic-driven lookup hub. It contains tables of pointers, not original content:
+REFERENCES.md is the topic-driven lookup hub. It contains tables of pointers, not original content:
 
 ```
 - SOT registry             (table: topic → docs/reference/<file>.md)
@@ -123,9 +123,9 @@ LOOKUP.md is the topic-driven lookup hub. It contains tables of pointers, not or
 
 **Single-owner discipline:**
 - Persistent rules → AGENTS.md "Project Rules"
-- Session-volatile hazards → STATUS.md
-- Cross-project conventions → <your Layer 0 home> (inherited, never duplicated in LOOKUP.md; e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo)
-- File inventory → docs/DOCS-INDEX.md (location-driven), NEVER duplicated in LOOKUP.md (anti-pattern A10)
+- Session-volatile hazards → SESSION-HANDOFF.md
+- Cross-project conventions → <your Layer 0 home> (inherited, never duplicated in REFERENCES.md; e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo)
+- File inventory → docs/DOCS-INDEX.md (location-driven), NEVER duplicated in REFERENCES.md (anti-pattern A10)
 
 ## Routing decision: the agent's mental model
 
@@ -137,9 +137,9 @@ Read row in AGENTS.md "Where new files go" table (pre-loaded)
   │
   ├── Architecture / API design / schema      ──► docs/dev/<topic>.md
   ├── Process runbook ("when X, do Y")        ──► docs/playbooks/<topic>-playbook.md
-  │                                              + LOOKUP.md Playbooks row
+  │                                              + REFERENCES.md Playbooks row
   ├── Verified-state config (IDs, env, version)──► docs/reference/<topic>.md
-  │                                              + LOOKUP.md SOT row
+  │                                              + REFERENCES.md SOT row
   ├── Code review / security audit            ──► docs/reviews/YYYY-MM-DD-<scope>.md
   ├── Release notes                           ──► docs/release/vN-notes.md
   ├── Research / exploration                  ──► docs/research/<topic>.md
@@ -156,7 +156,7 @@ For any new piece of information, the home is determined by sentence form:
 |---|---|---|
 | Imperative ("do X" / "don't Y") | "Never log raw HealthKit data" | AGENTS.md "Project Rules" |
 | Declarative ("X is Y") | "Gemini 3.1 Flash-Lite is the production model" | AGENTS.md Tech Stack OR docs/reference/ |
-| Conditional ("if X breaks, do Y") | "If Meta OAuth fails, run vercel env pull first" | STATUS.md Debugging Playbook |
+| Conditional ("if X breaks, do Y") | "If Meta OAuth fails, run vercel env pull first" | SESSION-HANDOFF.md Debugging Playbook |
 
 No judgment about "is this a rule or a constraint?" — it is whichever form the sentence takes.
 
@@ -178,13 +178,13 @@ No project re-pastes the 7 universal Hard Rules. Cross-tool agents (Claude, Code
 | File | Write pattern | Conflict risk |
 |---|---|---|
 | AGENTS.md | Edited rarely (audit time) | Very low |
-| STATUS.md | Single writer at session end | None (sequential by definition) |
+| SESSION-HANDOFF.md | Single writer at session end | None (sequential by definition) |
 | ROADMAP.md | Single writer at session end | None |
 | docs/decisions/ | **Append-only**, one file per decision | None (unique filenames) |
-| docs/status-history/ | **Append-only**, one file per session | None |
+| docs/handoff-history/ | **Append-only**, one file per session | None |
 | docs/reference/<topic>.md | One editor typical | Low; git merge if collision |
 
-For truly parallel sessions: each agent writes its own decision + history files. STATUS-like state is the union of latest STATUS.md + decision files since.
+For truly parallel sessions: each agent writes its own decision + history files. SESSION-HANDOFF-like state is the union of latest SESSION-HANDOFF.md + decision files since.
 
 No file locks needed. Git merge resolves edge collisions.
 
@@ -192,9 +192,9 @@ No file locks needed. Git merge resolves edge collisions.
 
 | Tier | Files | Loaded when |
 |---|---|---|
-| HOT | AGENTS.md (~3K tokens), STATUS.md (~1.5K tokens) | Every session start |
+| HOT | AGENTS.md (~3K tokens), SESSION-HANDOFF.md (~1.5K tokens) | Every session start |
 | WARM | docs/reference/<topic>.md, docs/playbooks/<topic>-playbook.md | On demand, opened directly from AGENTS.md routing table |
-| COLD | docs/status-history/, docs/_archive/, this spec | Only at audit time or design time |
+| COLD | docs/handoff-history/, docs/_archive/, this spec | Only at audit time or design time |
 
 **Token budget at cold start: ~4.5K tokens total.** v1.2 cold start was ~8-10K tokens with CLAUDE.md + CONTEXT.md + LOOKUP.md + DOCS-INDEX.md.
 
@@ -302,15 +302,15 @@ Carries forward A1-A10 from v1.2; reframed for v3.0. doc-audit detects each.
 | Code | Anti-pattern | Fix |
 |---|---|---|
 | A1 | Duplicate rules in 2+ files | Single-owner: rules in AGENTS.md only; other files point. |
-| A2 | Architecture hiding in STATUS.md | Move to docs/dev/. |
-| A3 | Session-volatile content in CONTEXT.md | N/A in v3.0 (CONTEXT folded). If CONTEXT.md exists, migrate to AGENTS.md "Current Phase" + STATUS.md. |
-| A4 | STATUS.md > 200 lines | Rotate oldest 50% to docs/status-history/<date>-<NN>.md. |
+| A2 | Architecture hiding in SESSION-HANDOFF.md | Move to docs/dev/. |
+| A3 | Session-volatile content in CONTEXT.md | N/A in v3.0 (CONTEXT folded). If CONTEXT.md exists, migrate to AGENTS.md "Current Phase" + SESSION-HANDOFF.md. |
+| A4 | SESSION-HANDOFF.md > 200 lines | Rotate oldest 50% to docs/handoff-history/<date>-<NN>.md. |
 | A5 | Stale tech-stack claims | Cross-check AGENTS.md tech stack against actual code (manifest grep). |
 | A6 | Pointer-only files | Add original summary content. |
 | A7 | Detail leakage into top-level | Extract to docs/release/ or docs/dev/. |
 | A8 | Hypothesis as fact | Mark as hypothesis; add verification path. |
 | A9 | Parallel priority list in SESSION-HANDOFF | One forward-looking section pointing to ROADMAP top 3. |
-| A10 | Project documentation duplicates DOCS-INDEX | DOCS-INDEX.md owns file inventory; LOOKUP.md owns topic lookup. |
+| A10 | Project documentation duplicates DOCS-INDEX | DOCS-INDEX.md owns file inventory; REFERENCES.md owns topic lookup. |
 | **A11** (new in v3.0) | Hard Rules baseline duplicated in project AGENTS.md instead of inherited | Use `## Inherits from` pointer; do not paste baseline. |
 | **A12** (new in v3.0) | Asks accumulated in SESSION-HANDOFF without routing tags | Pre-route Asks at write-time, not session-end. |
 | **A13** (new in v3.0) | doc-handoff output drifts when re-run on same inputs | Skill must be idempotent; same inputs → same outputs. |
@@ -368,12 +368,12 @@ Anchor Point Mode 1 (Init) creates the 5 root files plus the full docs/ ecosyste
 **Root files (all 5 created at bootstrap):**
 - README.md
 - AGENTS.md (with Identity, Current Phase, Routing, Where new files go, Tech Stack)
-- STATUS.md (empty stub)
+- SESSION-HANDOFF.md (empty stub)
 - ROADMAP.md (empty or seeded with current priorities)
-- LOOKUP.md (topic-driven lookup hub; seed rows added as SOT/playbook files appear)
+- REFERENCES.md (topic-driven lookup hub; seed rows added as SOT/playbook files appear)
 
 **docs/ subfolders (all 9 created at bootstrap, each with a README.md stub):**
-`status-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`.
+`handoff-history/`, `roadmap-history/`, `decisions/`, `reference/`, `playbooks/`, `dev/`, `release/`, `reviews/`, `research/`.
 
 `docs/DOCS-INDEX.md` is created when `docs/` accumulates more than ~10 content files (an index isn't useful before then). Real content files inside each subfolder are added on demand; the bootstrap stubs document what goes where so agents always know the right destination.
 

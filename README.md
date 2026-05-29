@@ -72,7 +72,7 @@ Examples: Claude Project knowledge, a `CLAUDE.md` shim, Codex installed skill me
 
 ## The whole thing in one sentence
 
-Every project gets the same 5 root docs (`README.md`, `AGENTS.md`, `STATUS.md`, `ROADMAP.md`, `LOOKUP.md`), plus a `docs/` folder with 9 known subfolders. Each file does one job. Anchor Point keeps you from drifting from that.
+Every project gets the same 5 root docs (`README.md`, `AGENTS.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`), plus a `docs/` folder with 9 known subfolders. Each file does one job. Anchor Point keeps you from drifting from that.
 
 ## What your project looks like after Init
 
@@ -80,12 +80,12 @@ Every project gets the same 5 root docs (`README.md`, `AGENTS.md`, `STATUS.md`, 
 your-project/
 ├── README.md              ← the public face
 ├── AGENTS.md              ← rules + folder map + current phase (AI reads first every session)
-├── STATUS.md              ← what just shipped + what's next (pure-function handoff)
+├── SESSION-HANDOFF.md     ← what just shipped + what's next (pure-function handoff)
 ├── ROADMAP.md             ← priorities + next decisions
-├── LOOKUP.md              ← topic-driven lookup ("where do I find X?")
+├── REFERENCES.md          ← topic-driven lookup ("where do I find X?")
 └── docs/
     ├── DOCS-INDEX.md      ← location-driven file map (created when docs/ has >10 files)
-    ├── status-history/    ← rotated STATUS.md backups (dated)
+    ├── handoff-history/   ← rotated SESSION-HANDOFF.md backups (dated)
     ├── roadmap-history/   ← rotated ROADMAP.md backups (dated)
     ├── decisions/         ← one file per decision (dated)
     ├── reference/         ← verified-state files (config truths, capability matrices)

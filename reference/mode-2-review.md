@@ -15,7 +15,7 @@ Use at session start or when the user asks for status.
 ## Workflow
 
 1. Read `AGENTS.md` or `CLAUDE.md`, whichever is present and authoritative.
-2. Read `CONTEXT.md`, `STATUS.md`, `ROADMAP.md`, `LOOKUP.md`, and `README.md` when present.
+2. Read `SESSION-HANDOFF.md` (or `STATUS.md` if v3), `ROADMAP.md`, `REFERENCES.md` (or `LOOKUP.md` if v3), and `README.md` when present. Also `CONTEXT.md` if it exists as a v1.x holdover.
 3. Skim `docs/DOCS-INDEX.md` if present.
 4. Run a cheap drift check.
 5. Use `components/snapshot.md` to summarize current state, active work, blockers, and suggested next actions.

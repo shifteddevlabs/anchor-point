@@ -61,7 +61,7 @@ Never copy, read broadly, or mutate these during ratchet setup:
 
 Try one strategy per attempt:
 
-- Compress `STATUS.md` and move rotated context to `docs/status-history/`.
+- Compress `SESSION-HANDOFF.md` and move rotated context to `docs/handoff-history/`.
 - Split implementation detail out of `ROADMAP.md`.
 - De-duplicate active/archive file pairs.
 - Move root docs index to `docs/DOCS-INDEX.md` or document the legacy exception.
@@ -121,6 +121,6 @@ Before touching a real project, confirm:
 - Private/protected paths that remain excluded.
 - Live-verification items that will not be rewritten as facts.
 - Rollback plan, usually a branch, commit boundary, or copied backup.
-- Post-application checks: protected/private path check, strict secret-pattern check, Markdown link check, duplicate-doc check, line counts for `STATUS.md` (or legacy `SESSION-HANDOFF.md`) and `ROADMAP.md`, and project doc score.
+- Post-application checks: protected/private path check, strict secret-pattern check, Markdown link check, duplicate-doc check, line counts for `SESSION-HANDOFF.md` (or legacy `STATUS.md`) and `ROADMAP.md`, and project doc score.
 
 If any checklist item is unclear, stop and ask.

@@ -17,7 +17,7 @@ Codes prefixed `A` are content/structure anti-patterns. Codes prefixed `MG` are 
 
 ## A1. Duplicate rules in multiple root docs
 
-**Signature:** A "Hard rules" / "Important Notes" / "Behavioral reminders" section appears verbatim or nearly-verbatim in two root files (commonly AGENTS.md and LOOKUP.md/REFERENCES.md).
+**Signature:** A "Hard rules" / "Important Notes" / "Behavioral reminders" section appears verbatim or nearly-verbatim in two root files (commonly AGENTS.md and REFERENCES.md, or legacy LOOKUP.md).
 
 **Why it matters:** Two homes for rules means agents may follow different versions; updates drift.
 
@@ -25,13 +25,13 @@ Codes prefixed `A` are content/structure anti-patterns. Codes prefixed `MG` are 
 
 ---
 
-## A2. Architecture hiding in STATUS.md / SESSION-HANDOFF.md
+## A2. Architecture hiding in SESSION-HANDOFF.md
 
-**Signature:** STATUS.md (or legacy SESSION-HANDOFF.md) contains H2/H3 sections like "X Feature Architecture", "Y Routing Flow", "Z Database Schema" — content that is stable, not session-volatile.
+**Signature:** SESSION-HANDOFF.md (or legacy STATUS.md) contains H2/H3 sections like "X Feature Architecture", "Y Routing Flow", "Z Database Schema" — content that is stable, not session-volatile.
 
 **Why it happens:** Engineer wrote architecture during a session, dropped it in the handoff doc, never moved it.
 
-**Fix:** Move to `docs/dev/<feature>.md`. Replace STATUS section with one-line pointer.
+**Fix:** Move to `docs/dev/<feature>.md`. Replace SESSION-HANDOFF section with one-line pointer.
 
 ---
 
@@ -45,13 +45,13 @@ Codes prefixed `A` are content/structure anti-patterns. Codes prefixed `MG` are 
 
 ---
 
-## A4. STATUS.md over 200 lines
+## A4. SESSION-HANDOFF.md over 200 lines
 
 **Signature:** Live handoff has accumulated multiple session-log entries beyond the latest delta.
 
-**Why it matters:** STATUS.md is a HOT file loaded every session. Length inflation costs tokens on every cold start.
+**Why it matters:** SESSION-HANDOFF.md is a HOT file loaded every session. Length inflation costs tokens on every cold start.
 
-**Fix:** Rotate sessions older than the latest delta to `docs/status-history/<YYYY-MM-DD>-NN.md`. Update the history README.
+**Fix:** Rotate sessions older than the latest delta to `docs/handoff-history/<YYYY-MM-DD>-NN.md`. Update the history README.
 
 **Soft warning:** at >150 lines, suggest rotation. **Hard fix:** at >200 lines, rotate.
 
@@ -71,7 +71,7 @@ Codes prefixed `A` are content/structure anti-patterns. Codes prefixed `MG` are 
 
 **Signature:** A root file is 100% pointers to other docs with zero original content of its own.
 
-**Likely culprits:** AGENTS.md missing rules, LOOKUP.md missing tables, README.md skipping the summary.
+**Likely culprits:** AGENTS.md missing rules, REFERENCES.md missing tables, README.md skipping the summary.
 
 **Fix:** Add the missing summary content (≥ 100 words) before the pointer block. Top-level files SUMMARIZE before pointing. A pointer-only file means the summary work was skipped.
 
@@ -99,7 +99,7 @@ Codes prefixed `A` are content/structure anti-patterns. Codes prefixed `MG` are 
 
 ## A9. Parallel priority / next-action lists across docs
 
-**Signature:** Two or more root docs (STATUS, AGENTS, README, LOOKUP) have a section with a priority-like header (`Priorities`, `Top N`, `Next Steps`, `Active Work`, `In Progress`, `Upcoming`, `Backlog`, `Next Session`) AND those sections enumerate forward-looking items rather than just pointing to ROADMAP.
+**Signature:** Two or more root docs (SESSION-HANDOFF, AGENTS, README, REFERENCES) have a section with a priority-like header (`Priorities`, `Top N`, `Next Steps`, `Active Work`, `In Progress`, `Upcoming`, `Backlog`, `Next Session`) AND those sections enumerate forward-looking items rather than just pointing to ROADMAP.
 
 **Why it matters:** ROADMAP is the single owner of priorities. Parallel lists drift; agents read one and act on stale context.
 
@@ -107,13 +107,13 @@ Codes prefixed `A` are content/structure anti-patterns. Codes prefixed `MG` are 
 
 ---
 
-## A10. LOOKUP.md duplicating DOCS-INDEX inventory
+## A10. REFERENCES.md duplicating DOCS-INDEX inventory
 
-**Signature:** LOOKUP.md (or REFERENCES.md) has a section titled "Inventory", "File Map", "Documentation Index", "docs/ tree", or contains a table with rows that are mostly file paths under `docs/`.
+**Signature:** REFERENCES.md (or legacy LOOKUP.md) has a section titled "Inventory", "File Map", "Documentation Index", "docs/ tree", or contains a table with rows that are mostly file paths under `docs/`.
 
-**Why it matters:** LOOKUP.md owns TOPIC-driven lookup (SOT registry by topic, playbook index by topic). DOCS-INDEX.md owns LOCATION-driven inventory. Mixing them creates two homes for the file map.
+**Why it matters:** REFERENCES.md owns TOPIC-driven lookup (SOT registry by topic, playbook index by topic). DOCS-INDEX.md owns LOCATION-driven inventory. Mixing them creates two homes for the file map.
 
-**Fix:** LOOKUP owns topic lookup; DOCS-INDEX owns file inventory. Strip file-inventory rows from LOOKUP, leave only topic SOT and playbook tables.
+**Fix:** REFERENCES owns topic lookup; DOCS-INDEX owns file inventory. Strip file-inventory rows from REFERENCES, leave only topic SOT and playbook tables.
 
 ---
 
@@ -137,11 +137,11 @@ See that file before applying project-specific rules below.
 
 ## A12. Asks accumulated without routing tags (NEW in v3.0)
 
-**Signature:** STATUS.md or SESSION-HANDOFF.md (or ROADMAP.md "Open Questions" section) contains an "Asks" / "Open Questions" / "Decisions Needed" / "Questions for User" / "Pending Decisions" / "Need Input" section with entries that lack routing tags like `[AGENTS.md: notes]`, `[STATUS.md: notes]`, etc.
+**Signature:** SESSION-HANDOFF.md or legacy STATUS.md (or ROADMAP.md "Open Questions" section) contains an "Asks" / "Open Questions" / "Decisions Needed" / "Questions for User" / "Pending Decisions" / "Need Input" section with entries that lack routing tags like `[AGENTS.md: notes]`, `[SESSION-HANDOFF.md: notes]`, etc.
 
 **Why it matters:** Untagged Asks defer routing decisions to handoff time. doc-handoff (Mode 3) becomes a judgment-heavy procedure instead of an idempotent pure function.
 
-**Fix:** Add `[DEST.md: notes]` pre-route convention to your STATUS template. Migrate existing Asks to tagged form before next handoff. The agent that writes the Ask owns the routing decision; doc-handoff just executes the move.
+**Fix:** Add `[DEST.md: notes]` pre-route convention to your SESSION-HANDOFF template. Migrate existing Asks to tagged form before next handoff. The agent that writes the Ask owns the routing decision; doc-handoff just executes the move.
 
 ---
 
@@ -157,11 +157,11 @@ See that file before applying project-specific rules below.
 
 ## MG1. Active doc routes through `_private/` (migration-grade)
 
-**Signature:** AGENTS.md, LOOKUP.md, STATUS.md, or README.md contains a markdown link to a path under `docs/_private/`.
+**Signature:** AGENTS.md, REFERENCES.md, SESSION-HANDOFF.md, or README.md contains a markdown link to a path under `docs/_private/`.
 
 **Why it matters:** Public/current docs become impossible to use in a repoed or shared context. Agents may try to read sensitive material unnecessarily. The private content may also be excluded from cloning, causing broken navigation.
 
-**Fix:** Remove the pointer from active routing. If the target is needed for cross-reference, move the pointer to a separate "Sensitive SOT register" table in LOOKUP.md flagged "private; do not route as primary navigation".
+**Fix:** Remove the pointer from active routing. If the target is needed for cross-reference, move the pointer to a separate "Sensitive SOT register" table in REFERENCES.md flagged "private; do not route as primary navigation".
 
 ---
 
@@ -175,7 +175,7 @@ See that file before applying project-specific rules below.
 - (a) Extract Decision Log entries to `docs/decisions/YYYY-MM-DD-<topic>.md` (one file per decision). Replace inline Decision Log with a 1-line pointer.
 - (b) Rotate completed-priority sections older than the visible window to `docs/roadmap-history/YYYY-MM-DD-NN.md`. Keep the live ROADMAP focused on red/yellow/green for the current and next versions.
 
-`docs/roadmap-history/` is the parallel of `docs/status-history/` for ROADMAP rotation: same dated-file convention, same README documenting the rotation policy.
+`docs/roadmap-history/` is the parallel of `docs/handoff-history/` for ROADMAP rotation: same dated-file convention, same README documenting the rotation policy.
 
 ---
 
@@ -245,7 +245,7 @@ The hot/warm test (Rule 4 in `doc-architecture.md`): does the agent need this in
 
 **Why it matters:** Task-driven routing is owned by AGENTS.md §3 (Routing-by-task). DOCS-INDEX.md answers "what files exist here?" — a location-driven question. Mixing the two means agents have two routing tables to maintain, and they drift independently.
 
-This is the v3.2 analog of A10 (LOOKUP duplicating DOCS-INDEX). v3.2 closes the symmetrical hole: DOCS-INDEX must not duplicate AGENTS.md routing either.
+This is the v3.2 analog of A10 (REFERENCES duplicating DOCS-INDEX). v3.2 closes the symmetrical hole: DOCS-INDEX must not duplicate AGENTS.md routing either.
 
 **Fix:** Delete the Quick Start / routing table from DOCS-INDEX.md. Keep only file inventory (tree + per-subfolder tables of files with purposes). AGENTS.md §3 is the only task→file router.
 
@@ -316,15 +316,15 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 | Anti-pattern | Primary impact |
 |---|---|
 | A1 (duplicate rules) | Drift / Routing accuracy |
-| A2 (architecture in STATUS) | Concision / Scope discipline |
+| A2 (architecture in SESSION-HANDOFF) | Concision / Scope discipline |
 | A3 (CONTEXT.md still present) | Migration debt |
-| A4 (STATUS > 200 lines) | Concision / Token cost |
+| A4 (SESSION-HANDOFF > 200 lines) | Concision / Token cost |
 | A5 (stale tech-stack) | Currency / Anti-fabrication |
 | A6 (pointer-only file) | AI-actionability / Specificity |
 | A7 (detail in top-level) | Concision / Scope discipline |
 | A8 (hypothesis as fact) | Anti-fabrication / Trustworthiness |
 | A9 (parallel priority lists) | Drift / Single-owner discipline |
-| A10 (LOOKUP duplicates DOCS-INDEX) | Routing / Findability |
+| A10 (REFERENCES duplicates DOCS-INDEX) | Routing / Findability |
 | A11 (Layer 0 duplicated) | Maintenance / Drift |
 | A12 (Asks without routing tags) | Handoff hygiene / Idempotency |
 | A13 (handoff non-idempotent) | Automation readiness |
@@ -347,15 +347,15 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 When generating the initial 5-file v3.0 doc set, Anchor Point AVOIDS creating these patterns from day one:
 
 - **A1, A11:** Hard Rules baseline lives at <your Layer 0 home> (e.g., `+vantage-point/AGENTS.md` in a vantage-point monorepo); per-project AGENTS.md uses `## Inherits from` pointer
-- **A2, A4:** STATUS.md skeleton is bounded (TL;DR + Last shipped + Next + Blockers + Debugging Playbook only)
+- **A2, A4:** SESSION-HANDOFF.md skeleton is bounded (TL;DR + Last shipped + Next + Blockers + Debugging Playbook only)
 - **A3:** v3.0 never creates CONTEXT.md; "Current Phase" lives inside AGENTS.md
 - **A5:** Tech-stack table only includes versions confirmed by reading manifest files; Source column cited
 - **A6:** Each root file has summary content, not just pointers
 - **A7:** ROADMAP items are concise summaries; detail routes to `docs/release/` or `docs/dev/`
 - **A8:** Generated content cites sources for any cause-effect claim
-- **A9:** Only ROADMAP.md owns priority lists; STATUS.md "Next session" points to ROADMAP top 3
-- **A10:** LOOKUP.md is topic-driven; DOCS-INDEX.md is location-driven; never overlap
-- **A12:** STATUS template includes the `[DEST.md: notes]` pre-route convention by default
+- **A9:** Only ROADMAP.md owns priority lists; SESSION-HANDOFF.md "Next session" points to ROADMAP top 3
+- **A10:** REFERENCES.md is topic-driven; DOCS-INDEX.md is location-driven; never overlap
+- **A12:** SESSION-HANDOFF template includes the `[DEST.md: notes]` pre-route convention by default
 - **A13:** Mode 3 + Mode 6 outputs are idempotent by design (sort, integer scores, frontmatter-only timestamps)
 - **MG1:** Init never writes links from root docs into `docs/_private/`
 - **MG2:** Init creates `docs/decisions/` and `docs/roadmap-history/` as part of the standard 9-folder bootstrap

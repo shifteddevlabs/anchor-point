@@ -150,7 +150,7 @@ If both `AGENTS.md` and `CLAUDE.md` exist, classify the relationship before scor
 ```text
 docs/
   DOCS-INDEX.md            (created when docs/ exceeds 10 files)
-  status-history/          (rotated STATUS.md backups; dated files)
+  handoff-history/         (rotated SESSION-HANDOFF.md backups; dated files)
   roadmap-history/         (rotated ROADMAP.md backups; dated files)
   decisions/               (one file per decision, dated; supersedes ROADMAP Decision Log)
   reference/               (verified-state SOT files)
@@ -163,7 +163,7 @@ docs/
   _private/                (gitignored sensitive content; appears on demand)
 ```
 
-`status-history/` and `roadmap-history/` follow the same convention: when the live file exceeds its length budget (STATUS > 200 lines, ROADMAP > 300 lines), rotate the oldest 50% to a dated file (`YYYY-MM-DD-NN.md`) before the next write. Both folders carry a `README.md` documenting the rotation policy.
+`handoff-history/` and `roadmap-history/` follow the same convention: when the live file exceeds its length budget (SESSION-HANDOFF > 200 lines, ROADMAP > 300 lines), rotate the oldest 50% to a dated file (`YYYY-MM-DD-NN.md`) before the next write. Both folders carry a `README.md` documenting the rotation policy.
 
 Use `docs/DOCS-INDEX.md` when `docs/` has more than 10 docs.
 
@@ -173,19 +173,19 @@ Each mode summary below is a 1-paragraph identifier. The full procedural workflo
 
 ### Mode 1, Init
 
-Use when starting docs for a new project or bringing a thin project up to baseline. Reads existing root docs and manifests, identifies new vs legacy vs already-instrumented projects, creates or proposes the 5 canonical surfaces, prefers `AGENTS.md` for new infrastructure while preserving an existing `CLAUDE.md`, never invents stack/commands/credentials, and uses verify + snapshot components to seed initial handoff state. Outputs the canonical root docs, the initial docs folder map, and the first STATUS + ROADMAP.
+Use when starting docs for a new project or bringing a thin project up to baseline. Reads existing root docs and manifests, identifies new vs legacy vs already-instrumented projects, creates or proposes the 5 canonical surfaces, prefers `AGENTS.md` for new infrastructure while preserving an existing `CLAUDE.md`, never invents stack/commands/credentials, and uses verify + snapshot components to seed initial handoff state. Outputs the canonical root docs, the initial docs folder map, and the first SESSION-HANDOFF + ROADMAP.
 
 **Full procedure:** [Mode 1, Init](reference/mode-1-init.md)
 
 ### Mode 2, Review
 
-Use at session start or when the user asks for status. Reads the present authoritative bootstrap doc (AGENTS or CLAUDE), the v3 root files (CONTEXT, STATUS, ROADMAP, LOOKUP, README), and the docs index if present; runs a cheap drift check; summarizes current state, active work, blockers, and suggested next actions using the snapshot component. Read-only; never writes files or restructures. If drift exists, recommends running Update or Audit.
+Use at session start or when the user asks for status. Reads the present authoritative bootstrap doc (AGENTS or CLAUDE), the v4 root files (SESSION-HANDOFF, ROADMAP, REFERENCES, README; CONTEXT only as legacy v1.x signal), and the docs index if present; runs a cheap drift check; summarizes current state, active work, blockers, and suggested next actions using the snapshot component. Read-only; never writes files or restructures. If drift exists, recommends running Update or Audit.
 
 **Full procedure:** [Mode 2, Review](reference/mode-2-review.md)
 
 ### Mode 3, Update
 
-Use at session end or after meaningful work. Captures the session delta with snapshot, runs security-preflight when docs were copied/moved/generated, verifies volatile claims, promotes durable learnings to the right memory layer, harvests reusable cross-project process when it appears, then updates STATUS + ROADMAP + LOOKUP + (sparingly) AGENTS, adds dated decision files, and rotates content when the STATUS or ROADMAP length budget is exceeded. Content-only; does not move or rename files.
+Use at session end or after meaningful work. Captures the session delta with snapshot, runs security-preflight when docs were copied/moved/generated, verifies volatile claims, promotes durable learnings to the right memory layer, harvests reusable cross-project process when it appears, then updates SESSION-HANDOFF + ROADMAP + REFERENCES + (sparingly) AGENTS, adds dated decision files, and rotates content when the SESSION-HANDOFF or ROADMAP length budget is exceeded. Content-only; does not move or rename files.
 
 **Full procedure:** [Mode 3, Update](reference/mode-3-update.md)
 
@@ -231,7 +231,7 @@ These caps make the score harder to game:
 |---|---:|
 | Strict secret-pattern hit in active docs | 69 |
 | Sensitive value appears in historical docs without redaction plan | 79 |
-| `STATUS.md` over 200 lines | 84 |
+| `SESSION-HANDOFF.md` over 200 lines | 84 |
 | `ROADMAP.md` over 300 lines without extracted history | 84 |
 | Missing `docs/DOCS-INDEX.md` when `docs/` has more than 10 files | 84 |
 | Split authority between `AGENTS.md` and platform-specific AI docs | 79 |
@@ -281,7 +281,7 @@ Health bands:
 | Code review or audit report | `docs/reviews/` | `YYYY-MM-DD-<scope>.md` |
 | Research or exploration | `docs/research/` | `lowercase-kebab.md` |
 | Decision rationale (one per decision) | `docs/decisions/` | `YYYY-MM-DD-<topic>.md` |
-| Rotated STATUS.md content | `docs/status-history/` | `YYYY-MM-DD-NN.md` |
+| Rotated SESSION-HANDOFF.md content | `docs/handoff-history/` | `YYYY-MM-DD-NN.md` |
 | Rotated ROADMAP.md content | `docs/roadmap-history/` | `YYYY-MM-DD-NN.md` |
 | Doc-system test reports | Shared `docs/test-runs/` location | `YYYY-MM-DD-<run>.md` |
 | Sensitive docs | `docs/_private/` | `lowercase-kebab.md` |
@@ -361,11 +361,11 @@ Next Hardening Target
 
 When operating inside a target project, only that project's docs, and only in the active mode's allowed scope:
 
-- The 5 root files: `README.md`, `AGENTS.md`, `STATUS.md`, `ROADMAP.md`, `LOOKUP.md`
+- The 5 root files: `README.md`, `AGENTS.md`, `SESSION-HANDOFF.md`, `ROADMAP.md`, `REFERENCES.md`
 - `CLAUDE.md` only as a 1-line stub if migrating from v1.x
 - `docs/DOCS-INDEX.md` (regenerated when files move)
 - `docs/decisions/*.md` (one file per decision, dated)
-- `docs/status-history/*.md` (rotated STATUS backups)
+- `docs/handoff-history/*.md` (rotated SESSION-HANDOFF backups)
 - `docs/roadmap-history/*.md` (rotated ROADMAP backups)
 - `docs/reference/*.md`, `docs/playbooks/*.md`, `docs/dev/*.md`, `docs/release/*.md`, `docs/reviews/*.md`, `docs/research/*.md`
 

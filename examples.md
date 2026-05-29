@@ -36,17 +36,17 @@ Generating 5 root files for `tasklane/` plus the 9-folder `docs/` ecosystem. Pre
 - Gotchas: empty for now (will populate as incidents surface)
 - Inherits from: <your Layer 0 home> (Layer 0 baseline pointer; e.g., `+vantage-point/AGENTS.md` in a monorepo with a vantage-point harness)
 
-**`STATUS.md`** (28 lines), skeleton with TL;DR, Last session shipped (initial bootstrap), Next session pointing to ROADMAP top 3, Active blockers (none), Debugging Playbook + Asks sections OMITTED (empty on day 1).
+**`SESSION-HANDOFF.md`** (28 lines), skeleton with TL;DR, Last session shipped (initial bootstrap), Next session pointing to ROADMAP top 3, Active blockers (none), Debugging Playbook + Asks sections OMITTED (empty on day 1).
 
 **`ROADMAP.md`** (32 lines), Red/Yellow/Green skeleton + vNext + Future. Decision Log seeded with one pointer entry: "2026-05-08: Chose Next.js 15 + Supabase — see `docs/decisions/2026-05-08-stack-choice.md`."
 
-**`LOOKUP.md`** (38 lines), External docs section with Next.js 15 docs URL + Supabase Auth Helpers for Next.js URL. SOT registry / Playbooks / API Constraints sections OMITTED (greenfield, no entries yet).
+**`REFERENCES.md`** (38 lines), External docs section with Next.js 15 docs URL + Supabase Auth Helpers for Next.js URL. SOT registry / Playbooks / API Constraints sections OMITTED (greenfield, no entries yet).
 
 **`README.md`** (24 lines), public-facing one-liner + features + quick start.
 
 **`CLAUDE.md`** (1 line stub), `See AGENTS.md for canonical rules.`
 
-**`docs/`** structure created with READMEs in each of: status-history/, roadmap-history/, decisions/, reference/, playbooks/, dev/, release/, reviews/, research/.
+**`docs/`** structure created with READMEs in each of: handoff-history/, roadmap-history/, decisions/, reference/, playbooks/, dev/, release/, reviews/, research/.
 
 **`docs/decisions/2026-05-08-stack-choice.md`** seeded: Decision, Alternatives (Remix + Postgres, T3 stack), Why picked.
 
@@ -63,7 +63,7 @@ Want me to write all the files now, or adjust anything first?
 
 **Anchor Point:**
 
-Running the Review workflow. Reading AGENTS.md, STATUS.md, ROADMAP.md, LOOKUP.md.
+Running the Review workflow. Reading AGENTS.md, SESSION-HANDOFF.md, ROADMAP.md, REFERENCES.md.
 
 ## Project State: tasklane
 
@@ -85,14 +85,14 @@ Running the Review workflow. Reading AGENTS.md, STATUS.md, ROADMAP.md, LOOKUP.md
 - *If Supabase RLS blocks task insert:* check that `auth.uid()` matches the `user_id` column; the RLS policy compares the JWT subject directly.
 
 **Drift detected:**
-- ⚠️ STATUS.md is 178 lines (warning before the 200-line hard fix). Suggest running Update at session end to rotate older entries to `docs/status-history/`.
+- ⚠️ SESSION-HANDOFF.md is 178 lines (warning before the 200-line hard fix). Suggest running Update at session end to rotate older entries to `docs/handoff-history/`.
 - ⚠️ Asks section has 2 untagged entries from Session 12 (A12 anti-pattern). Run Update now and I'll migrate them to tagged form before next handoff.
 
 (No structural drift, folder layout is clean, naming conventions honored.)
 
 **Want me to:**
 - Continue with the `editTask` work, or
-- Run Update first to migrate those Asks and rotate older STATUS entries?
+- Run Update first to migrate those Asks and rotate older SESSION-HANDOFF entries?
 
 ---
 
@@ -108,36 +108,36 @@ Running the Audit workflow. This will take a few minutes. I'll inventory the doc
 ### Phase 1-2: Inventory + Health Score
 
 **Inventory:**
-- Canonical root files: 4 of 5 ✓ (LOOKUP.md missing — promoted from REFERENCES.md)
-- v1.x leftovers: `CONTEXT.md` still exists (A3); `SESSION-HANDOFF.md` still exists (should be STATUS.md); `REFERENCES.md` still exists (should be LOOKUP.md)
+- Canonical root files: 4 of 5 ✓ (REFERENCES.md missing — promoted from LOOKUP.md)
+- v1.x / v3 leftovers: `CONTEXT.md` still exists (A3); `STATUS.md` still exists (should be SESSION-HANDOFF.md, MG5); `LOOKUP.md` still exists (should be REFERENCES.md, MG5)
 - `docs/` files: 31 (DOCS-INDEX.md needed, threshold is >10; currently missing)
 - Orphans at root: 3 (`auth-architecture.md`, `MyTaskNotes.md`, `2026.04.19 release plan.md`)
 - Legacy folders: `zzz-archive/` exists at root (should be `docs/_archive/`)
-- Missing v3.0 folders: `docs/decisions/`, `docs/status-history/`, `docs/roadmap-history/`
+- Missing v4 folders: `docs/decisions/`, `docs/handoff-history/`, `docs/roadmap-history/`
 
 **Health Score: 64/100 (Fair)**
 
 Breakdown:
 - Current-state accuracy: 11/15 (Next.js version in AGENTS.md says 15.0.3, package.json shows 15.2.1 — A5 stale)
-- Handoff and next-action quality: 9/15 (SESSION-HANDOFF.md is 247 lines — A4 over hard cap; "Next Session" section is vague)
+- Handoff and next-action quality: 9/15 (STATUS.md is 247 lines — A4 over hard cap; "Next Session" section is vague)
 - Roadmap and priority hygiene: 11/15 (ROADMAP has 4 completed items inlined as full implementation detail — A7 detail leakage)
 - Routing and discoverability: 9/15 (one broken link: AGENTS.md routing table points to `docs/architecture.md` which doesn't exist — MG3)
 - Drift, duplication, and link integrity: 8/15 (A1 hit: same Hard Rules pasted in CLAUDE.md AND AGENTS.md — A11)
 - Security and privacy hygiene: 10/15 (one MG1: AGENTS.md routes through `docs/_private/secrets-map.md` as required reading)
-- History and decision promotion: 6/10 (no `docs/decisions/`, no `docs/status-history/` — completed work piling up in live files)
+- History and decision promotion: 6/10 (no `docs/decisions/`, no `docs/handoff-history/` — completed work piling up in live files)
 
 ### Phase 3: Proposed Changes
 
 **Migration moves (require approval, atomic per-finding):**
 
 ```
-1. RENAME: SESSION-HANDOFF.md → STATUS.md                                       [y/n]
-   (also: rotate oldest 50% of content to docs/status-history/)
-2. RENAME: REFERENCES.md → LOOKUP.md                                            [y/n]
+1. RENAME: STATUS.md → SESSION-HANDOFF.md                                       [y/n]
+   (also: rotate oldest 50% of content to docs/handoff-history/)
+2. RENAME: LOOKUP.md → REFERENCES.md                                            [y/n]
 3. MIGRATE: CONTEXT.md → AGENTS.md "Current Phase" section, then delete         [y/n]
 4. MIGRATE: CLAUDE.md Hard Rules → AGENTS.md (replace with `## Inherits from`) [y/n]
 5. STUB: CLAUDE.md → 1-line stub pointing to AGENTS.md                          [y/n]
-6. CREATE: docs/decisions/, docs/status-history/, docs/roadmap-history/         [y/n]
+6. CREATE: docs/decisions/, docs/handoff-history/, docs/roadmap-history/        [y/n]
 7. RENAME: zzz-archive/ → docs/_archive/                                        [y/n]
 8. RELOCATE: ./auth-architecture.md → docs/dev/auth-architecture.md             [y/n]
 9. RELOCATE: ./MyTaskNotes.md → docs/research/my-task-notes.md                  [y/n]
@@ -153,15 +153,15 @@ Breakdown:
 ```
 12. Update AGENTS.md tech-stack: Next.js 15.0.3 → 15.2.1 (from package.json)    [y/n]
 13. Fix MG1 in AGENTS.md routing: remove `docs/_private/secrets-map.md` link;
-    move to LOOKUP "Sensitive SOT register" with private flag                   [y/n]
+    move to REFERENCES "Sensitive SOT register" with private flag               [y/n]
 14. Fix MG3 broken link in AGENTS.md routing: docs/architecture.md → docs/dev/  [y/n]
 15. Extract 3 decision-log entries from ROADMAP into
     docs/decisions/YYYY-MM-DD-<topic>.md (one per decision)                     [y/n]
 16. Rotate ROADMAP completed sections older than 2026-04-01 →
     docs/roadmap-history/2026-04-01-NN.md                                       [y/n]
-17. Add SOT registry section to LOOKUP.md (4 files in docs/reference/
+17. Add SOT registry section to REFERENCES.md (4 files in docs/reference/
     that should be indexed)                                                     [y/n]
-18. Add Playbooks index section to LOOKUP.md (1 file in docs/playbooks/)        [y/n]
+18. Add Playbooks index section to REFERENCES.md (1 file in docs/playbooks/)    [y/n]
 ```
 
 **Auto-syncs after structural changes (no separate approval needed):**
@@ -198,7 +198,7 @@ Running the Project Ratchet workflow. I will work on a duplicate fixture only, s
 **Doc score: 64/100**
 
 Hard gates:
-- STATUS.md is 247 lines.
+- SESSION-HANDOFF.md is 247 lines.
 - ROADMAP.md completed section has long implementation detail.
 - One AGENTS.md routing entry links into `docs/_private/` as required reading.
 
@@ -206,22 +206,22 @@ Hard gates:
 
 | Attempt | Strategy | Score | Keep? | Reason |
 |---|---|---:|---|---|
-| 001 | Rotate old STATUS detail to `docs/status-history/` | 78 | Yes | Reduced STATUS length, preserved completed work |
+| 001 | Rotate old SESSION-HANDOFF detail to `docs/handoff-history/` | 78 | Yes | Reduced SESSION-HANDOFF length, preserved completed work |
 | 002 | Extract 3 decisions to `docs/decisions/` | 84 | Yes | ROADMAP became priority-focused |
 | 003 | Rotate ROADMAP completed sections to `docs/roadmap-history/` | 89 | Yes | ROADMAP under 100 lines, all priorities visible |
 | 004 | Remove private link without summary | 86 | No | Score fell because useful context disappeared |
-| 005 | Replace private link with safe LOOKUP "Sensitive SOT register" entry | 94 | Yes | Private dependency removed, context preserved |
+| 005 | Replace private link with safe REFERENCES "Sensitive SOT register" entry | 94 | Yes | Private dependency removed, context preserved |
 
 ### Recommended Real-Project Plan
 
 ```text
-1. CREATE: docs/status-history/, docs/roadmap-history/, docs/decisions/
+1. CREATE: docs/handoff-history/, docs/roadmap-history/, docs/decisions/
 2. CREATE: README files in each new folder
-3. ROTATE: oldest 50% of STATUS.md → docs/status-history/2026-05-07-01.md
+3. ROTATE: oldest 50% of SESSION-HANDOFF.md → docs/handoff-history/2026-05-07-01.md
 4. EXTRACT: 3 decision-log entries from ROADMAP → docs/decisions/YYYY-MM-DD-*.md
 5. ROTATE: ROADMAP completed sections older than 2026-04-01 → docs/roadmap-history/2026-04-01-01.md
 6. EDIT: AGENTS.md, replace `docs/_private/secrets-map.md` link with
-         LOOKUP "Sensitive SOT register" entry + non-sensitive summary
+         REFERENCES "Sensitive SOT register" entry + non-sensitive summary
 ```
 
 Approve these 6 real-project changes? (y / n / individual)

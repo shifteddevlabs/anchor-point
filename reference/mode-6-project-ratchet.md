@@ -37,7 +37,7 @@ To meet rubric v2.0 D2 (Mode 6 budget 15,000 tokens) and HG9 (no run exceeds 2x 
 
 | Priority | Files to read | Why |
 |---|---|---|
-| 1 (always) | The 5 root .md files at most (README, AGENTS, STATUS or SESSION-HANDOFF, ROADMAP, LOOKUP or REFERENCES, and CLAUDE if present) | These hold the v3.0 canonical content; every drift check applies to them |
+| 1 (always) | The 5 root .md files at most (README, AGENTS, SESSION-HANDOFF or legacy STATUS, ROADMAP, REFERENCES or legacy LOOKUP, and CLAUDE if present) | These hold the v4 canonical content; every drift check applies to them |
 | 2 (always) | CONTEXT.md if present | Legacy v1.x signal; triggers A3 |
 | 3 (on demand) | `docs/DOCS-INDEX.md` if present | Required for A10 / index drift check |
 | 4 (on demand) | `docs/playbooks/*.md` heads (first 30 lines each) | Required for A7 file-scope; full read only if a head suggests detail |

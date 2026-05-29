@@ -21,7 +21,7 @@ Capture current state and recent changes so the next agent can resume without re
 ## Workflow
 
 1. Identify the project and active phase.
-2. Read `AGENTS.md` or `CLAUDE.md`, then `STATUS.md` (or legacy `SESSION-HANDOFF.md`), `ROADMAP.md`, and `LOOKUP.md` (or legacy `REFERENCES.md`) when present.
+2. Read `AGENTS.md` or `CLAUDE.md`, then `SESSION-HANDOFF.md` (or legacy `STATUS.md`), `ROADMAP.md`, and `REFERENCES.md` (or legacy `LOOKUP.md`) when present.
 3. Check recent git activity if available.
 4. Capture:
    - current state
@@ -29,7 +29,7 @@ Capture current state and recent changes so the next agent can resume without re
    - active blockers
    - next likely actions
    - files or docs that changed
-5. Keep the snapshot concise enough to fit in `STATUS.md`.
+5. Keep the snapshot concise enough to fit in `SESSION-HANDOFF.md`.
 
 ## Output
 

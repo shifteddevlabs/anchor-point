@@ -52,7 +52,7 @@ Empty bootstrap folders carry signal (the README defines purpose), not noise.
 
 ---
 
-## status-history vs roadmap-history vs decisions
+## handoff-history vs roadmap-history vs decisions
 
 These three subfolders all hold "older" content but follow different conventions:
 
@@ -76,12 +76,12 @@ When a new file needs to be created, walk this table top-to-bottom. First match 
 | Architecture / API design / schema doc | `docs/dev/` (or `docs/dev/<tech>/` if 3+ exist for one tech) | `lowercase-kebab.md` | None |
 | Release notes / changelog | `docs/release/` | `vN-notes.md` | None |
 | Migration plan / per-migration decisions | `docs/decisions/` | `YYYY-MM-DD-<migration>.md` | None |
-| Migration runbook / rollback procedure | `docs/playbooks/` | `<topic>-playbook.md` | Add row to LOOKUP.md Playbooks index |
+| Migration runbook / rollback procedure | `docs/playbooks/` | `<topic>-playbook.md` | Add row to REFERENCES.md Playbooks index |
 | Migration notes tied to a release | `docs/release/` | `vN-migration-notes.md` | None |
 | Code review / security audit | `docs/reviews/` | `YYYY-MM-DD-<scope>.md` | None |
 | Decision rationale (one per decision) | `docs/decisions/` | `YYYY-MM-DD-<topic>.md` | Reduce ROADMAP Decision Log to a 1-line pointer |
-| Verified-state config (OAuth IDs, env vars, exact values) | `docs/reference/` (or `docs/reference/<tech>/` if 3+) | `lowercase-kebab.md` | Add row to LOOKUP.md SOT registry |
-| Process runbook ("when X happens, do Y") | `docs/playbooks/` (or `docs/playbooks/<tech>/` if 3+) | `<topic>-playbook.md` | Add row to LOOKUP.md Playbooks index |
+| Verified-state config (OAuth IDs, env vars, exact values) | `docs/reference/` (or `docs/reference/<tech>/` if 3+) | `lowercase-kebab.md` | Add row to REFERENCES.md SOT registry |
+| Process runbook ("when X happens, do Y") | `docs/playbooks/` (or `docs/playbooks/<tech>/` if 3+) | `<topic>-playbook.md` | Add row to REFERENCES.md Playbooks index |
 | Research / experiment / exploration | `docs/research/` | `lowercase-kebab.md` | None |
 | Rotated SESSION-HANDOFF.md content | `docs/handoff-history/` | `YYYY-MM-DD-NN.md` | None (auto by Update mode) |
 | Rotated ROADMAP.md content | `docs/roadmap-history/` | `YYYY-MM-DD-NN.md` | None (auto by Update mode) |
@@ -111,7 +111,7 @@ Audit never just moves files in isolation. After every approved structural chang
 1. **AGENTS.md "Where new files go" table** — reflects the new layout
 2. **`docs/DOCS-INDEX.md`** — regenerated with the new file map
 3. **All cross-references** — scans every doc for pointers to old paths and updates them (link rot prevention)
-4. **LOOKUP.md** — refreshes SOT registry / Playbooks index rows if structure changed
+4. **REFERENCES.md** — refreshes SOT registry / Playbooks index rows if structure changed
 
 This is what makes Audit safe — moves are atomic AND fully reconciled across the doc tree.
 
@@ -151,13 +151,13 @@ Audit Mode 4 detects via MG5 and proposes migration atomically.
 
 Projects that still use the v1.x shape (6 root files: README, CLAUDE, CONTEXT, REFERENCES, SESSION-HANDOFF, ROADMAP) migrate as follows:
 
-| v1.x file | v3.0 destination | Action |
+| v1.x file | v4 destination | Action |
 |---|---|---|
 | README.md | README.md | Keep |
 | CLAUDE.md | AGENTS.md (new) + CLAUDE.md (1-line stub) | Migrate Layer 0 baseline content; replace with `## Inherits from` pointer if duplicated |
 | CONTEXT.md | AGENTS.md "Current Phase" section | Merge into AGENTS, delete CONTEXT.md |
-| REFERENCES.md | LOOKUP.md (rename) | Strip any DOCS-INDEX-style file inventory rows (A10) |
-| SESSION-HANDOFF.md | STATUS.md (rename) | Strip parallel priority lists (A9); add pre-routed Asks convention (A12) |
+| REFERENCES.md | REFERENCES.md | Keep name (v1.x and v4 happen to use the same name). Strip any DOCS-INDEX-style file inventory rows (A10). Note: v3 had this file as LOOKUP.md, so projects coming via v3 migrate LOOKUP.md → REFERENCES.md per MG5. |
+| SESSION-HANDOFF.md | SESSION-HANDOFF.md | Keep name (v1.x and v4 happen to use the same name). Strip parallel priority lists (A9); add pre-routed Asks convention (A12). Note: v3 had this file as STATUS.md, so projects coming via v3 migrate STATUS.md → SESSION-HANDOFF.md per MG5. |
 | ROADMAP.md | ROADMAP.md | Extract Decision Log to `docs/decisions/`; rotate completed sections to `docs/roadmap-history/` if > 300 lines |
 
-Audit Mode 4 detects all v1.x patterns and proposes migrations atomically.
+Audit Mode 4 detects all v1.x patterns and proposes migrations atomically. v3 → v4 detection is via MG5 (see drift-checks.md).
