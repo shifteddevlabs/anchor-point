@@ -9,7 +9,7 @@ applies_to_projects: all
 supersedes: v3.4.1 (legacy decimal label; folded into public v3 when whole-number versioning was adopted. Future accepted edits increment to v4, v5, etc.)
 ---
 
-# Doc Architecture v3
+# Doc Architecture v4
 
 Canonical specification for how project docs are organized across all projects.
 Tool-agnostic. Optimized for multi-LLM, multi-session, parallel-agent work.
@@ -481,9 +481,9 @@ Anchor Point itself is subject to optimization via the Doc Workflow Ratchet mode
 
 Anchor Point uses whole-number public versions:
 
-- Current public version: **v3**
-- Next accepted edit: **v4**
-- Then **v5**, **v6**, and so on
+- Current public version: **v4**
+- Next accepted edit: **v5**
+- Then **v6**, **v7**, and so on
 - The changelog explains the size and intent of each change
 - Decimal labels from the earlier `v3.x` period are legacy audit history only
 

@@ -36,7 +36,7 @@ The agent will respond as a doc specialist and walk you through the right workfl
 
 ## Versioning
 
-Anchor Point uses whole-number public versions. The current published shape is **v3**. The next accepted edit is **v4**, then **v5**, and so on. The changelog explains whether a change was tiny, naming-only, structural, or a major rethink; the version number itself does not encode patch/minor/major semantics.
+Anchor Point uses whole-number public versions. The current published shape is **v4**. The next accepted edit is **v5**, then **v6**, and so on. The changelog explains whether a change was tiny, naming-only, structural, or a major rethink; the version number itself does not encode patch/minor/major semantics.
 
 Older decimal labels (`v3.4.1`, `v3.4.0`, etc.) are retained in the changelog only as historical audit detail.
 
