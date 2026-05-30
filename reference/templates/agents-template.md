@@ -81,7 +81,7 @@ Read [`{{LAYER_0_HOME}}/AGENTS.md`]({{LAYER_0_HOME}}/AGENTS.md) first — it's t
 - **Hard Rules** baseline (credential injection patterns, security guardrails, conflict-resolution protocol, root-cause requirements, verify-before-claim, etc.)
 - **Skills + Operating Agreements + Infrastructure maps**
 - **Connection-first rule** (Context7 → MCP → CLI → REST → dashboard)
-- **File naming conventions** (also at `{{LAYER_0_HOME}}/docs/conventions/file-naming-and-frontmatter.md`)
+- **File naming conventions** (also at `{{LAYER_0_HOME}}/docs/reference/file-naming-and-frontmatter.md`)
 
 Project-specific rules above OVERRIDE inherited defaults when they conflict. Surface conflicts per `{{LAYER_0_HOME}}/AGENTS.md` Hard Rule #8 (or your Layer 0's equivalent).
 
