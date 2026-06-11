@@ -1,3 +1,8 @@
+---
+load_when: explicit-request-only
+note: Human-readable version history. Never load this file to run any anchor-point mode (it costs ~6.4K tokens and contains no procedure).
+---
+
 # Changelog
 
 ## v4 — 2026-05-26

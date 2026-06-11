@@ -2,7 +2,7 @@
 
 **A model-agnostic documentation operating system for solo devs running multiple side projects.**
 
-Current version: **v3**. See `CHANGELOG.md` for what changed.
+Current version: **v4**. See `CHANGELOG.md` for what changed.
 
 Drop this folder into an AI project, repo, or knowledge base, then point tool-specific adapters at it. The agent becomes the doc specialist. Knows where everything goes. Keeps your docs from getting messy. Battle-tested, distilled from cross-project mining of real-world doc drift incidents.
 
@@ -20,7 +20,7 @@ Sound familiar? You don't need another tool. You need a system.
 - Naming rules that work the same way in every project (so you stop having "is it `auth.md` or `Auth.md` or `auth_flow.md`?" arguments with yourself).
 - A checklist of the common ways docs go sideways, so you catch them early.
 - Templates for each of the 5 main files. Drop-in, fill-in.
-- Six workflows for the project lifecycle: **Init** (new project), **Review** (start of session), **Update** (end of session), **Audit** (periodic cleanup), **Project Ratchet** (duplicate-only improvement loop for one project's docs), and **Doc Workflow Ratchet** (hardening the doc workflow itself from project evidence).
+- Seven workflows for the project lifecycle: **Init** (new project), **Review** (start of session), **Update** (end of session), **Audit** (periodic cleanup), **Inventory & Extract** (cross-project scan and knowledge harvesting), **Project Ratchet** (duplicate-only improvement loop for one project's docs), and **Doc Workflow Ratchet** (hardening the doc workflow itself from project evidence).
 
 ## Quick start (under 5 minutes)
 
@@ -100,15 +100,16 @@ your-project/
 
 All 9 standard `docs/` subfolders are created at bootstrap, each with a `README.md` stub that documents what goes there. Empty folders carry signal, not noise. The `_archive/` and `_private/` administrative folders appear when their content arrives.
 
-## The 6 workflows (lifecycle)
+## The 7 workflows (lifecycle)
 
 ```
-NEW PROJECT        →  Init        bootstrap all files
-START OF SESSION   →  Review      read state, suggest next steps (read-only)
-END OF SESSION     →  Update      handoff, roadmap sync, harvest, verify, snapshot
-PERIODIC CLEANUP   →  Audit       deep alignment, file relocation, drift score
-LOW SCORE / MESSY  →  Project Ratchet      duplicate-only cleanup of one project's docs
-SYSTEM HARDENING   →  Doc Workflow Ratchet improve the doc workflow itself from evidence
+NEW PROJECT        →  Init                  bootstrap all files
+START OF SESSION   →  Review                read state, suggest next steps (read-only)
+END OF SESSION     →  Update                handoff, roadmap sync, harvest, verify, snapshot
+PERIODIC CLEANUP   →  Audit                 deep alignment, file relocation, drift score
+CROSS-PROJECT SCAN →  Inventory & Extract   scan projects, harvest reusable knowledge
+LOW SCORE / MESSY  →  Project Ratchet       duplicate-only cleanup of one project's docs
+SYSTEM HARDENING   →  Doc Workflow Ratchet  improve the doc workflow itself from evidence
 ```
 
 You don't memorize commands. Just talk naturally ("catch me up", "wrap this session", "my docs are messy") and the right workflow kicks in.

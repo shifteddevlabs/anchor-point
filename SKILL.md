@@ -44,6 +44,8 @@ This skill is model-agnostic. It prefers `AGENTS.md` as the AI bootstrap documen
 
 This `SKILL.md` is the router. The 7 modes each have a procedural reference file under `reference/mode-N-*.md`; load only the one for the mode you're running. Routing tables, core rules, scoring rubric, naming rules, and output shapes stay inline here because multiple modes touch them.
 
+**Do NOT load at invocation time:** `CHANGELOG.md` (human-readable version history, ~6.4K tokens — never needed to run a mode), `examples.md`, and `identity.md` (background prose — load only on explicit request or when drafting public-facing material about the skill).
+
 ## Reference Docs
 
 Read only what is needed for the current mode.
@@ -176,6 +178,8 @@ Each mode summary below is a 1-paragraph identifier. The full procedural workflo
 Use when starting docs for a new project or bringing a thin project up to baseline. Reads existing root docs and manifests, identifies new vs legacy vs already-instrumented projects, creates or proposes the 5 canonical surfaces, prefers `AGENTS.md` for new infrastructure while preserving an existing `CLAUDE.md`, never invents stack/commands/credentials, and uses verify + snapshot components to seed initial handoff state. Outputs the canonical root docs, the initial docs folder map, and the first SESSION-HANDOFF + ROADMAP.
 
 **Full procedure:** [Mode 1, Init](reference/mode-1-init.md)
+
+**Workspace post-init wiring (Jay-J's workspace only):** after Init, run the 5-step checklist at [reference/new-project-wiring.md](reference/new-project-wiring.md) (Inherits-from block, /push mandate, `infisical init`, pre-commit hook + Cursor denylist install, optional project overlay). Init alone creates docs; wiring connects the project to the routing chain and enforcement.
 
 ### Mode 2, Review
 
