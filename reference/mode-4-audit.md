@@ -3,7 +3,7 @@ name: anchor-point-mode-4-audit
 type: reference
 parent-skill: anchor-point
 mode: 4
-last_reviewed: 2026-05-24
+last_reviewed: 2026-06-26
 ---
 
 # Mode 4, Audit
@@ -47,3 +47,10 @@ Host adapters MAY add `disable-model-invocation: true` in their frontmatter if t
 ## Component Chain
 
 `security-preflight → snapshot → verify → promote-memory → harvest if reusable material is found`
+
+## Field-proven execution notes (AI Health Export, Session 35)
+
+> Promoted 2026-06-26 from the transcript-vault learnings lake (prop_e74bb33729e9be2d).
+
+- **Re-verify the plan against the live filesystem before executing.** An audit plan drafted from a stale snapshot routinely misreports file counts, staleness, subfolder structure, and noise (stray `.DS_Store`, etc.). Five minutes re-checking the plan's own claims against ground truth caught 4 inaccuracies before any file moved. This is distinct from the step-1 security-preflight (a credential scan) and the step-4 content verify (doc claims) — it is a ground-truth check on the *plan's own* accuracy.
+- **MOVES before RENAMES when decomposing structural changes into commits/PRs.** Git rename-detection only tracks a file already at its final path before the name changes; interleaving a move and a rename in one commit defeats detection and loses history. Order the work: relocate first (own commit), rename second. The same applies when a child rename depends on a parent-folder move — land the parent move first.
