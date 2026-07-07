@@ -309,6 +309,18 @@ A19 differs from A18 by being more general: A18 names ROUTER.md specifically and
 
 ---
 
+## A21. ROADMAP/status claims marked DONE without code verification
+
+**Signature:** ROADMAP.md, SESSION-HANDOFF.md, or a plan doc marks an item "DONE", "CODE COMPLETE", or "shipped" without a Source citation into the code path that actually implements it.
+
+**Why it matters:** A decision settled in a doc (a default, a sequencing plan, a copy/brand requirement) can silently never get wired into code, or only cover the happy path. Nothing catches the gap until a user hits it.
+
+**Canonical incident:** overdrive-lab — a 3-parallel-agent plan-vs-reality audit found: (1) generated images defaulted to 1:1 despite the crop-arch doc setting master=4:5, because DB `platform_configs` gen-size keys were all NULL and a CODE fallback silently governed; (2) ROADMAP marked onboarding voice-research "CODE COMPLETE" but collect→analyze were decoupled fire-and-forget with no sequencing — analyze could run on an empty corpus and fail silently behind a swallowed `.catch` — corrected to "wired but fragile"; (3) Spark page placeholders/tips still hardcoded Jay-J/Shifted Music copy despite the roadmap saying brand-aware. Jay-J: "how did this get missed? then I wonder what else was missed... it's annoying."
+
+**Fix:** Before trusting a DONE/CODE COMPLETE marker, open the code path it claims to cover and confirm it runs on the documented default/sequencing, not just the happy path. Add `done`, `complete`, `shipped`, `wired` to `components/verify.md`'s "Verify When" trigger words. Periodically run a plan-vs-reality audit (grep ROADMAP for DONE/COMPLETE markers, spot-check each against live code) instead of trusting the marker.
+
+---
+
 ## Severity + scoring
 
 When Audit scores doc health (100-point system per the rubric in `SKILL.md`), each anti-pattern affects different dimensions:
@@ -335,6 +347,7 @@ When Audit scores doc health (100-point system per the rubric in `SKILL.md`), ea
 | A18 (premature ROUTER.md split) | Routing accuracy / Load-decision overhead |
 | A19 (two hot files overlap) | Drift / Hot-load discipline / Multi-hop boot |
 | A20 (Inherits-from wording drift) | Maintenance / Drift / Cross-tool durability |
+| A21 (DONE without code verification) | Anti-fabrication / Trustworthiness |
 | MG1 (active → _private) | Security / Findability |
 | MG2 (ROADMAP overflow) | Concision / History preservation |
 | MG3 (broken links) | Findability |
@@ -368,3 +381,4 @@ When generating the initial 5-file v3.0 doc set, Anchor Point AVOIDS creating th
 - **A18:** Init never creates a project-level ROUTER.md
 - **A19:** Init creates exactly ONE hot file per project (AGENTS.md). No parallel hot files for routing, rules, gotchas, or any other hot content. Audit Mode 4 scans for any file at the project or workspace root holding hot content that overlaps with AGENTS.md, and proposes collapse per the worked example in `reference/doc-architecture.md`.
 - **A20:** Init writes the `## Inherits from` section using the canonical template wording (5-point summary covering routing, Hard Rules, skills + operating agreements + infrastructure, connection-first, file naming). Audit Mode 4 detects drift via bullet count + keyword coverage thresholds per `reference/drift-checks.md` and proposes a rewrite to the canonical wording when the section understates the workspace AGENTS scope.
+- **A21:** ROADMAP/SESSION-HANDOFF templates require a Source citation before a DONE/CODE COMPLETE marker; Init's generated docs never assert completion without a code-path citation.
