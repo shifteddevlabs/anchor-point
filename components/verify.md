@@ -15,7 +15,7 @@ Prevent stale or guessed facts from becoming project memory.
 
 - A doc mentions current versions, API behavior, env vars, dashboards, prices, schedules, or external service state.
 - A claim says X caused Y.
-- A doc uses words like "currently", "live", "latest", "active", "approved", "blocked", or "fixed".
+- A doc uses words like "currently", "live", "latest", "active", "approved", "blocked", "fixed", "done", "complete", "shipped", or "wired".
 - A claim would change what an agent does next.
 
 ## Workflow
