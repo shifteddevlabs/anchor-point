@@ -28,6 +28,8 @@ Prevent credentials, secrets, and private business data from being copied into r
    - `zzz_private/`
    - `_private/`
    - `docs/_private/`
+   - `zzz_archive/`
+2a. **Exclude by PATTERN, not just canonical name.** The named directories above only catch exact canonical names — a project can carry ad hoc variants. Before any rsync/cp-based fixture duplication or test-run copy, also glob-exclude any directory or filename matching `*private*` or `*archive*`, and separately any filename matching `*secret*`/`*credential*`/`*key*`/`*token*`/`*template*` (e.g. `secrets_template.md`). After the copy, run a 4-dimension scan — credential filenames, protected dirs, secret/credential/key/token filename patterns, unexpected non-doc files — BEFORE reading any copied file. If a protected file is found post-copy: delete the fixture (`mv` it to a trash location — `rm -rf` is harness-gated), rebuild with the broadened excludes, and re-scan clean before proceeding (ties to Anchor Point Mode 6 rule 4). Origin: 2026-07 fixture-duplication incident — a copy op used an ad-hoc exclude list rather than this one, so quicksinq's `zzz_private/` financial docs and overdrive's `zzz_archive/.../secrets_template.md` were duplicated into a test-runs dir; adding `zzz_archive/` above and the pattern-exclude here closes the gap.
 3. Look for candidate terms:
    - key
    - token
