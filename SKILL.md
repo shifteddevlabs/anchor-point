@@ -179,7 +179,7 @@ Use when starting docs for a new project or bringing a thin project up to baseli
 
 **Full procedure:** [Mode 1, Init](reference/mode-1-init.md)
 
-**Workspace post-init wiring (Jay-J's workspace only):** after Init, run the 5-step checklist at [reference/new-project-wiring.md](reference/new-project-wiring.md) (Inherits-from block, /push mandate, `infisical init`, pre-commit hook + Cursor denylist install, optional project overlay). Init alone creates docs; wiring connects the project to the routing chain and enforcement.
+**Workspace post-init wiring:** Init alone creates docs. Connecting a new project to your workspace's routing chain and enforcement (an inherits block pointing at your ops layer, commit-gate mandate, credential-vault binding, pre-commit hooks) is workspace-specific: keep that wiring checklist in your own ops layer, not in this published skill, and run it after every Init.
 
 ### Mode 2, Review
 
