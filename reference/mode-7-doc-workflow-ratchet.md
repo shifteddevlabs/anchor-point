@@ -3,7 +3,7 @@ name: anchor-point-mode-7-doc-workflow-ratchet
 type: reference
 parent-skill: anchor-point
 mode: 7
-last_reviewed: 2026-05-24
+last_reviewed: 2026-07-19
 ---
 
 # Mode 7, Doc Workflow Ratchet
@@ -12,7 +12,7 @@ Loaded by the router at [SKILL.md](../SKILL.md). Mode 7 of 7. Related modes: [Mo
 
 Use when the user wants to evaluate the rules and workflows themselves, usually after two or three Project Ratchet runs. Targets **the doc workflow** (SKILL, rubric, components, reference files); uses evidence from Mode 6 runs as input.
 
-Read `reference/workflow-autoresearch.md` and `components/workflow-score.md`.
+Read `reference/workflow-autoresearch.md` and `components/workflow-score.md`. Load `reference/audit-rubric.md` to score the project docs and `reference/output-shapes.md` for the Doc Workflow Ratchet Output shape.
 
 ## Workflow
 

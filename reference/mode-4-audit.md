@@ -3,7 +3,7 @@ name: anchor-point-mode-4-audit
 type: reference
 parent-skill: anchor-point
 mode: 4
-last_reviewed: 2026-06-26
+last_reviewed: 2026-07-19
 ---
 
 # Mode 4, Audit
@@ -12,7 +12,7 @@ Loaded by the router at [SKILL.md](../SKILL.md). Mode 4 of 7. Related modes: [Mo
 
 Use when the user asks to clean up, reorganize, or check doc health.
 
-The Audit Scoring Rubric (Hard Gates + 100-point categories + health bands) lives in the router at [SKILL.md](../SKILL.md). Drift detection table lives in [drift-checks.md](drift-checks.md). Anti-pattern rationale lives in [anti-patterns.md](anti-patterns.md).
+Read [audit-rubric.md](audit-rubric.md) before scoring: it holds the Hard Gates + 100-point categories + health bands and the "Where New Docs Go" placement table used to route proposed moves. Drift detection table lives in [drift-checks.md](drift-checks.md). Anti-pattern rationale lives in [anti-patterns.md](anti-patterns.md).
 
 ## Workflow
 

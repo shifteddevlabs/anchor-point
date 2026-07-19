@@ -44,11 +44,11 @@ Older decimal labels (`v3.4.1`, `v3.4.0`, etc.) are retained in the changelog on
 
 | File | What it's for |
 |---|---|
-| `SKILL.md` | The operational skill. Modes, workflows, hard rules, drift checks, scoring rubric, naming, where stuff goes. |
+| `SKILL.md` | The operational skill. Routes the modes, and holds the hard rules, canonical surfaces, naming, and the high-frequency output shapes inline (the audit rubric and ratchet output shapes live in `reference/`). |
 | `identity.md` | Who the specialist is. Their background, what they're good at, what they won't touch. |
 | `examples.md` | A few example interactions. Shows you what good output looks like. |
 | `components/` | Internal building blocks (snapshot, verify, harvest, promote-memory, security-preflight, workflow-score). |
-| `reference/` | The full spec, naming rules, drift checklist, where-does-this-file-go decision tree, ratchet/autoresearch specs, and templates. |
+| `reference/` | The full spec, naming rules, drift checklist, audit rubric + where-does-this-file-go decision tree, ratchet output shapes, ratchet/autoresearch specs, and templates. |
 | `README.md` | This file. |
 
 ## Vocabulary

@@ -3,7 +3,7 @@ name: anchor-point-mode-6-project-ratchet
 type: reference
 parent-skill: anchor-point
 mode: 6
-last_reviewed: 2026-07-18
+last_reviewed: 2026-07-19
 ---
 
 # Mode 6, Project Ratchet
@@ -12,7 +12,7 @@ Loaded by the router at [SKILL.md](../SKILL.md). Mode 6 of 7. Related modes: [Mo
 
 Use when the user wants iterative cleanup of **one project's docs** with scoring, usually on a duplicate before touching the real project. Targets project docs against the existing spec; does not modify the spec itself (that is Mode 7).
 
-Read `reference/doc-ratchet.md` before running this mode.
+Read `reference/doc-ratchet.md` before running this mode. Load `reference/audit-rubric.md` for the baseline score (Hard Gates + 100-point categories) and `reference/output-shapes.md` for the Project Ratchet Output shape.
 
 ## Workflow
 
