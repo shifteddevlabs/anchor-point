@@ -323,7 +323,7 @@ A19 differs from A18 by being more general: A18 names ROUTER.md specifically and
 
 ## Severity + scoring
 
-When Audit scores doc health (100-point system per the rubric in `SKILL.md`), each anti-pattern affects different dimensions:
+When Audit scores doc health (100-point system per the rubric in `reference/audit-rubric.md`), each anti-pattern affects different dimensions:
 
 | Anti-pattern | Primary impact |
 |---|---|
