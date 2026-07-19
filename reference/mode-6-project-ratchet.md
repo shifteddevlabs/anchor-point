@@ -3,7 +3,7 @@ name: anchor-point-mode-6-project-ratchet
 type: reference
 parent-skill: anchor-point
 mode: 6
-last_reviewed: 2026-05-24
+last_reviewed: 2026-07-18
 ---
 
 # Mode 6, Project Ratchet
@@ -79,7 +79,7 @@ If any phase exceeds 1.5x its target, the skill SHOULD note the slowdown in the 
 - When a file moves into history, repair its relative links or explicitly mark it as an unlinked snapshot.
 - **Output must be deterministic** for identical fixture inputs. Sort the Findings list by anti-pattern code first (A1, A2, ..., A13, then MG1, MG2, ...), then alphabetically by file path within each code. Sort Proposed Changes by target folder path (lexicographic). Use ISO-8601 timestamps only in the report's frontmatter `run-date` field, never inside finding bodies or score tables. Score values are integers in `[0, 100]`; never use floating point in dimension scores. Two runs on identical fixture inputs MUST produce byte-equivalent output modulo frontmatter timestamps and run UUIDs. (Rubric v2.0 D4 + HG3.)
 - **Routing decisions follow `reference/drift-checks.md`, not per-finding judgment.** For each Finding, the Proposed Change is fully determined by its code via the detection table. No ad-hoc routing; if a code is not in the table, that is a skill-extension request (file an issue), not a judgment call.
-- **Self-verify against `reference/drift-checks.md` "Routing accuracy test cases" (RT-01 through RT-12).** Any drift from those expected outputs is a routing-accuracy defect.
+- **Self-verify against `reference/drift-checks.md` "Routing accuracy test cases" (RT-01 through RT-13).** Any drift from those expected outputs is a routing-accuracy defect.
 
 ## Component Chain
 
