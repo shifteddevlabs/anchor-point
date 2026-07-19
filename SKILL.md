@@ -6,7 +6,7 @@ version: 4
 repo_intent: published
 status: active
 owner: knowledge-ops
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-18
 applies_to_projects: all
 github_repo: https://github.com/shifteddevlabs/anchor-point
 description: Model-agnostic documentation operating system. Initializes, reviews, updates, audits, and hardens project docs across sessions and AI tools. Enforces the 5-root-file v4 standard (README, AGENTS, SESSION-HANDOFF, ROADMAP, REFERENCES) plus drift detection. Use when setting up docs for a new project, recovering context at session start, wrapping up a session, auditing doc health, or improving the workflow itself.
@@ -219,7 +219,7 @@ Use when the user wants to evaluate the rules and workflows themselves, usually 
 
 ## Drift Checks
 
-The deterministic detection table (anti-pattern code → grep signature → fix routing) lives in `reference/drift-checks.md`. Load it for Review (Mode 2) and Audit (Mode 4) workflows. The table also carries the `RT-01` through `RT-12` routing-accuracy test cases used to self-verify Mode 6 output.
+The deterministic detection table (anti-pattern code → grep signature → fix routing) lives in `reference/drift-checks.md`. Load it for Review (Mode 2) and Audit (Mode 4) workflows. The table also carries the `RT-01` through `RT-13` routing-accuracy test cases used to self-verify Mode 6 output.
 
 For the rationale behind each anti-pattern code, see `reference/anti-patterns.md`.
 
